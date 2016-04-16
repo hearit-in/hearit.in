@@ -1,0 +1,8 @@
+{
+  "generator-react-webpack": {
+    "appName": "crowdplay",
+    "style": "stylus",
+    "postcss": false,
+    "generatedWithVersion": 3
+  }
+}

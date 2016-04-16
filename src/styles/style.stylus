@@ -1,0 +1,4 @@
+@import './bootstrap-grid.css';
+
+.centered
+  margin 0px auto
