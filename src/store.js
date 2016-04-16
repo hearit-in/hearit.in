@@ -1,15 +1,20 @@
-import { combineReducers, createStore, applyMiddleware } from 'redux';
+import { combineReducers, createStore, applyMiddleware, compose } from 'redux';
 import thunkMiddleware from 'redux-thunk';
 import createLogger from 'redux-logger';
 import * as reducers from './reducers';
 
-let middleware = [thunkMiddleware];
+let middleware = compose(
+	thunkMiddleware
+);
 
-if(PRODUCTION) middleware.concat([
-	createLogger ? createLogger() : null
-]);
+if(DEBUG) {
+	middleware = compose(
+		middleware,
+		createLogger ? createLogger() : a => a
+	);
+}
 
-const createStoreWithMiddleware = applyMiddleware.apply(undefined, middleware)(createStore);
+const createStoreWithMiddleware = applyMiddleware(middleware)(createStore);
 
 const rootReducer = combineReducers(reducers);
 const store = createStoreWithMiddleware(rootReducer);

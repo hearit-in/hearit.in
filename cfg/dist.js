@@ -16,7 +16,7 @@ let config = Object.assign({}, baseConfig, {
   plugins: [
     new webpack.optimize.DedupePlugin(),
     new webpack.DefinePlugin({
-      'PRODUCTION': 'true'
+      'DEBUG': 'false'
     }),
     new BowerWebpackPlugin({
       searchResolveModulesDirectories: false

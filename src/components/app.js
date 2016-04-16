@@ -7,12 +7,12 @@ import MaterialIcon from './MaterialIcon';
 import { AppBar, Icon } from 'material-ui';
 
 class AppComponent extends React.Component {
-  render() {
-    return (<div>
-      <AppBar title="crowdplay" />
-      { this.props.children }
-    </div>);
-  }
+	render() {
+		return (<div>
+			<AppBar title="crowdplay" />
+			{ this.props.children }
+		</div>);
+	}
 }
 
 export default AppComponent;
