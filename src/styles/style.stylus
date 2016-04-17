@@ -2,9 +2,9 @@
 
 .centered
   margin 0px auto
-  
+
 .top-margin
-    margin-top 20px
+    margin-top 80px
 
 body
     background-image: url("../images/geometry2.png")

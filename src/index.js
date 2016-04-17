@@ -1,7 +1,7 @@
 import 'core-js/fn/object/assign';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Routes from './components/routes';
+import Shell from './components/shell';
 
 // Render the main component into the dom
-ReactDOM.render(<Routes />, document.getElementById('app'));
+ReactDOM.render(<Shell />, document.getElementById('app'));

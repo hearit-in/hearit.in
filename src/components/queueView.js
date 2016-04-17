@@ -1,58 +1,100 @@
 import React from 'react';
 
+import { values } from 'lodash';
+
 import {
 	TextField,
 	FlatButton,
-	Card,
-	CardTitle,
-	CardText,
-	CardActions
+	List,
+	ListItem,
+	Divider,
+	Paper,
+	Card
 } from 'material-ui';
 import ThumbUp from 'material-ui/lib/svg-icons/action/thumb-up';
 
 import { connect } from 'react-redux';
 import { tryEnterSession } from '../actions';
 
-class AuthView extends React.Component {
+import Firebase from 'firebase';
+import { firebaseUrlForNode } from '../helpers/firebase';
+
+class VoteButton extends React.Component {
+	render() {
+
+	}
+}
+
+class QueueListItem extends React.Component {
+	componentDidMount() {
+
+	}
+
+	render() {
+		return (
+			<ListItem
+				primaryText={this.props.track.title}
+				secondaryText={this.props.track.artist}
+				type=""
+				disabled={true} />
+		)
+	}
+}
+
+class QueueView extends React.Component {
 	constructor(props) {
 		super(props);
+
 		this.state = {
-			authCode: ""
-		};
+			queue: []
+		}
 	}
-	
-	onAuthCodeChanged(event) {
-		this.setState({ authCode: event.target.value });
+
+	componentDidMount() {
+		this.ref = new Firebase(firebaseUrlForNode(`rooms/${this.props.roomId}/queue`));
+
+		this.onQueueUpdated = this.ref
+			.orderByKey()
+			.on("value", (snapshot) => {
+				this.setState({
+					queue: values(snapshot.val())
+				})
+			});
 	}
-	
+
+	componentWillUnmount() {
+		this.ref.off("value", this.onQueueUpdated)
+	}
+
 	render() {
-		return (<div className="container">
-		<div className="row">
-			<Card className="col-md-4 col-md-offset-4 col-xs-12">
-				{/*<CardTitle title="Fyre litt musikk da eller?" />*/}
-				
-				<CardText>
-					<TextField floatingLabelText="Kode" fullWidth={true} onChange={this.onAuthCodeChanged.bind(this)} />
-				</CardText>
-				
-				<CardActions>
-					<FlatButton label="LOGG INN" primary={true} className="col-md-12 col-xs-12 row" style={{marginBottom: "20px"}} />
-				</CardActions>
-			</Card>
-		</div>
+		return (
+		<div className="container">
+				<Paper className="col-md-8 col-md-offset-2">
+					<List>
+					{this.state.queue.map((track, index) => (
+						<QueueListItem track={track} key={index} />
+					))}
+					</List>
+				</Paper>
 		</div>
 		);
 	}
 }
 
+QueueView.defaultProps = {
+	room: { queue: [] }
+}
+
 function mapStateToProps(state) {
-	return {};
+	return {
+		roomId: state.session.get("roomId")
+	}
 }
 
 function mapDispatchToProps(dispatch) {
 	return {
-		onEnterSession: (roomId) => dispatch(tryEnterSession())
-	};
+
+	}
 }
 
-export default connect(undefined, mapDispatchToProps)(AuthView);
+export default connect(mapStateToProps, mapDispatchToProps)(QueueView);
