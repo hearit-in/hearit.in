@@ -2,29 +2,27 @@ import { Router, Route, IndexRoute } from 'react-router';
 import { Provider } from 'react-redux';
 import store from '../store';
 import React from 'react';
-
-import App from './app';
-import AuthView from './authView';
-import QueueView from './queueView';
-import SearchView from './searchView';
+import initialRoutes from './routes';
 
 import history from '../helpers/history';
 
 class Shell extends React.Component {
 	componentDidMount() {
+		this.routes = require("./routes");
+
+		if (module.hot) {
+			module.hot.accept('./routes', function () {
+				this.routes = require('./routes');
+				this.refs.router.replaceRoutes(this.routes);
+			});
+		}
 	}
 
 	render () {
 		return (
 			<Provider store={store}>
-				<Router history={history}>
-					<Route path="/" component={App}>
-						<IndexRoute component={AuthView} />
-						<Route path="app">
-							<Route path="queue" component={QueueView} />
-							<Route path="search" component={SearchView} />
-						</Route>
-					</Route>
+				<Router history={history} ref="router">
+					{ initialRoutes }
 				</Router>
 			</Provider>
 		)
