@@ -4,10 +4,8 @@ import {
 	TextField,
 	FlatButton,
 	Card,
-	CardTitle,
 	CardText,
-	CardActions,
-	RefreshIndicator
+	CardActions
 } from 'material-ui';
 import ThumbUp from 'material-ui/lib/svg-icons/action/thumb-up';
 import Overlay from './overlay';
@@ -24,6 +22,7 @@ class AuthView extends React.Component {
 	}
 
 	componentDidMount() {
+		//this.props.onLogin("dank")
 	}
 
 	onRoomIdChanged(roomId) {
@@ -35,8 +34,6 @@ class AuthView extends React.Component {
 		<div className="container">
 			<div className="row top-margin">
 				<Card className="col-md-4 col-md-offset-4 col-xs-12" disabled={true}>
-					{/*<CardTitle title="Fyre litt musikk da eller?" />*/}
-
 					<CardText>
 						<TextField
 							floatingLabelText="Kode"

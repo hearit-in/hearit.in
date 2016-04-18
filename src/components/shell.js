@@ -18,9 +18,9 @@ class Shell extends React.Component {
 		return (
 			<Provider store={store}>
 				<Router history={history}>
-					<Route path="/">
+					<Route path="/" component={App}>
 						<IndexRoute component={AuthView} />
-						<Route path="app" component={App}>
+						<Route path="app">
 							<Route path="queue" component={QueueView} />
 							<Route path="search" component={SearchView} />
 						</Route>
