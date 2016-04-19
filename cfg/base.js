@@ -13,7 +13,7 @@ module.exports = {
   additionalPaths: additionalPaths,
   port: defaultSettings.port,
   debug: true,
-  devtool: 'eval',
+  devtool: 'source-map',
   output: {
     path: path.join(__dirname, '/../dist/assets'),
     filename: 'app.js',
@@ -22,7 +22,7 @@ module.exports = {
   devServer: {
     contentBase: './src/',
     historyApiFallback: true,
-    hot: true,
+    hot: false,
     port: defaultSettings.port,
     publicPath: defaultSettings.publicPath,
     noInfo: false
@@ -35,6 +35,7 @@ module.exports = {
       sources: `${defaultSettings.srcPath}/sources/`,
       stores: `${defaultSettings.srcPath}/stores/`,
       styles: `${defaultSettings.srcPath}/styles/`,
+	  helpers: `${defaultSettings.srcPath}/helpers/`,
       config: `${defaultSettings.srcPath}/config/` + process.env.REACT_WEBPACK_ENV
     }
   },

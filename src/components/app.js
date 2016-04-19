@@ -8,6 +8,10 @@ import { AppBar, Icon, Snackbar } from 'material-ui';
 import { connect } from 'react-redux';
 
 class AppComponent extends React.Component {
+	componentDidMount() {
+		
+	}
+	
 	render() {
 		return (<div>
 			<AppBar title="crowdplay" />

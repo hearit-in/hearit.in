@@ -1,10 +1,11 @@
 @import './bootstrap-grid.css';
 
 .centered
-  margin 0px auto
+	margin 0px auto
 
 .top-margin
-    margin-top 20px
+	margin-top 20px
 
 body
-    background-image: url("../images/geometry2.png")
+	background-image: url("../images/geometry2.png")
+	background-position: center

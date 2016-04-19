@@ -7,9 +7,9 @@ import QueueView from './queueView';
 import SearchView from './searchView';
 
 const routes = (
-	<Route path="/" component={App}>
+	<Route path="/">
 		<IndexRoute component={AuthView} />
-		<Route path="app">
+		<Route path="app" component={App}>
 			<Route path="queue" component={QueueView} />
 			<Route path="search" component={SearchView} />
 		</Route>

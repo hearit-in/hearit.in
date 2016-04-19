@@ -8,11 +8,12 @@ import {
 	Divider,
 	Paper,
 	Card,
-	Avatar
+	Avatar,
+	Dialog
 } from 'material-ui';
 
 import { connect } from 'react-redux';
-import { search, clearSearchResults } from '../actions/search';
+import { search, clearSearchResults } from 'actions/search';
 
 import { Map } from 'immutable';
 import { debounce } from 'lodash';
@@ -42,6 +43,11 @@ class SearchView extends React.Component {
 	constructor(props) {
 		super(props);
 		
+		this.state = {
+			showConfirmDialog: false,
+			selectedTrack: undefined
+		};
+		
 		this.debouncedSearch = debounce(this.performSearch, 800);
 	}
 
@@ -56,7 +62,42 @@ class SearchView extends React.Component {
 			this.props.onSearch(query);
 		}
 	}
-
+	
+	setShowConfirmDialog(show) {
+		this.setState({
+			showConfirmDialog: show
+		});
+	}
+	
+	setSelectedTrack(track) {
+		this.setState({
+			selectedTrack: track
+		});
+	}
+	
+	onTrackClicked(track) {
+		
+		this.setSelectedTrack(track);
+		this.setShowConfirmDialog(true);
+	}
+	
+	renderConfirmDialog(track) {
+		if(!track) {
+			return;
+		}
+		
+		return (
+			<Dialog
+				title={`Legg til "${this.state.selectedTrack.name}" i kø?`}
+				modal={false}
+				open={this.state.showConfirmDialog}
+				actions={[
+					<FlatButton label="Avbryt" secondary={true} />,
+					<FlatButton label="OK" primary={true} />
+				]} />
+		)
+	}
+	
 	renderSearchResults() {
 		if(!this.props.hasResults) {
 			return;
@@ -69,8 +110,9 @@ class SearchView extends React.Component {
 						<SearchResultItem
 							primaryText={track.name}
 							secondaryText={track.artist}
-							leftAvatar={<Avatar src={track.images[1].url} />}
-							key={track.id} />
+							leftAvatar={<Avatar src={(track.images[1] || track.images[0]).url} />}
+							key={track.id}
+							onClick={() => this.onTrackClicked(track)} />
 					)}
 				</List>
 			</Paper>
@@ -79,17 +121,20 @@ class SearchView extends React.Component {
 
 	render() {
 		return (
-		<div className="container">
-			<div className="row">
-				<Paper className="col-md-12">
-					<TextField fullWidth={true} floatingLabelText="Søk..." onChange={e => this.debouncedSearch(e.target.value)} />
-				</Paper>
+			<div>
+				{ this.renderConfirmDialog(this.state.selectedTrack) }
+				<div className="container">
+					<div className="row">
+						<Paper className="col-md-12">
+							<TextField fullWidth={true} floatingLabelText="Søk..." onChange={e => this.debouncedSearch(e.target.value)} />
+						</Paper>
+					</div>
+					
+					<div className="row top-margin">
+						{ this.renderSearchResults() }
+					</div>
+				</div>
 			</div>
-			
-			<div className="row top-margin">
-				{ this.renderSearchResults() }
-			</div>
-		</div>
 		);
 	}
 }

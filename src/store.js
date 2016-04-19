@@ -12,12 +12,10 @@ if(DEBUG) {
 }
 
 const rootReducer = combineReducers(reducers);
+
 const store = createStore(
 	rootReducer,
-	compose(
-		applyMiddleware.apply(null, middleware),
-		persistState("session")
-	)
+	applyMiddleware.apply(null, middleware)
 );
 
 export default store;

@@ -8,14 +8,14 @@ let defaultSettings = require('./defaults');
 
 let config = Object.assign({}, baseConfig, {
   entry: [
-    'webpack-dev-server/client?http://192.168.1.8:' + defaultSettings.port,
-    'webpack/hot/only-dev-server',
+    'webpack-dev-server/client?http://localhost:' + defaultSettings.port,
+    //'webpack/hot/only-dev-server',
     './src/index'
   ],
   cache: true,
   devtool: 'source-map',
   plugins: [
-    new webpack.HotModuleReplacementPlugin(),
+    //new webpack.HotModuleReplacementPlugin(),
     new webpack.DefinePlugin({
         'DEBUG': 'true'
     }),

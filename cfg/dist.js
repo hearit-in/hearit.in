@@ -9,7 +9,7 @@ let defaultSettings = require('./defaults');
 let config = Object.assign({}, baseConfig, {
   entry: path.join(__dirname, '../src/index'),
   cache: false,
-  devtool: 'sourcemap',
+  devtool: 'source-map',
   plugins: [
     new webpack.optimize.DedupePlugin(),
     new webpack.DefinePlugin({
