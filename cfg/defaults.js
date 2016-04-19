@@ -17,11 +17,11 @@ const dfltPort = 8000;
 function getDefaultModules() {
   return {
     preLoaders: [
-      {
+      /*{
         test: /\.(js|jsx)$/,
         include: srcPath,
         loader: 'eslint-loader'
-      }
+	}*/
     ],
     loaders: [
       {
@@ -34,8 +34,7 @@ function getDefaultModules() {
       },
       {
         test: /\.scss/,
-        loader: 'style-loader!css-loader!sass-loader?outputStyle=expanded',
-        include: path.resolve(__dirname, './node_modules/react-flexbox-grid')
+        loader: 'style-loader!css-loader!sass-loader?outputStyle=expanded'
       },
       {
         test: /\.less/,

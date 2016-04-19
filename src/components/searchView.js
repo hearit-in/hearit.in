@@ -42,12 +42,12 @@ class SearchResultGroup extends React.Component {
 class SearchView extends React.Component {
 	constructor(props) {
 		super(props);
-		
+
 		this.state = {
 			showConfirmDialog: false,
 			selectedTrack: undefined
 		};
-		
+
 		this.debouncedSearch = debounce(this.performSearch, 800);
 	}
 
@@ -62,30 +62,34 @@ class SearchView extends React.Component {
 			this.props.onSearch(query);
 		}
 	}
-	
+
 	setShowConfirmDialog(show) {
 		this.setState({
 			showConfirmDialog: show
 		});
 	}
-	
+
+	dismissConfirmDialog() {
+
+	}
+
 	setSelectedTrack(track) {
 		this.setState({
 			selectedTrack: track
 		});
 	}
-	
+
 	onTrackClicked(track) {
-		
+
 		this.setSelectedTrack(track);
 		this.setShowConfirmDialog(true);
 	}
-	
+
 	renderConfirmDialog(track) {
 		if(!track) {
 			return;
 		}
-		
+
 		return (
 			<Dialog
 				title={`Legg til "${this.state.selectedTrack.name}" i kø?`}
@@ -97,16 +101,16 @@ class SearchView extends React.Component {
 				]} />
 		)
 	}
-	
+
 	renderSearchResults() {
 		if(!this.props.hasResults) {
 			return;
 		}
-		
+
 		return (
 			<Paper className="col-md-12">
 				<List>
-					{this.props.results.tracks.map(track => 
+					{this.props.results.tracks.map(track =>
 						<SearchResultItem
 							primaryText={track.name}
 							secondaryText={track.artist}
@@ -129,7 +133,7 @@ class SearchView extends React.Component {
 							<TextField fullWidth={true} floatingLabelText="Søk..." onChange={e => this.debouncedSearch(e.target.value)} />
 						</Paper>
 					</div>
-					
+
 					<div className="row top-margin">
 						{ this.renderSearchResults() }
 					</div>

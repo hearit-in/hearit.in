@@ -3,11 +3,11 @@ import { createAction } from 'redux-actions';
 import { firebaseUrlForNode } from '../helpers/firebase';
 import { showError } from './errors';
 import history from '../helpers/history';
-import { receiveRoom } from './room';
-import Firebase from 'firebase';
+import { receiveQueue } from './queue';
+import { createFirebase } from 'helpers/firebase';
 
-const rootRef = new Firebase(firebaseUrlForNode(""));
-const roomsRef = new Firebase(firebaseUrlForNode("rooms"));
+const rootRef = new createFirebase();
+const roomsRef = new createFirebase("rooms");
 
 export const SET_ROOM_ID = 'SET_ROOM_ID';
 export const setRoomId = createAction(SET_ROOM_ID);
@@ -20,12 +20,12 @@ export const setIsLoggingIn = createAction(SET_IS_LOGGING_IN);
 
 export function login(roomId) {
 	return (dispatch, getState) => {
-		dispatch(setIsLoggingIn(true));
-
 		if(isEmpty(roomId)) {
 			dispatch(showError(`Hva driver du med?`));
 			return;
 		}
+
+		dispatch(setIsLoggingIn(true));
 
 		rootRef.authAnonymously((error, authData) => {
 			if(error) {
@@ -40,7 +40,6 @@ export function login(roomId) {
 				if(snapshot.val()) {
 					dispatch(setRoomId(roomId));
 					dispatch(setIsLoggingIn(false));
-					dispatch(receiveRoom(snapshot.val()));
 					history.push("app/search");
 				}
 				else {

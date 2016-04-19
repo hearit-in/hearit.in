@@ -1,0 +1,20 @@
+{
+  "firebase": "crowdplayspace",
+  "public": "dist",
+  "ignore": [
+    "firebase.json",
+    "**/.*",
+	"cfg/",
+	"src/",
+	"test/",
+	".babelrc",
+	".editorconfig",
+	".eslintc",
+	".gitignore",
+	".yo-rc.json",
+	"package.json",
+	"server.js",
+	"webpack.config.js",
+    "**/node_modules/**"
+  ]
+}

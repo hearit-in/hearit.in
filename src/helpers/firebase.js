@@ -1,5 +1,5 @@
 import config from 'config';
+import Firebase from 'firebase';
 
-export function firebaseUrlForNode(node) {
-	return config.firebaseURL + node;
-}
+export const firebaseUrlForNode = (node) => config.firebaseURL + node;
+export const createFirebase = (node) => new Firebase(firebaseUrlForNode(node || ""));

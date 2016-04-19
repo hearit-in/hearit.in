@@ -1,7 +1,3 @@
-import { syncHistoryWithStore } from 'react-router-redux';
-import { hashHistory as history } from 'react-router';
-import store from '../store';
+import { browserHistory as history } from 'react-router';
 
-const enhancedHistory = syncHistoryWithStore(history, store);
-
-export default hashHistory;
+export default history;

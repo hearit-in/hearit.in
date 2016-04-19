@@ -1,5 +1,5 @@
 import fetch from 'isomorphic-fetch';
-import {includes} from 'lodash';
+import {includes,curry} from 'lodash';
 
 const BASE_URL = "https://api.spotify.com/v1";
 
@@ -17,7 +17,8 @@ function processTrack(track) {
 	let album = processAlbum(track.album)
 	return {
 		album,
-		artist: getArtistString(track.artists),
+		artistString: getArtistString(track.artists),
+		artists: track.artists,
 		name: track.name,
 		id: track.id,
 		images: album.images
@@ -33,12 +34,12 @@ function processSearchResults(results) {
 
 export function search(query, types) {
 	let typesString = types
-		.filter(t => includes([
+		.filter(curry(includes)([
 			'track',
 			'album',
 			'artist',
 			'playlist'
-		], t))
+		]))
 		.join(",");
 
 	let escapedQuery = escape(query);

@@ -9,13 +9,11 @@ let defaultSettings = require('./defaults');
 let config = Object.assign({}, baseConfig, {
   entry: [
     'webpack-dev-server/client?http://localhost:' + defaultSettings.port,
-    //'webpack/hot/only-dev-server',
     './src/index'
   ],
   cache: true,
-  devtool: 'source-map',
+  devtool: 'inline-source-map',
   plugins: [
-    //new webpack.HotModuleReplacementPlugin(),
     new webpack.DefinePlugin({
         'DEBUG': 'true'
     }),
@@ -27,7 +25,7 @@ let config = Object.assign({}, baseConfig, {
 // Add needed loaders to the defaults here
 config.module.loaders.push({
   test: /\.(js|jsx)$/,
-  loader: 'react-hot?manual!babel-loader',
+  loader: 'babel-loader',
   include: [].concat(
     config.additionalPaths,
     [ path.join(__dirname, '/../src') ]
