@@ -55,6 +55,7 @@ export function logout() {
 	return (dispatch) => {
 		dispatch(setRoomId(undefined));
 		dispatch(setAuthData(undefined));
+		dispatch(setIsLoggingIn(false));
 		browserHistory.push("/");
 	}
 }

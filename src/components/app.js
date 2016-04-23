@@ -27,7 +27,7 @@ class AppComponent extends React.Component {
 
 function mapStateToProps(state) {
 	return {
-		errors: state.errors
+		errors: state.get("errors")
 	}
 }
 

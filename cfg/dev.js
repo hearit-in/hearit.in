@@ -12,10 +12,10 @@ let config = Object.assign({}, baseConfig, {
     './src/index'
   ],
   cache: true,
-  devtool: 'inline-source-map',
+  devtool: 'source-map',
   plugins: [
     new webpack.DefinePlugin({
-        'DEBUG': 'true'
+        'process.env.NODE_ENV': '"development"'
     }),
     new webpack.NoErrorsPlugin()
   ],

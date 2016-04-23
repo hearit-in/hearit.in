@@ -144,7 +144,7 @@ class SearchView extends React.Component {
 }
 
 function mapStateToProps(state) {
-	return state.search;
+	return state.get("search").toJS();
 }
 
 function mapDispatchToProps(dispatch) {

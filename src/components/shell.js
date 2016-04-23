@@ -4,16 +4,17 @@ import store from '../store';
 import React from 'react';
 import routes from './routes';
 import history from '../helpers/history';
-import initFirebase from '../sources/firebase';
+import { initFirebase } from '../sources/firebase';
 
 class Shell extends React.Component {
 	componentDidMount() {
+		initFirebase();
 	}
 
 	render () {
 		return (
 			<Provider store={store}>
-				<Router history={history} ref="router">
+				<Router history={history}>
 					{ routes }
 				</Router>
 			</Provider>
