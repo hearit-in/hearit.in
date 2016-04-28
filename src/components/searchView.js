@@ -1,3 +1,5 @@
+"use strict";
+
 import React from 'react';
 
 import {
@@ -50,10 +52,7 @@ class SearchView extends React.Component {
 
 		this.debouncedSearch = debounce(this.performSearch, 800);
 	}
-
-	componentDidMount() {
-	}
-
+	
 	performSearch(query) {
 		if(query.trim().length == 0) {
 			this.props.onClearSearch();
@@ -68,11 +67,7 @@ class SearchView extends React.Component {
 			showConfirmDialog: show
 		});
 	}
-
-	dismissConfirmDialog() {
-
-	}
-
+	
 	setSelectedTrack(track) {
 		this.setState({
 			selectedTrack: track
@@ -80,7 +75,6 @@ class SearchView extends React.Component {
 	}
 
 	onTrackClicked(track) {
-
 		this.setSelectedTrack(track);
 		this.setShowConfirmDialog(true);
 	}
@@ -144,7 +138,10 @@ class SearchView extends React.Component {
 }
 
 function mapStateToProps(state) {
-	return state.get("search").toJS();
+	return {
+		results: state.getIn("search.results"),
+		hasResults: state.getIn("search.hasResults")
+	}
 }
 
 function mapDispatchToProps(dispatch) {

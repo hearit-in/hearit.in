@@ -13,14 +13,14 @@ import * as reducers from './reducers';
 let middleware = [
 	thunkMiddleware,
 	createLogger({
-		stateTransformer: (state) => state.toJS()
+		stateTransformer: state => state.toJS()
 	})
 ];
 
 const rootReducer = combineReducers(reducers);
 
-const persistentReducer = compose(
-	mergePersistedState(
+const persistentReducer = mergePersistedState(
+	compose(
 		deserialize
 	)
 )(rootReducer);
@@ -38,5 +38,5 @@ const createPersistentStore = compose(
 	applyMiddleware.apply(null, middleware)
 )(createStore);
 
-const store = createPersistentStore(persistentReducer);
+const store = createPersistentStore(persistentReducer, new Map());
 export default store;
