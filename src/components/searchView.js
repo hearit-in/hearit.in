@@ -102,29 +102,36 @@ class SearchView extends React.Component {
 				]} />
 		)
 	}
-
-	renderSearchResults() {
-		if(!this.props.results)
-			return;
-		}
+	
+	renderTrack(track) {
+		let images = track.get("images");
+		let image = images.get(1) || images.get(0);
 
 		return (
-			<Paper className="col-md-12">
-				<List>
-					{this.props.results.get("tracks").map((track) => {
-						const images = track.get("images");
-						const image = images.get(1) || images.get(0);
+			<SearchResultItem
+				primaryText={track.get("name")}
+				secondaryText={track.get("artistString")}
+				leftAvatar={<Avatar src={image.get("url")} />}
+				key={track.get("id")}
+				onClick={() => this.onTrackClicked(track)} />
+		);
+	}
 
-						return (<SearchResultItem
-							primaryText={track.get("name")}
-							secondaryText={track.get("artist")}
-							leftAvatar={<Avatar src={image.get("url")} />}
-							key={track.get("id")}
-							onClick={() => this.onTrackClicked(track)} />)
-					})}
+	renderSearchResults() {
+		if(!this.props.hasResults) {
+			return;
+		}
+		
+		console.log("--- tracks ---");
+		console.dir(this.props.results.get("tracks"));
+		
+		return (
+			<Paper>
+				<List>
+					{ this.props.results.get("tracks").map(track => this.renderTrack(track)) }
 				</List>
 			</Paper>
-		)
+		);
 	}
 
 	render() {
@@ -149,9 +156,9 @@ class SearchView extends React.Component {
 
 function mapStateToProps(state) {
 	let res = {
-		results: state.get("search").get("results")
+		results: state.getIn(["search", "results"]),
+		hasResults: state.getIn(["search", "hasResults"])
 	};
-	console.log(res);
 	return res;
 }
 
