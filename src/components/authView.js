@@ -52,6 +52,13 @@ class AuthView extends React.Component {
 					</CardActions>
 				</Card>
 			</div>
+			
+			<span className="row">
+				<span className="col-md-12 credits centered">
+					Copyright © 2016 Sebastian Reinhard <br />
+					I samarbeid med Nesodden Videregående Skole
+				</span>
+			</span>
 		</div>
 		);
 	}

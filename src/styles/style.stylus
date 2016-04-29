@@ -9,3 +9,7 @@
 body
 	background-image: url("../images/geometry2.png")
 	background-position: center
+
+.credits
+	text-align: center
+	color: #aaa

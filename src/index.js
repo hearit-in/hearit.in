@@ -3,6 +3,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import Shell from './components/shell';
 
+require("react-tap-event-plugin")();
+
 require("velocity-animate");
 require("velocity-animate/velocity.ui");
 

@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { values } from 'lodash';
+import { fromJS } from 'immutable';
 
 import {
 	TextField,
@@ -33,8 +34,8 @@ class QueueListItem extends React.Component {
 	render() {
 		return (
 			<ListItem
-				primaryText={this.props.track.title}
-				secondaryText={this.props.track.artist}
+				primaryText={this.props.track.get("name")}
+				secondaryText={this.props.track.get("artistString")}
 				type=""
 				disabled={true} />
 		)
@@ -51,19 +52,20 @@ class QueueView extends React.Component {
 	}
 
 	componentDidMount() {
-		this.ref = new Firebase(firebaseUrlForNode(`rooms/${this.props.roomId}/queue`));
-		this.ref.keepSynced(true);
-		this.onQueueUpdated = this.ref
+		//this.ref.keepSynced(true);
+		this.onQueueUpdated = this.props.roomRef
+			.child("queue")
 			.orderByKey()
 			.on("value", (snapshot) => {
+				let tracks = fromJS(values(snapshot.val()));
 				this.setState({
-					queue: values(snapshot.val())
-				})
+					queue: tracks
+				});
 			});
 	}
 
 	componentWillUnmount() {
-		this.ref.off("value", this.onQueueUpdated)
+		this.props.roomRef.off("value", this.onQueueUpdated)
 	}
 
 	render() {
@@ -81,13 +83,9 @@ class QueueView extends React.Component {
 	}
 }
 
-QueueView.defaultProps = {
-	room: { queue: [] }
-}
-
 function mapStateToProps(state) {
 	return {
-		roomId: state.session.get("roomId")
+		roomRef: state.getIn(["session", "roomRef"])
 	}
 }
 

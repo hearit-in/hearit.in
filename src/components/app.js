@@ -11,8 +11,25 @@ import { VelocityTransitionGroup } from 'velocity-react';
 import { connect } from 'react-redux';
 
 class AppComponent extends React.Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			isNavigationOpen: false
+		}
+	}
+	
 	componentDidMount() {
-
+		
+	}
+	
+	toggleNavigation() {
+		this.setState({
+			isNavigationOpen: !this.state.isNavigationOpen
+		})
+	}
+	
+	closeNavigation() {
+		this.setState({ isNavigationOpen: false });
 	}
 
 	render() {
@@ -21,10 +38,9 @@ class AppComponent extends React.Component {
 		<div>
 			<AppBar
 				title="crowdplay"
-				style={{
-					zIndex: 999
-				}}
-			/>
+				onLeftIconButtonTouchTap={ () => this.toggleNavigation() } />
+		
+			<Nav open={this.state.isNavigationOpen} onItemTapped={() => this.closeNavigation()} />
 
 			<div>
 				{this.props.errors.map((error, index) => {
@@ -32,9 +48,11 @@ class AppComponent extends React.Component {
 				})}
 			</div>
 
-			<VelocityTransitionGroup enter={{animation: "slideDown"}} leave={{animation: "slideUp"}}>
-				{ this.props.children }
-			</VelocityTransitionGroup>
+			<div>
+				<VelocityTransitionGroup enter={{animation: "slideDown"}} leave={{animation: "slideUp"}}>
+					{ this.props.children }
+				</VelocityTransitionGroup>
+			</div>
 		</div>);
 	}
 }

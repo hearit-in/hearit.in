@@ -27,7 +27,9 @@ const persistentReducer = compose(
 
 const storage = compose(
 	serialize,
-	storageFilter(["session.roomId"])
+	storageFilter([
+		"session.roomId"
+	])
 )(storageAdapter(window.localStorage))
 
 const createPersistentStore = compose(

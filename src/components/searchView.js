@@ -166,7 +166,7 @@ function mapDispatchToProps(dispatch) {
 	return {
 		onSearch: (query) => dispatch(search(query)),
 		onClearSearch: (query) => dispatch(clearSearchResults()),
-		onAddTrackToQueue: (track) => dispatch(addTrackToQueue)
+		onAddTrackToQueue: (track) => dispatch(addTrackToQueue(track))
 	}
 }
 
