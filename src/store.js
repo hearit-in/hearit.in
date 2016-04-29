@@ -1,12 +1,13 @@
 import { createStore, applyMiddleware, compose } from 'redux';
 import { combineReducers } from 'redux-immutable';
-import { serialize, deserialize } from 'redux-localstorage-immutable';
+import { Map } from 'immutable';
+
 import thunkMiddleware from 'redux-thunk';
 import createLogger from 'redux-logger';
 import persistState, { mergePersistedState } from 'redux-localstorage';
 import storageAdapter from 'redux-localstorage/lib/adapters/localStorage';
 import storageFilter from 'redux-localstorage-filter';
-import { Map } from 'immutable';
+import { serialize, deserialize } from 'redux-localstorage-immutable';
 
 import * as reducers from './reducers';
 
@@ -19,18 +20,14 @@ let middleware = [
 
 const rootReducer = combineReducers(reducers);
 
-const persistentReducer = mergePersistedState(
-	compose(
-		deserialize
-	)
+const persistentReducer = compose(
+	mergePersistedState(deserialize)
+
 )(rootReducer);
 
 const storage = compose(
-	/*storageFilter([
-		"session.roomId",
-		"session.authData.token"
-	]),*/
-	serialize
+	serialize,
+	storageFilter(["session.roomId"])
 )(storageAdapter(window.localStorage))
 
 const createPersistentStore = compose(

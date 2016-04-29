@@ -9,7 +9,7 @@ export const clearSearchResults = createAction(CLEAR_SEARCH_RESULTS);
 
 export function search(query) {
 	return (dispatch) =>
-		Spotify.search(query, ['track', 'album', 'artist'])
+		Spotify.search(query, ['track'])
 			.then(result => {
 				dispatch(receiveSearchResults(result))
 			})

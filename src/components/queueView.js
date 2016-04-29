@@ -52,7 +52,7 @@ class QueueView extends React.Component {
 
 	componentDidMount() {
 		this.ref = new Firebase(firebaseUrlForNode(`rooms/${this.props.roomId}/queue`));
-
+		this.ref.keepSynced(true);
 		this.onQueueUpdated = this.ref
 			.orderByKey()
 			.on("value", (snapshot) => {

@@ -8,7 +8,8 @@
 
 const path = require('path');
 const srcPath = path.join(__dirname, '/../src');
-const dfltPort = 8000;
+const defaultPort = 8000;
+const defaultHost = "127.0.0.1";
 
 /**
  * Get the default modules object for webpack
@@ -59,6 +60,7 @@ function getDefaultModules() {
 module.exports = {
   srcPath: srcPath,
   publicPath: '/assets/',
-  port: dfltPort,
+  port: defaultPort,
+  host: defaultHost,
   getDefaultModules: getDefaultModules
 };
