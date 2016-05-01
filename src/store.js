@@ -22,7 +22,6 @@ const rootReducer = combineReducers(reducers);
 
 const persistentReducer = compose(
 	mergePersistedState(deserialize)
-
 )(rootReducer);
 
 const storage = compose(

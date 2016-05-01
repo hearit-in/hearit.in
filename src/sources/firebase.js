@@ -13,20 +13,18 @@ export function initFirebase() {
 		const state = store.getState();
 		const roomId = state.getIn(["session", "roomId"]);
 		if(!roomId) {
-			// TODO: throw here or something
 			return;
 		}
 
 		ref.child(`rooms/${roomId}`).once('value', snapshot => {
 			if(snapshot.val()) {
 				store.dispatch(setRoomId(roomId));
-				store.dispatch(setIsLoggingIn(false));
-				history.push("/app/search");
+				history.push("/app/queue");
 			}
 			else {
 				store.dispatch(showError(`${roomId}: Feil passord!`));
-				store.dispatch(setIsLoggingIn(false));
 			}
+			store.dispatch(setIsLoggingIn(false));
 		});
 	});
 }

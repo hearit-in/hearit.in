@@ -13,6 +13,8 @@ import Overlay from './overlay';
 import { connect } from 'react-redux';
 import { login } from '../actions';
 
+import { navigateTo } from 'actions';
+
 class AuthView extends React.Component {
 	constructor(props) {
 		super(props);
@@ -22,7 +24,6 @@ class AuthView extends React.Component {
 	}
 
 	componentDidMount() {
-		//this.props.onLogin("dank")
 	}
 
 	onRoomIdChanged(roomId) {
@@ -52,7 +53,7 @@ class AuthView extends React.Component {
 					</CardActions>
 				</Card>
 			</div>
-			
+
 			<span className="row">
 				<span className="col-md-12 credits centered">
 					Copyright © 2016 Sebastian Reinhard <br />
@@ -66,7 +67,7 @@ class AuthView extends React.Component {
 
 function mapStateToProps(state) {
 	return {
-		isLoading: state.getIn("session.isLoading")
+		isLoading: state.getIn(["session", "isLoading"])
 	};
 }
 

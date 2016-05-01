@@ -1,5 +1,5 @@
 import { handleActions } from 'redux-actions';
-import { Map } from 'immutable';
+import { Map, fromJS } from 'immutable';
 import {
 	SET_ROOM_ID,
 	SET_AUTH_DATA,
@@ -12,8 +12,8 @@ export const session = handleActions({
 		state
 			.set("roomId", action.payload)
 			.set("roomRef", firebaseForRoomId(action.payload)),
-			
-	SET_AUTH_DATA:      (state, action) => state.set("authData", action.payload),
+
+	SET_AUTH_DATA:      (state, action) => state.set("authData", fromJS(action.payload)),
 	SET_IS_LOGGING_IN:  (state, action) => state.set("loggingIn", action.payload)
 }, new Map({
 	roomId: undefined,

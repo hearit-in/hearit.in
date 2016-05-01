@@ -102,7 +102,7 @@ class SearchView extends React.Component {
 				]} />
 		)
 	}
-	
+
 	renderTrack(track) {
 		let images = track.get("images");
 		let image = images.get(1) || images.get(0);
@@ -121,10 +121,7 @@ class SearchView extends React.Component {
 		if(!this.props.hasResults) {
 			return;
 		}
-		
-		console.log("--- tracks ---");
-		console.dir(this.props.results.get("tracks"));
-		
+
 		return (
 			<Paper>
 				<List>

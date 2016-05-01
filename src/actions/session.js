@@ -1,14 +1,13 @@
 import { isEmpty } from 'lodash';
 import { createAction } from 'redux-actions';
-import { firebaseUrlForNode } from '../helpers/firebase';
 import { showError } from './errors';
 import history from '../helpers/history';
 import { receiveQueue } from './queue';
-import { createFirebase } from 'helpers/firebase';
+import { createFirebase, firebaseForRoomId } from 'helpers/firebase';
 import Q from 'q';
 
-const rootRef = new createFirebase();
-const roomsRef = new createFirebase("rooms");
+const rootRef = createFirebase();
+const roomsRef = createFirebase("rooms");
 
 export const SET_ROOM_ID = 'SET_ROOM_ID';
 export const setRoomId = createAction(SET_ROOM_ID);
@@ -28,6 +27,7 @@ export function login(roomId) {
 
 		dispatch(setIsLoggingIn(true));
 
+		dispatch(setRoomId(roomId));
 		rootRef.authAnonymously();
 	}
 }
@@ -44,10 +44,17 @@ export function logout() {
 export function roomRef() {
 	return (dispatch, getState) => {
 		let deferred = Q.defer();
-		
+
 		let state = getState();
-		if(state.getIn(["session", "roomId"]))
-		
+		let roomId = state.getIn(["session", "roomId"]);
+
+		if(isEmpty(roomId)) {
+			deferred.reject(new Error("No room ID"));
+		}
+		else {
+			deferred.resolve(firebaseForRoomId(roomId));
+		}
+
 		return deferred.promise;
 	}
 }

@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { values } from 'lodash';
-import { fromJS } from 'immutable';
+import { fromJS, Map } from 'immutable';
 
 import {
 	TextField,
@@ -11,21 +11,20 @@ import {
 	Divider,
 	Paper,
 	Card,
-	Avatar
+	Avatar,
+	Checkbox
 } from 'material-ui';
-import ThumbUp from 'material-ui/lib/svg-icons/action/thumb-up';
+
+import Colors from 'material-ui/lib/styles/colors';
+
+import ActionFavorite from 'material-ui/lib/svg-icons/action/favorite';
+import ActionFavoriteBorder from 'material-ui/lib/svg-icons/action/favorite-border';
 
 import { connect } from 'react-redux';
 import { tryEnterSession } from '../actions';
 
 import Firebase from 'firebase';
-import { firebaseUrlForNode } from '../helpers/firebase';
-
-class VoteButton extends React.Component {
-	render() {
-
-	}
-}
+import { firebaseForRoomId } from '../helpers/firebase';
 
 class QueueListItem extends React.Component {
 	componentDidMount() {
@@ -38,9 +37,27 @@ class QueueListItem extends React.Component {
 				primaryText={this.props.track.get("name")}
 				secondaryText={this.props.track.get("artistString")}
 				type=""
-				disabled={true} />
+				disabled={true}
+				rightToggle={
+					<Checkbox
+						labelPosition="left"
+						label={this.props.numVotes.toString()}
+						checked={this.props.hasVoted}
+						onClick={() => this.props.onToggleVote()}
+						iconStyle={{
+							fill: Colors.pink500
+						}}
+						checkedIcon={<ActionFavorite />}
+						unCheckedIcon={<ActionFavoriteBorder />} />
+				} />
 		)
 	}
+}
+
+QueueListItem.defaultProps = {
+	hasVoted: true,
+	numVotes: 1,
+	onToggleVote: () => {}
 }
 
 class QueueView extends React.Component {
@@ -48,37 +65,75 @@ class QueueView extends React.Component {
 		super(props);
 
 		this.state = {
-			queue: []
+			queue: new Map()
 		}
 	}
 
 	componentDidMount() {
-		//this.ref.keepSynced(true);
-		this.onQueueUpdated = this.props.roomRef
-			.child("queue")
-			.orderByKey()
+		this.ref = firebaseForRoomId(this.props.roomId)
+			.child("queue");
+
+		this.onQueueUpdated = this.ref
 			.on("value", (snapshot) => {
-				let tracks = fromJS(values(snapshot.val()));
+				let tracksObject = snapshot.val();
+				let tracks = fromJS(tracksObject);
 				this.setState({
-					queue: tracks
+					queue: tracks !== null ? tracks : new Map()
 				});
 			});
 	}
 
 	componentWillUnmount() {
-		this.props.roomRef.off("value", this.onQueueUpdated)
+		this.ref.off("value", this.onQueueUpdated)
+	}
+
+	toggleVote(trackId) {
+		this.ref
+			.child(`${trackId}/votes/${this.props.uid}`)
+			.once("value", (snap) => {
+				if(snap.exists()) {
+					snap.ref().remove();
+				}
+				else {
+					snap.ref().set(true);
+				}
+			});
 	}
 
 	render() {
+		let queue = this.state.queue;
+		let orderedQueue = queue.sort((a, b) => {
+			let votesA = a.get("votes").size;
+			let votesB = b.get("votes").size;
+
+			if(votesA > votesB) return -1;
+			if(votesA < votesB) return 1;
+			return 0;
+		});
+
+		let items = this.state.queue.map((track, index) => {
+			let votes = track.get("votes", new Map());
+			let hasVoted = votes.has(this.props.uid);
+
+			return (
+				<QueueListItem
+					track={track}
+					key={index}
+					hasVoted={hasVoted}
+					numVotes={votes.size}
+					onToggleVote={() => this.toggleVote(index)} />
+			);
+		}).valueSeq();
+
 		return (
-		<div className="container">
-				<Paper className="col-md-8 col-md-offset-2">
+		<div className="">
+			<div class="row">
+				<Paper className="col-md-8 col-md-offset-2 col-xs-12">
 					<List>
-					{this.state.queue.map((track, index) => (
-						<QueueListItem track={track} key={track.id} />
-					))}
+						{items}
 					</List>
 				</Paper>
+			</div>
 		</div>
 		);
 	}
@@ -86,7 +141,8 @@ class QueueView extends React.Component {
 
 function mapStateToProps(state) {
 	return {
-		roomRef: state.getIn(["session", "roomRef"])
+		roomId: state.getIn(["session", "roomId"]),
+		uid: state.getIn(["session", "authData", "uid"])
 	}
 }
 
