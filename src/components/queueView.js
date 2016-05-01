@@ -10,7 +10,8 @@ import {
 	ListItem,
 	Divider,
 	Paper,
-	Card
+	Card,
+	Avatar
 } from 'material-ui';
 import ThumbUp from 'material-ui/lib/svg-icons/action/thumb-up';
 
@@ -74,7 +75,7 @@ class QueueView extends React.Component {
 				<Paper className="col-md-8 col-md-offset-2">
 					<List>
 					{this.state.queue.map((track, index) => (
-						<QueueListItem track={track} key={index} />
+						<QueueListItem track={track} key={track.id} />
 					))}
 					</List>
 				</Paper>

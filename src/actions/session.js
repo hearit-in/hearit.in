@@ -5,6 +5,7 @@ import { showError } from './errors';
 import history from '../helpers/history';
 import { receiveQueue } from './queue';
 import { createFirebase } from 'helpers/firebase';
+import Q from 'q';
 
 const rootRef = new createFirebase();
 const roomsRef = new createFirebase("rooms");
@@ -27,27 +28,7 @@ export function login(roomId) {
 
 		dispatch(setIsLoggingIn(true));
 
-		rootRef.authAnonymously((error, authData) => {
-			if(error) {
-				dispatch(showError('Kan ikke koble til :( Prøv igjen'));
-				dispatch(setIsLoggingIn(false));
-				return;
-			}
-
-			dispatch(setAuthData(authData));
-
-			roomsRef.child(roomId).once('value', snapshot => {
-				if(snapshot.val()) {
-					dispatch(setRoomId(roomId));
-					dispatch(setIsLoggingIn(false));
-					history.push("app/search");
-				}
-				else {
-					dispatch(showError(`${roomId}: Feil passord!`));
-					dispatch(setIsLoggingIn(false));
-				}
-			});
-		});
+		rootRef.authAnonymously();
 	}
 }
 
@@ -57,5 +38,16 @@ export function logout() {
 		dispatch(setAuthData(undefined));
 		dispatch(setIsLoggingIn(false));
 		browserHistory.push("/");
+	}
+}
+
+export function roomRef() {
+	return (dispatch, getState) => {
+		let deferred = Q.defer();
+		
+		let state = getState();
+		if(state.getIn(["session", "roomId"]))
+		
+		return deferred.promise;
 	}
 }
