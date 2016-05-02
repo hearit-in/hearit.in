@@ -9,15 +9,28 @@ export const receiveQueue = createAction(RECEIVE_QUEUE);
 export function addTrackToQueue(track) {
 	return (dispatch, getState) => {
 		dispatch(roomRef()).then((ref) => {
-			const state = getState();
-			const uid = state.getIn(["session", "authData"]).uid;
+			const queue = ref.child("queue");
+			const trackId = track.get("id");
 
-			const trackObj = track
-				.set("votes", { [uid]: true })
-				.toJS();
+			const uid = getState().getIn(["session", "authData", "uid"]);
+			if(uid === undefined) {
+				return;
+			}
 
-			let queue = ref.child("queue");
-			queue.push(trackObj);
+			const trackRef = queue.child(trackId);
+
+			trackRef.once("value", (snap) => {
+				if(snap.exists()) {
+					snap.ref().child("votes").child(uid).set(true);
+				}
+				else {
+					const trackObj = track
+						.set("votes", { [uid]: true })
+						.toJS();
+
+					trackRef.set(trackObj);
+				}
+			})
 		})
 	}
 }

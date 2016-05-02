@@ -17,19 +17,13 @@ class AppComponent extends React.Component {
 			isNavigationOpen: false
 		}
 	}
-	
+
 	componentDidMount() {
-		
+
 	}
-	
-	toggleNavigation() {
-		this.setState({
-			isNavigationOpen: !this.state.isNavigationOpen
-		})
-	}
-	
-	closeNavigation() {
-		this.setState({ isNavigationOpen: false });
+
+	setNavigationOpen(open) {
+		this.setState({ isNavigationOpen: open });
 	}
 
 	render() {
@@ -38,9 +32,15 @@ class AppComponent extends React.Component {
 		<div>
 			<AppBar
 				title="crowdplay"
-				onLeftIconButtonTouchTap={ () => this.toggleNavigation() } />
-		
-			<Nav open={this.state.isNavigationOpen} onItemTapped={() => this.closeNavigation()} />
+				onLeftIconButtonTouchTap={ () => this.setNavigationOpen(true) }
+				style={{
+					position: "fixed",
+					top: 0
+				}}>
+				whoah
+			</AppBar>
+
+			<Nav open={this.state.isNavigationOpen} onRequestChange={(open) => this.setNavigationOpen(open)} />
 
 			<div>
 				{this.props.errors.map((error, index) => {
@@ -48,7 +48,9 @@ class AppComponent extends React.Component {
 				})}
 			</div>
 
-			<div>
+			<div style={{
+				marginTop: "60px"
+			}}>
 				<VelocityTransitionGroup enter={{animation: "slideDown"}} leave={{animation: "slideUp"}}>
 					{ this.props.children }
 				</VelocityTransitionGroup>

@@ -1,16 +1,22 @@
 import React from 'react';
 import {
 	LeftNav,
-	MenuItem
+	MenuItem,
+	ListItem,
+	Divider,
+	Avatar
 } from 'material-ui';
 
 import {
-	MusicQueue,
-	Search
+	AvQueueMusic,
+	ActionSearch
 } from 'material-ui/lib/svg-icons';
 
 import { connect } from 'react-redux';
 import { navigateTo } from 'actions/navigation';
+import { firebaseForRoomId } from 'helpers/firebase';
+
+import { fromJS } from 'immutable';
 
 class NavItem extends React.Component {
 	render() {
@@ -18,21 +24,80 @@ class NavItem extends React.Component {
 	}
 }
 
+class NowPlayingItem extends React.Component {
+	render() {
+		let track = this.props.track;
+
+		if(track === undefined) {
+			return <div />
+		}
+
+
+		let images = track.get("images");
+		let image = images.get(1) || images.get(0);
+
+		return (
+			<div>
+				<ListItem type="" disabled primaryText="Spiller nå" />
+				<ListItem
+					type=""
+					primaryText={track.get("name")}
+					secondaryText={track.get("artistString")}
+					leftAvatar={<Avatar src={image.get("url")} />}
+				/>
+			 </div>
+		);
+	}
+}
+
 class Nav extends React.Component {
+	constructor(props) {
+		super(props);
+
+		this.state = {
+			nowPlaying: undefined
+		};
+	}
+
+	componentDidMount() {
+		this.ref = firebaseForRoomId(this.props.roomId)
+			.child("nowPlaying");
+
+		this.onNowPlayingChanged = this.ref
+			.on("value", (snap) => {
+				if(snap.exists()) {
+					this.setState({
+						nowPlaying: fromJS(snap.val())
+					})
+				}
+				else {
+					this.setState({
+						nowPlaying: undefined
+					})
+				}
+			});
+	}
+
+	componentWillUnmount() {
+		this.ref.off("value", this.onNowPlayingChanged);
+	}
+
 	itemTapped(location) {
 		this.props.onNavigateTo(location);
-		this.props.onItemTapped();
+		this.props.onRequestChange(false);
 	}
-	
+
 	render() {
 		return (
-			<LeftNav open={this.props.open}>
+			<LeftNav open={this.props.open} docked={false} onRequestChange={open => this.props.onRequestChange(open)}>
+				<NowPlayingItem track={this.state.nowPlaying} />
+				<Divider />
 				<NavItem
-					leftIcon={MusicQueue}
+					leftIcon={<AvQueueMusic />}
 					primaryText="Spilleliste"
 					onTouchTap={() => this.itemTapped("/app/queue")} />
 				<NavItem
-					leftIcon={Search}
+					leftIcon={<ActionSearch />}
 					primaryText="Søk"
 					onTouchTap={() => this.itemTapped("/app/search")} />
 			</LeftNav>
@@ -42,7 +107,13 @@ class Nav extends React.Component {
 
 Nav.defaultProps = {
 	open: false,
-	onItemTapped: () => {}
+	onRequestChange: () => {}
+}
+
+function mapStateToProps(state) {
+	return {
+		roomId: state.getIn(["session", "roomId"])
+	}
 }
 
 function mapDispatchToProps(dispatch) {
@@ -51,4 +122,4 @@ function mapDispatchToProps(dispatch) {
 	}
 }
 
-export default connect(() => ({}), mapDispatchToProps)(Nav);
+export default connect(mapStateToProps, mapDispatchToProps)(Nav);

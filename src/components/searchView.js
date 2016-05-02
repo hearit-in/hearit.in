@@ -50,7 +50,7 @@ class SearchView extends React.Component {
 			selectedTrack: undefined
 		};
 
-		this.debouncedSearch = debounce(this.performSearch, 800);
+		this.debouncedSearch = debounce(this.performSearch, 400);
 	}
 
 	performSearch(query) {

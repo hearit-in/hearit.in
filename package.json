@@ -19,7 +19,7 @@
     "test": "karma start",
     "test:watch": "karma start --autoWatch=true --singleRun=false",
     "predeploy": "npm run dist",
-    "deploy": "node -e 'require(\"gh-pages\").publish(\"dist\", e => e?console.error(e):undefined)'"
+    "deploy": "firebase deploy"
   },
   "repository": "",
   "keywords": [],
@@ -77,6 +77,7 @@
     "q": "^1.4.1",
     "react": "^0.14.0",
     "react-dom": "^0.14.0",
+    "react-flip-move": "^2.1.2",
     "react-redux": "^4.4.5",
     "react-router": "^2.2.4",
     "react-tap-event-plugin": "^0.2.0",

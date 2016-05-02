@@ -26,24 +26,30 @@ import { tryEnterSession } from '../actions';
 import Firebase from 'firebase';
 import { firebaseForRoomId } from '../helpers/firebase';
 
+import FlipMove from 'react-flip-move';
+
 class QueueListItem extends React.Component {
 	componentDidMount() {
 
 	}
 
 	render() {
+		let images = this.props.track.get("images");
+		let image = images.get(1) || images.get(0);
+
 		return (
 			<ListItem
 				primaryText={this.props.track.get("name")}
 				secondaryText={this.props.track.get("artistString")}
 				type=""
 				disabled={true}
+				leftAvatar={<Avatar src={image.get("url")} />}
 				rightToggle={
 					<Checkbox
 						labelPosition="left"
 						label={this.props.numVotes.toString()}
 						checked={this.props.hasVoted}
-						onClick={() => this.props.onToggleVote()}
+						onCheck={() => this.props.onToggleVote()}
 						iconStyle={{
 							fill: Colors.pink500
 						}}
@@ -103,38 +109,42 @@ class QueueView extends React.Component {
 	render() {
 		let queue = this.state.queue;
 		let orderedQueue = queue.sort((a, b) => {
-			let votesA = a.get("votes").size;
-			let votesB = b.get("votes").size;
+			let votesA = a.get("votes", new Map()).size;
+			let votesB = b.get("votes", new Map()).size;
 
 			if(votesA > votesB) return -1;
 			if(votesA < votesB) return 1;
 			return 0;
 		});
 
-		let items = this.state.queue.map((track, index) => {
+		let items = orderedQueue.map((track, index) => {
 			let votes = track.get("votes", new Map());
 			let hasVoted = votes.has(this.props.uid);
 
 			return (
-				<QueueListItem
-					track={track}
-					key={index}
-					hasVoted={hasVoted}
-					numVotes={votes.size}
-					onToggleVote={() => this.toggleVote(index)} />
+				<div key={index} className="animate-me">
+					<QueueListItem
+						track={track}
+						hasVoted={hasVoted}
+						numVotes={votes.size}
+						onToggleVote={() => this.toggleVote(index)} />
+					<Divider />
+				</div>
 			);
 		}).valueSeq();
 
 		return (
-		<div className="">
-			<div class="row">
-				<Paper className="col-md-8 col-md-offset-2 col-xs-12">
-					<List>
-						{items}
-					</List>
-				</Paper>
+			<div className="">
+				<div className="row">
+					<Paper className="col-md-8 col-md-offset-2 col-xs-12">
+						<List>
+							<FlipMove easing="ease">
+								{items}
+							</FlipMove>
+						</List>
+					</Paper>
+				</div>
 			</div>
-		</div>
 		);
 	}
 }
