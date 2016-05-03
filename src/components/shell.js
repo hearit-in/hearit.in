@@ -5,6 +5,7 @@ import React from 'react';
 import routes from './routes';
 import history from '../helpers/history';
 import { initFirebase } from '../sources/firebase';
+import ThemeProvider from './themeProvider';
 
 class Shell extends React.Component {
 	componentDidMount() {
@@ -14,9 +15,11 @@ class Shell extends React.Component {
 	render () {
 		return (
 			<Provider store={store}>
-				<Router history={history}>
-					{ routes }
-				</Router>
+				<ThemeProvider>
+					<Router history={history}>
+						{ routes }
+					</Router>
+				</ThemeProvider>
 			</Provider>
 		)
 	}

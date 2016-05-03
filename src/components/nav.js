@@ -9,11 +9,13 @@ import {
 
 import {
 	AvQueueMusic,
-	ActionSearch
+	ActionSearch,
+	ActionPowerSettingsNew
 } from 'material-ui/lib/svg-icons';
 
 import { connect } from 'react-redux';
 import { navigateTo } from 'actions/navigation';
+import { logout } from 'actions/session';
 import { firebaseForRoomId } from 'helpers/firebase';
 
 import { fromJS } from 'immutable';
@@ -82,8 +84,13 @@ class Nav extends React.Component {
 		this.ref.off("value", this.onNowPlayingChanged);
 	}
 
-	itemTapped(location) {
+	navigateToAndClose(location) {
 		this.props.onNavigateTo(location);
+		this.props.onRequestChange(false);
+	}
+	
+	logoutAndClose() {
+		this.props.onLogout();
 		this.props.onRequestChange(false);
 	}
 
@@ -95,11 +102,17 @@ class Nav extends React.Component {
 				<NavItem
 					leftIcon={<AvQueueMusic />}
 					primaryText="Spilleliste"
-					onTouchTap={() => this.itemTapped("/app/queue")} />
+					onTouchTap={() => this.navigateToAndClose("/app/queue")} />
 				<NavItem
 					leftIcon={<ActionSearch />}
 					primaryText="Søk"
-					onTouchTap={() => this.itemTapped("/app/search")} />
+					onTouchTap={() => this.navigateToAndClose("/app/search")} />
+				
+				<NavItem
+					leftIcon={<ActionPowerSettingsNew />}
+					primaryText="Logg ut"
+					onTouchTap={() => this.logoutAndClose()}
+					/>
 			</LeftNav>
 		)
 	}
@@ -118,7 +131,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
 	return {
-		onNavigateTo: (location) => dispatch(navigateTo(location))
+		onNavigateTo: (location) => dispatch(navigateTo(location)),
+		onLogout: () => dispatch(logout())
 	}
 }
 

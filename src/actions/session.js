@@ -37,7 +37,7 @@ export function logout() {
 		dispatch(setRoomId(undefined));
 		dispatch(setAuthData(undefined));
 		dispatch(setIsLoggingIn(false));
-		browserHistory.push("/");
+		rootRef.unauth();
 	}
 }
 

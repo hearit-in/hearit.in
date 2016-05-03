@@ -8,6 +8,11 @@ export function initFirebase() {
 	const ref = createFirebase();
 
 	ref.onAuth((authData, err) => {
+		if(authData === null) {
+			store.dispatch(setAuthData(null));
+			history.push("/");
+		}
+		
 		store.dispatch(setAuthData(authData));
 
 		const state = store.getState();

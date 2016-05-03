@@ -4,6 +4,10 @@ require('styles/style.stylus');
 import React from 'react';
 import AuthView from './authView';
 import { AppBar, Icon, Snackbar } from 'material-ui';
+import {
+	ActionSearch
+} from 'material-ui/lib/svg-icons';
+
 import Nav from './nav';
 
 import { VelocityTransitionGroup } from 'velocity-react';
@@ -33,11 +37,11 @@ class AppComponent extends React.Component {
 			<AppBar
 				title="crowdplay"
 				onLeftIconButtonTouchTap={ () => this.setNavigationOpen(true) }
+				rightIcon={<ActionSearch />}
 				style={{
 					position: "fixed",
 					top: 0
 				}}>
-				whoah
 			</AppBar>
 
 			<Nav open={this.state.isNavigationOpen} onRequestChange={(open) => this.setNavigationOpen(open)} />
