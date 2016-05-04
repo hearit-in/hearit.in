@@ -1,18 +1,17 @@
 import Firebase from 'firebase';
 import { createFirebase } from '../helpers/firebase';
 import history from 'helpers/history';
-import { setAuthData, setRoomId, setIsLoggingIn } from 'actions/session';
+import { setAuthData, login } from 'actions/session';
 import store from '../store';
 
 export function initFirebase() {
 	const ref = createFirebase();
 
-	ref.onAuth((authData, err) => {
-		if(authData === null) {
-			store.dispatch(setAuthData(null));
-			history.push("/");
+	ref.onAuth((authData) => {
+		if(authData == null) {
+			ref.authAnonymously();
 		}
-		
+
 		store.dispatch(setAuthData(authData));
 
 		const state = store.getState();
@@ -21,15 +20,6 @@ export function initFirebase() {
 			return;
 		}
 
-		ref.child(`rooms/${roomId}`).once('value', snapshot => {
-			if(snapshot.val()) {
-				store.dispatch(setRoomId(roomId));
-				history.push("/app/queue");
-			}
-			else {
-				store.dispatch(showError(`${roomId}: Feil passord!`));
-			}
-			store.dispatch(setIsLoggingIn(false));
-		});
+		store.dispatch(login(roomId));
 	});
 }

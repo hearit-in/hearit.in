@@ -7,8 +7,11 @@
 	margin-top 20px
 
 body
-	background-image: url("../images/geometry2.png")
+	background-image: url("../images/background.png")
 	background-position: center
+
+body.dark-theme
+	background-image: url("../images/background-dark.png")
 
 .credits
 	text-align: center

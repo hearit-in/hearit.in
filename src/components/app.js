@@ -14,6 +14,8 @@ import { VelocityTransitionGroup } from 'velocity-react';
 
 import { connect } from 'react-redux';
 
+import { history } from 'helpers';
+
 class AppComponent extends React.Component {
 	constructor(props) {
 		super(props);
@@ -23,7 +25,9 @@ class AppComponent extends React.Component {
 	}
 
 	componentDidMount() {
-
+		if(this.props.roomId == undefined) {
+			history.push("/");
+		}
 	}
 
 	setNavigationOpen(open) {
@@ -31,6 +35,7 @@ class AppComponent extends React.Component {
 	}
 
 	render() {
+		console.log(this.props);
 		return (
 
 		<div>
@@ -65,7 +70,8 @@ class AppComponent extends React.Component {
 
 function mapStateToProps(state) {
 	return {
-		errors: state.get("errors")
+		errors: state.get("errors"),
+		roomId: state.get("session").get("roomId")
 	}
 }
 

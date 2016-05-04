@@ -10,6 +10,7 @@ import {
 import {
 	AvQueueMusic,
 	ActionSearch,
+	ActionSettings,
 	ActionPowerSettingsNew
 } from 'material-ui/lib/svg-icons';
 
@@ -43,6 +44,7 @@ class NowPlayingItem extends React.Component {
 				<ListItem type="" disabled primaryText="Spiller nå" />
 				<ListItem
 					type=""
+					disabled
 					primaryText={track.get("name")}
 					secondaryText={track.get("artistString")}
 					leftAvatar={<Avatar src={image.get("url")} />}
@@ -88,7 +90,7 @@ class Nav extends React.Component {
 		this.props.onNavigateTo(location);
 		this.props.onRequestChange(false);
 	}
-	
+
 	logoutAndClose() {
 		this.props.onLogout();
 		this.props.onRequestChange(false);
@@ -103,16 +105,21 @@ class Nav extends React.Component {
 					leftIcon={<AvQueueMusic />}
 					primaryText="Spilleliste"
 					onTouchTap={() => this.navigateToAndClose("/app/queue")} />
+
 				<NavItem
 					leftIcon={<ActionSearch />}
 					primaryText="Søk"
 					onTouchTap={() => this.navigateToAndClose("/app/search")} />
-				
+
+				<NavItem
+					leftIcon={<ActionSettings />}
+					primaryText="Innstillinger"
+					onTouchTap={() => this.navigateToAndClose("/app/settings")} />
+
 				<NavItem
 					leftIcon={<ActionPowerSettingsNew />}
 					primaryText="Logg ut"
-					onTouchTap={() => this.logoutAndClose()}
-					/>
+					onTouchTap={() => this.logoutAndClose()} />
 			</LeftNav>
 		)
 	}

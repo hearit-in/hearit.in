@@ -3,11 +3,8 @@ import { createAction } from 'redux-actions';
 import { showError } from './errors';
 import history from '../helpers/history';
 import { receiveQueue } from './queue';
-import { createFirebase, firebaseForRoomId } from 'helpers/firebase';
+import { firebaseForRoomId } from 'helpers/firebase';
 import Q from 'q';
-
-const rootRef = createFirebase();
-const roomsRef = createFirebase("rooms");
 
 export const SET_ROOM_ID = 'SET_ROOM_ID';
 export const setRoomId = createAction(SET_ROOM_ID);
@@ -25,10 +22,15 @@ export function login(roomId) {
 			return;
 		}
 
-		dispatch(setIsLoggingIn(true));
-
-		dispatch(setRoomId(roomId));
-		rootRef.authAnonymously();
+		firebaseForRoomId(roomId).once('value', snapshot => {
+			if(snapshot.val()) {
+				dispatch(setRoomId(roomId));
+				history.push("/app/queue");
+			}
+			else {
+				dispatch(showError(`${roomId}: Feil passord!`));
+			}
+		});
 	}
 }
 
@@ -36,8 +38,8 @@ export function logout() {
 	return (dispatch) => {
 		dispatch(setRoomId(undefined));
 		dispatch(setAuthData(undefined));
-		dispatch(setIsLoggingIn(false));
-		rootRef.unauth();
+
+		history.push("/");
 	}
 }
 
