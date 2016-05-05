@@ -25,7 +25,7 @@ export function login(roomId) {
 		firebaseForRoomId(roomId).once('value', snapshot => {
 			if(snapshot.val()) {
 				dispatch(setRoomId(roomId));
-				history.push("/app/queue");
+				history.push("/app/history");
 			}
 			else {
 				dispatch(showError(`${roomId}: Feil passord!`));

@@ -4,10 +4,10 @@
 	margin 0px auto
 
 .top-margin
-	margin-top 20px
+	margin-top 15px
 
 body
-	background-image: url("../images/background.png")
+	background-image: url("../images/background-dark.png")
 	background-position: center
 
 body.dark-theme

@@ -35,9 +35,7 @@ class AppComponent extends React.Component {
 	}
 
 	render() {
-		console.log(this.props);
 		return (
-
 		<div>
 			<AppBar
 				title="crowdplay"
@@ -47,6 +45,7 @@ class AppComponent extends React.Component {
 					position: "fixed",
 					top: 0
 				}}>
+				
 			</AppBar>
 
 			<Nav open={this.state.isNavigationOpen} onRequestChange={(open) => this.setNavigationOpen(open)} />
@@ -58,13 +57,14 @@ class AppComponent extends React.Component {
 			</div>
 
 			<div style={{
-				marginTop: "60px"
+				marginTop: "58px"
 			}}>
 				<VelocityTransitionGroup enter={{animation: "slideDown"}} leave={{animation: "slideUp"}}>
 					{ this.props.children }
 				</VelocityTransitionGroup>
 			</div>
-		</div>);
+		</div>
+		);
 	}
 }
 

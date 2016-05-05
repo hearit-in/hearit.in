@@ -1,49 +1,51 @@
 import React, {PropTypes} from 'react';
 
 import ThemeManager from 'material-ui/lib/styles/theme-manager';
-
-import darkBaseTheme from 'material-ui/lib/styles/raw-themes/dark-raw-theme';
-import lightTheme from 'material-ui/lib/styles/raw-themes/light-raw-theme';
-
-import colors from 'material-ui/lib/styles/colors';
+import lightTheme from 'material-ui/lib/styles/baseThemes/lightBaseTheme';
+import color from 'material-ui/lib/styles/colors';
+import colorManipulator from 'material-ui/lib/utils/color-manipulator';
 
 import { merge } from 'lodash';
 
-/*{
-	spacing: _spacing2.default,
+/* {
+	spacing: spacing,
 	fontFamily: 'Roboto, sans-serif',
 	palette: {
-		primary1Color: colors.default.cyan700,
-		primary2Color: colors.default.cyan700,
-		primary3Color: colors.default.grey600,
-		accent1Color: colors.default.pinkA200,
-		accent2Color: colors.default.pinkA400,
-		accent3Color: colors.default.pinkA100,
-		textColor: colors.default.fullWhite,
-		alternateTextColor: '#303030',
-		canvasColor: '#303030',
-		borderColor: _colorManipulator2.default.fade(_colors2.default.fullWhite, 0.3),
-		disabledColor: _colorManipulator2.default.fade(_colors2.default.fullWhite, 0.3),
-		pickerHeaderColor: _colorManipulator2.default.fade(_colors2.default.fullWhite, 0.12),
-		clockCircleColor: _colorManipulator2.default.fade(_colors2.default.fullWhite, 0.12)
+		primary1Color: cyan500,
+		primary2Color: cyan700,
+		primary3Color: grey400,
+		accent1Color: pinkA200,
+		accent2Color: grey100,
+		accent3Color: grey500,
+		textColor: darkBlack,
+		alternateTextColor: white,
+		canvasColor: white,
+		borderColor: grey300,
+		disabledColor: fade(darkBlack, 0.3),
+		pickerHeaderColor: cyan500,
+		clockCircleColor: fade(darkBlack, 0.07),
+		shadowColor: fullBlack,
 	}
-};*/
+} */
 
-const darkTheme = merge({}, darkBaseTheme, {
+const rawTheme = merge({}, lightTheme, {
 	palette: {
-		alternateTextColor: "#aaa"
+		primary1Color: color.purple500,
+		primary2Color: color.blue500,
+		primary3Color: color.white,
+		accent1Color: color.blue500,
+		accent2Color: color.blue500,
+		accent3Color: color.blue500
 	}
 });
 
-import { connect } from 'react-redux';
+const muiTheme = ThemeManager.getMuiTheme(rawTheme);
 
 class ThemeProvider extends React.Component {
 	getChildContext() {
-		const rawTheme = this.props.darkThemeEnabled ? darkTheme : lightTheme;
-		const muiTheme = ThemeManager.getMuiTheme(rawTheme);
 		return { muiTheme };
 	}
-
+	
 	render() {
 		return this.props.children;
 	}
@@ -53,10 +55,4 @@ ThemeProvider.childContextTypes = {
 	muiTheme: PropTypes.object
 }
 
-function mapStateToProps(state) {
-	return {
-		darkThemeEnabled: state.getIn(["settings", "darkThemeEnabled"], false)
-	}
-}
-
-export default connect(mapStateToProps)(ThemeProvider);
+export default ThemeProvider;

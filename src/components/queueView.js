@@ -113,7 +113,14 @@ class QueueView extends React.Component {
 			let votesB = b.get("votes", new Map()).size;
 
 			if(votesA > votesB) return -1;
-			if(votesA < votesB) return 1;
+			if(votesB > votesA) return 1;
+			
+			let timeA = a.get("queued_at", 0);
+			let timeB = b.get("queued_at", 0);
+			
+			if(timeB > timeA) return -1;
+			if(timeA > timeB) return 1;
+			
 			return 0;
 		});
 

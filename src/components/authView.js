@@ -67,7 +67,8 @@ class AuthView extends React.Component {
 
 function mapStateToProps(state) {
 	return {
-		isLoading: state.getIn(["session", "isLoading"])
+		isLoading: state.getIn(["session", "isLoading"]),
+		roomId: state.getIn(["session", "roomId"])
 	};
 }
 

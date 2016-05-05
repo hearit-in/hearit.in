@@ -11,7 +11,8 @@ import {
 	AvQueueMusic,
 	ActionSearch,
 	ActionSettings,
-	ActionPowerSettingsNew
+	ActionPowerSettingsNew,
+	ActionHistory
 } from 'material-ui/lib/svg-icons';
 
 import { connect } from 'react-redux';
@@ -41,7 +42,7 @@ class NowPlayingItem extends React.Component {
 
 		return (
 			<div>
-				<ListItem type="" disabled primaryText="Spiller nå" />
+				<ListItem type="" disabled primaryText="" secondaryText="SPILLER NÅ" style={{ textAlign: "center"}} />
 				<ListItem
 					type=""
 					disabled
@@ -110,6 +111,11 @@ class Nav extends React.Component {
 					leftIcon={<ActionSearch />}
 					primaryText="Søk"
 					onTouchTap={() => this.navigateToAndClose("/app/search")} />
+				
+				<NavItem
+					leftIcon={<ActionHistory />}
+					primaryText="Historikk"
+					onTouchTap={() => this.navigateToAndClose("/app/history")} />
 
 				<NavItem
 					leftIcon={<ActionSettings />}

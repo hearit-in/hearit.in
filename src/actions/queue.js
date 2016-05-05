@@ -1,5 +1,6 @@
 import { createAction } from 'redux-actions';
 import { roomRef } from './session';
+import Firebase from 'firebase';
 
 import { pushError } from './errors';
 
@@ -12,8 +13,9 @@ export function addTrackToQueue(track) {
 			const queue = ref.child("queue");
 			const trackId = track.get("id");
 
+
 			const uid = getState().getIn(["session", "authData", "uid"]);
-			if(uid === undefined) {
+			if(uid == undefined) {
 				return;
 			}
 
@@ -26,8 +28,14 @@ export function addTrackToQueue(track) {
 				else {
 					const trackObj = track
 						.set("votes", { [uid]: true })
+						.set("queued_at", Firebase.ServerValue.TIMESTAMP)
 						.toJS();
-
+					
+					ref.child("history").child(trackId).set(
+						track
+							.set("played_at", Firebase.ServerValue.TIMESTAMP)
+							.toJS()
+					);
 					trackRef.set(trackObj);
 				}
 			})
