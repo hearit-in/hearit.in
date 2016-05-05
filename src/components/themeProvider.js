@@ -32,7 +32,7 @@ const rawTheme = merge({}, lightTheme, {
 	palette: {
 		primary1Color: color.purple500,
 		primary2Color: color.blue500,
-		primary3Color: color.white,
+		primary3Color: color.purple300,
 		accent1Color: color.blue500,
 		accent2Color: color.blue500,
 		accent3Color: color.blue500
@@ -45,7 +45,7 @@ class ThemeProvider extends React.Component {
 	getChildContext() {
 		return { muiTheme };
 	}
-	
+
 	render() {
 		return this.props.children;
 	}

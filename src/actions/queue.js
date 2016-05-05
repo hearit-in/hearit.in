@@ -28,14 +28,9 @@ export function addTrackToQueue(track) {
 				else {
 					const trackObj = track
 						.set("votes", { [uid]: true })
-						.set("queued_at", Firebase.ServerValue.TIMESTAMP)
+						.set("queuedAt", Firebase.ServerValue.TIMESTAMP)
 						.toJS();
-					
-					ref.child("history").child(trackId).set(
-						track
-							.set("played_at", Firebase.ServerValue.TIMESTAMP)
-							.toJS()
-					);
+
 					trackRef.set(trackObj);
 				}
 			})

@@ -19,41 +19,44 @@ import { connect } from 'react-redux';
 class HistoryView extends React.Component {
 	constructor(props) {
 		super(props);
-		
+
 		this.state = {
 			tracks: new Map()
 		};
 	}
-	
+
 	componentDidMount() {
-		this.ref = firebaseForRoomId(this.props.roomId)
-			.child("history");
-		
-		this.onQueueUpdated = this.ref.on("value",
+		this.query = firebaseForRoomId(this.props.roomId)
+			.child("history")
+			.orderByChild("playedAt");
+
+		this.onQueueUpdated = this.query.on("value",
 			(snapshot) => {
 				let tracksObject = snapshot.val();
 				let tracks = fromJS(tracksObject);
 				this.setState({
-					tracks: tracks !== null ? tracks : new Map()
+					tracks: tracks === null ? [] : tracks.reverse().toArray()
 				});
 			});
 	}
-	
+
 	componentWillUnmount() {
-		this.ref.off("value", this.onQueueUpdated)
+		this.query.off("value", this.onQueueUpdated)
 	}
-	
+
 	renderTracks() {
-		return this.state.tracks.map((track, id) => {
-			return <ListItem
-						primaryText={track.get("name")}
-						secondaryText={track.get("artistString")}
-						leftAvatar={<Avatar src={track.getIn(["images", 1, "url"])} />}
-						type=""
-						key={id} />
-		}).valueSeq();
+		return this.state.tracks.map((track, index) =>
+			<ListItem
+				primaryText={track.get("name")}
+				secondaryText={track.get("artistString")}
+				leftAvatar={
+					<Avatar src={track.getIn(["images", 1, "url"])} />
+				}
+				type=""
+				key={index} />
+		);
 	}
-	
+
 	render() {
 		return (
 			<div>

@@ -45,7 +45,7 @@ class AppComponent extends React.Component {
 					position: "fixed",
 					top: 0
 				}}>
-				
+
 			</AppBar>
 
 			<Nav open={this.state.isNavigationOpen} onRequestChange={(open) => this.setNavigationOpen(open)} />
@@ -57,7 +57,7 @@ class AppComponent extends React.Component {
 			</div>
 
 			<div style={{
-				marginTop: "58px"
+				marginTop: "62px"
 			}}>
 				<VelocityTransitionGroup enter={{animation: "slideDown"}} leave={{animation: "slideUp"}}>
 					{ this.props.children }
