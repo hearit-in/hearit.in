@@ -8,11 +8,7 @@ import {
 import { firebaseForRoomId } from 'helpers/firebase';
 
 export const session = handleActions({
-	SET_ROOM_ID:        (state, action) =>
-		state
-			.set("roomId", action.payload)
-			.set("roomRef", firebaseForRoomId(action.payload)),
-
+	SET_ROOM_ID:        (state, action) => state.set("roomId", action.payload),
 	SET_AUTH_DATA:      (state, action) => state.set("authData", fromJS(action.payload)),
 	SET_IS_LOGGING_IN:  (state, action) => state.set("loggingIn", action.payload)
 }, new Map({

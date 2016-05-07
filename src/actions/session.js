@@ -17,15 +17,10 @@ export const setIsLoggingIn = createAction(SET_IS_LOGGING_IN);
 
 export function login(roomId) {
 	return (dispatch, getState) => {
-		if(isEmpty(roomId)) {
-			dispatch(showError(`Hva driver du med?`));
-			return;
-		}
-
 		firebaseForRoomId(roomId).once('value', snapshot => {
 			if(snapshot.val()) {
 				dispatch(setRoomId(roomId));
-				history.push("/app/history");
+				history.push("/app/queue");
 			}
 			else {
 				dispatch(showError(`${roomId}: Feil passord!`));

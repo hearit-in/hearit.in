@@ -9,11 +9,7 @@ import ThemeProvider from './themeProvider';
 
 class Shell extends React.Component {
 	componentDidMount() {
-		initFirebase();
-
-		store.subscribe((state) => {
-
-		});
+		//initFirebase();
 	}
 
 	render () {

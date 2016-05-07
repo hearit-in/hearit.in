@@ -8,6 +8,7 @@ import persistState, { mergePersistedState } from 'redux-localstorage';
 import storageAdapter from 'redux-localstorage/lib/adapters/localStorage';
 import storageFilter from 'redux-localstorage-filter';
 import { serialize, deserialize } from 'redux-localstorage-immutable';
+import { initFirebase } from './sources/firebase';
 
 import * as reducers from './reducers';
 
@@ -21,7 +22,9 @@ let middleware = [
 const rootReducer = combineReducers(reducers);
 
 const persistentReducer = compose(
-	mergePersistedState(deserialize)
+	mergePersistedState(
+		deserialize
+	)
 )(rootReducer);
 
 const storage = compose(
