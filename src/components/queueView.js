@@ -28,6 +28,7 @@ import { firebaseForRoomId } from '../helpers/firebase';
 import { sortQueueByVotes } from 'helpers/queue';
 
 import FlipMove from 'react-flip-move';
+import { VelocityTransitionGroup } from 'velocity-react';
 import TrackListItem from './trackListItem';
 
 class QueueListItem extends React.Component {
@@ -117,15 +118,17 @@ class QueueView extends React.Component {
 		}).toArray();
 
 		return (
-			<div className="">
-				<div className="row">
-					<Paper className="col-md-8 col-md-offset-2 col-xs-12">
-						<List>
-							<FlipMove easing="ease">
-								{items}
-							</FlipMove>
-						</List>
-					</Paper>
+			<div className="container">
+				<div className="row top-margin">
+					<div className="col-md-8 col-md-offset-2 col-xs-12">
+						<Paper>
+							<List>
+								<FlipMove easing="ease">
+									{items}
+								</FlipMove>
+							</List>
+						</Paper>
+					</div>
 				</div>
 			</div>
 		);

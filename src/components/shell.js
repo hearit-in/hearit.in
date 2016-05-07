@@ -4,12 +4,14 @@ import store from '../store';
 import React from 'react';
 import routes from './routes';
 import history from '../helpers/history';
-import { initFirebase } from '../sources/firebase';
 import ThemeProvider from './themeProvider';
+import { initFirebase } from 'actions/firebase';
 
 class Shell extends React.Component {
 	componentDidMount() {
-		//initFirebase();
+		let hasLoadedPersistentState = false;
+
+		store.dispatch(initFirebase());
 	}
 
 	render () {

@@ -59,6 +59,12 @@ class SearchView extends React.Component {
 		this.props.onClearSearch();
 	}
 
+	componentWillReceiveProps(newProps) {
+		if(newProps.query !== this.props.query) {
+			this.debouncedSearch(newProps.query);
+		}
+	}
+
 	performSearch(query) {
 		if(query.trim().length == 0) {
 			this.props.onClearSearch();
@@ -131,17 +137,7 @@ class SearchView extends React.Component {
 		return (
 			<div>
 				{ this.renderConfirmDialog(this.state.selectedTrack) }
-				<div className="container">
-					<div className="row">
-						<Paper className="col-md-12">
-							<TextField fullWidth={true} floatingLabelText="Søk..." onChange={e => this.debouncedSearch(e.target.value)} />
-						</Paper>
-					</div>
-
-					<div className="row top-margin">
-						{ this.renderSearchResults() }
-					</div>
-				</div>
+				{ this.renderSearchResults() }
 			</div>
 		);
 	}

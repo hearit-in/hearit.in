@@ -37,5 +37,6 @@ body.dark-theme
 		background-color: white
 		box-shadow: 0px 0px 0px #000
 
-	&::placeholder
-		color: rgba(0, 0, 0, 0.2)
+	&,&::placeholder
+		color: darken(#9c27b0, 50%)
+		font-size: 1.1em
