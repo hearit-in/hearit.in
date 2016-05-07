@@ -12,13 +12,9 @@ import {
 
 import TrackListItem from './trackListItem';
 
-import { firebaseForRoomId } from 'helpers/firebase';
-
 import { Map, fromJS } from 'immutable';
 
-import { connect } from 'react-redux';
-
-class HistoryView extends React.Component {
+export default class HistoryView extends React.Component {
 	constructor(props) {
 		super(props);
 
@@ -28,7 +24,7 @@ class HistoryView extends React.Component {
 	}
 
 	componentDidMount() {
-		this.query = firebaseForRoomId(this.props.roomId)
+		this.query = this.context.roomRef
 			.child("history")
 			.orderByChild("playedAt");
 
@@ -72,13 +68,6 @@ class HistoryView extends React.Component {
 	}
 }
 
-HistoryView.propTypes = {
+HistoryView.contextTypes = {
+	roomRef: PropTypes.object
 };
-
-function mapStateToProps(state) {
-	return {
-		roomId: state.getIn(["session", "roomId"])
-	}
-}
-
-export default connect(mapStateToProps)(HistoryView);

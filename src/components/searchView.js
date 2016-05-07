@@ -55,6 +55,10 @@ class SearchView extends React.Component {
 		this.debouncedSearch = debounce(this.performSearch, 400);
 	}
 
+	componentWillUnmount() {
+		this.props.onClearSearch();
+	}
+
 	performSearch(query) {
 		if(query.trim().length == 0) {
 			this.props.onClearSearch();
@@ -113,7 +117,7 @@ class SearchView extends React.Component {
 		return (
 			<Paper>
 				<List>
-					{ this.props.results.get("tracks").map(track => 
+					{ this.props.results.get("tracks").map(track =>
 						<TrackListItem
 							track={track}
 							onClick={() => this.onTrackClicked(track)} />

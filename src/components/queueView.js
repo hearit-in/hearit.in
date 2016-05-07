@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {PropTypes} from 'react';
 
 import { values } from 'lodash';
 import { fromJS, Map } from 'immutable';
@@ -25,6 +25,7 @@ import { tryEnterSession } from '../actions';
 
 import Firebase from 'firebase';
 import { firebaseForRoomId } from '../helpers/firebase';
+import { sortQueueByVotes } from 'helpers/queue';
 
 import FlipMove from 'react-flip-move';
 import TrackListItem from './trackListItem';
@@ -67,7 +68,7 @@ class QueueView extends React.Component {
 	}
 
 	componentDidMount() {
-		this.ref = firebaseForRoomId(this.props.roomId)
+		this.ref = this.context.roomRef
 			.child("queue");
 
 		this.onQueueUpdated = this.ref
@@ -96,26 +97,9 @@ class QueueView extends React.Component {
 				}
 			});
 	}
-	
-	trackSorter(a, b) {
-		let votesA = a.get("votes", new Map()).size;
-		let votesB = b.get("votes", new Map()).size;
-
-		if(votesA > votesB) return -1;
-		if(votesB > votesA) return 1;
-
-		let timeA = a.get("queuedAt", 0);
-		let timeB = b.get("queuedAt", 0);
-
-		if(timeB > timeA) return -1;
-		if(timeA > timeB) return 1;
-
-		return 0;
-	}
 
 	render() {
-		let queue = this.state.queue
-			.sort(this.trackSorter);
+		let queue = this.state.queue.sort(sortQueueByVotes);
 
 		let items = queue.map((track, index) => {
 			let votes = track.get("votes", new Map());
@@ -146,6 +130,10 @@ class QueueView extends React.Component {
 			</div>
 		);
 	}
+}
+
+QueueView.contextTypes = {
+	roomRef: PropTypes.object
 }
 
 function mapStateToProps(state) {
