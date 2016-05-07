@@ -14,6 +14,8 @@ import {
 	Dialog
 } from 'material-ui';
 
+import TrackListItem from './trackListItem';
+
 import { connect } from 'react-redux';
 
 import { search, clearSearchResults, addTrackToQueue } from 'actions';
@@ -103,20 +105,6 @@ class SearchView extends React.Component {
 		)
 	}
 
-	renderTrack(track) {
-		let images = track.get("images");
-		let image = images.get(1) || images.get(0);
-
-		return (
-			<SearchResultItem
-				primaryText={track.get("name")}
-				secondaryText={track.get("artistString")}
-				leftAvatar={<Avatar src={image.get("url")} />}
-				key={track.get("id")}
-				onClick={() => this.onTrackClicked(track)} />
-		);
-	}
-
 	renderSearchResults() {
 		if(!this.props.hasResults) {
 			return;
@@ -125,7 +113,11 @@ class SearchView extends React.Component {
 		return (
 			<Paper>
 				<List>
-					{ this.props.results.get("tracks").map(track => this.renderTrack(track)) }
+					{ this.props.results.get("tracks").map(track => 
+						<TrackListItem
+							track={track}
+							onClick={() => this.onTrackClicked(track)} />
+					) }
 				</List>
 			</Paper>
 		);

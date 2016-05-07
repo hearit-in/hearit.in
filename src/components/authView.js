@@ -8,7 +8,12 @@ import {
 	CardActions,
 	Divider
 } from 'material-ui';
-import ThumbUp from 'material-ui/lib/svg-icons/action/thumb-up';
+
+import {
+	NotificationEventAvailable,
+	ActionVerifiedUser
+} from 'material-ui/lib/svg-icons';
+
 import Overlay from './overlay';
 
 import { connect } from 'react-redux';
@@ -40,7 +45,7 @@ class AuthView extends React.Component {
 		return (
 		<div className="container">
 			<div className="row top-margin">
-				<div className="col-md-4 col-md-offset-4 col-xs-12">
+				<div className="col-md-6 col-md-offset-3 col-xs-12">
 					<Card disabled={true}>
 						<CardText>
 							<TextField
@@ -52,6 +57,7 @@ class AuthView extends React.Component {
 						<CardActions>
 							<FlatButton
 								label="LOGG INN"
+								icon={<ActionVerifiedUser />}
 								disabled={!this.userHasEnteredRoomId()}
 								primary
 								fullWidth
@@ -61,25 +67,22 @@ class AuthView extends React.Component {
 				</div>
 			</div>
 			<div className="row top-margin">
-				<div className="col-md-4 col-md-offset-4 col-xs-12">
+				<div className="col-md-6 col-md-offset-3 col-xs-12">
 					<Card disabled={true}>
 						<CardActions>
 							<FlatButton
-								label="LAG NYTT ROM"
+								label="OPPRETT NYTT ROM"
+								icon={<NotificationEventAvailable />}
 								secondary
 								fullWidth={true}
 								onClick={() => history.push("/createRoom")} />
 						</CardActions>
-
 					</Card>
 				</div>
 			</div>
 
-			<span className="row">
-				<span className="col-md-12 credits centered">
-					Copyright © 2016 Sebastian Reinhard <br />
-					I samarbeid med Nesodden Videregående Skole
-				</span>
+			<span className="credits top-margin" style={{ textAlign: "center" }}>
+				Copyright © 2016 Sebastian Reinhard
 			</span>
 		</div>
 		);

@@ -10,6 +10,8 @@ import {
 	Avatar
 } from 'material-ui';
 
+import TrackListItem from './trackListItem';
+
 import { firebaseForRoomId } from 'helpers/firebase';
 
 import { Map, fromJS } from 'immutable';
@@ -35,26 +37,13 @@ class HistoryView extends React.Component {
 				let tracksObject = snapshot.val();
 				let tracks = fromJS(tracksObject);
 				this.setState({
-					tracks: tracks === null ? [] : tracks.reverse().toArray()
+					tracks: tracks == null ? [] : tracks.toArray().reverse()
 				});
 			});
 	}
 
 	componentWillUnmount() {
 		this.query.off("value", this.onQueueUpdated)
-	}
-
-	renderTracks() {
-		return this.state.tracks.map((track, index) =>
-			<ListItem
-				primaryText={track.get("name")}
-				secondaryText={track.get("artistString")}
-				leftAvatar={
-					<Avatar src={track.getIn(["images", 1, "url"])} />
-				}
-				type=""
-				key={index} />
-		);
 	}
 
 	render() {
@@ -70,7 +59,9 @@ class HistoryView extends React.Component {
 						<div className="col-md-12 top-margin">
 							<Card>
 								<List>
-									{ this.renderTracks() }
+									{ this.state.tracks.map((track, index) => {
+										<TrackListItem key={track.get("id")} track={track} />
+									}) }
 								</List>
 							</Card>
 						</div>

@@ -15,4 +15,7 @@ body.dark-theme
 
 .credits
 	text-align: center
+	display: inline-block
+	width: 100%
 	color: #aaa
+	

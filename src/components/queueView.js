@@ -27,23 +27,13 @@ import Firebase from 'firebase';
 import { firebaseForRoomId } from '../helpers/firebase';
 
 import FlipMove from 'react-flip-move';
+import TrackListItem from './trackListItem';
 
 class QueueListItem extends React.Component {
-	componentDidMount() {
-
-	}
-
 	render() {
-		let images = this.props.track.get("images");
-		let image = images.get(1) || images.get(0);
-
 		return (
-			<ListItem
-				primaryText={this.props.track.get("name")}
-				secondaryText={this.props.track.get("artistString")}
-				type=""
-				disabled={true}
-				leftAvatar={<Avatar src={image.get("url")} />}
+			<TrackListItem
+				{...this.props}
 				rightToggle={
 					<Checkbox
 						labelPosition="left"
@@ -56,13 +46,14 @@ class QueueListItem extends React.Component {
 						checkedIcon={<ActionFavorite />}
 						unCheckedIcon={<ActionFavoriteBorder />} />
 				} />
-		)
+		);
 	}
 }
 
 QueueListItem.defaultProps = {
 	hasVoted: true,
 	numVotes: 1,
+	track: Map(),
 	onToggleVote: () => {}
 }
 
@@ -71,7 +62,7 @@ class QueueView extends React.Component {
 		super(props);
 
 		this.state = {
-			queue: new Map()
+			queue: Map()
 		}
 	}
 
@@ -105,26 +96,28 @@ class QueueView extends React.Component {
 				}
 			});
 	}
+	
+	trackSorter(a, b) {
+		let votesA = a.get("votes", new Map()).size;
+		let votesB = b.get("votes", new Map()).size;
+
+		if(votesA > votesB) return -1;
+		if(votesB > votesA) return 1;
+
+		let timeA = a.get("queuedAt", 0);
+		let timeB = b.get("queuedAt", 0);
+
+		if(timeB > timeA) return -1;
+		if(timeA > timeB) return 1;
+
+		return 0;
+	}
 
 	render() {
-		let queue = this.state.queue;
-		let orderedQueue = queue.sort((a, b) => {
-			let votesA = a.get("votes", new Map()).size;
-			let votesB = b.get("votes", new Map()).size;
+		let queue = this.state.queue
+			.sort(this.trackSorter);
 
-			if(votesA > votesB) return -1;
-			if(votesB > votesA) return 1;
-
-			let timeA = a.get("queuedAt", 0);
-			let timeB = b.get("queuedAt", 0);
-
-			if(timeB > timeA) return -1;
-			if(timeA > timeB) return 1;
-
-			return 0;
-		});
-
-		let items = orderedQueue.map((track, index) => {
+		let items = queue.map((track, index) => {
 			let votes = track.get("votes", new Map());
 			let hasVoted = votes.has(this.props.uid);
 
@@ -135,10 +128,9 @@ class QueueView extends React.Component {
 						hasVoted={hasVoted}
 						numVotes={votes.size}
 						onToggleVote={() => this.toggleVote(index)} />
-					<Divider />
 				</div>
 			);
-		}).valueSeq();
+		}).toArray();
 
 		return (
 			<div className="">
