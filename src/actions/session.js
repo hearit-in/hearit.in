@@ -15,6 +15,9 @@ export const setAuthData = createAction(SET_AUTH_DATA);
 export const SET_IS_LOGGING_IN = 'SET_IS_LOGGING_IN';
 export const setIsLoggingIn = createAction(SET_IS_LOGGING_IN);
 
+export const SET_IS_ADMIN = "SET_IS_ADMIN";
+export const setIsAdmin = createAction(SET_IS_ADMIN);
+
 export function login(roomId) {
 	return (dispatch, getState) => {
 		firebaseForRoomId(roomId).once('value', snapshot => {
@@ -53,5 +56,27 @@ export function roomRef() {
 		}
 
 		return deferred.promise;
+	}
+}
+
+export function adminLogin(password) {
+	return (dispatch, getState) => {
+		return dispatch(roomRef()).then((ref) => {
+			const state = getState();
+			const uid = state.getIn(["session", "authData", "uid"]);
+			return ref
+				.child("admins")
+				.child(uid)
+				.set(password)
+				.then(
+					() => {
+						dispatch(setIsAdmin(true))
+					},
+					(err) => {
+						dispatch(showError(`Feil administratorpassord!`));
+						return err;
+					}
+				)
+		})
 	}
 }
