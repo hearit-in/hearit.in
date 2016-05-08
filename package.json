@@ -21,7 +21,7 @@
 		"test:watch": "karma start --autoWatch=true --singleRun=false",
 		"predeploy": "npm run dist & npm run firebase-rules",
 		"deploy": "firebase deploy",
-		"deploy:rules": "npm run firebase-rules & firebase deploy:rules"
+		"deploy:rules": "npm run firebase-rules && firebase deploy:rules"
 	},
 	"repository": {
 		"type": "git",

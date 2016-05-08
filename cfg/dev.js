@@ -16,7 +16,7 @@ let config = Object.assign({}, baseConfig, {
 	devtool: 'source-map',
 	plugins: [
 		new webpack.DefinePlugin({
-			'process.env.NODE_ENV': '"development"'
+			'process.env.NODE_ENV': '"dev"'
 		}),
 		new webpack.NoErrorsPlugin()
 	],

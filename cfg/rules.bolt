@@ -3,14 +3,16 @@ room(roomId) {
 }
 
 isAdminOf(roomId) {
-	isCorrectAdminPassword(
-		roomId,
-		room(roomId).admins[auth.uid]
-	)
+	room(roomId).admins[auth.uid] != null
 }
 
-isCorrectAdminPassword(roomId, attemptedPassword) {
-	room(roomId).adminPassword == attemptedPassword
+isSameTrack(a, b) {
+	a.provider   == b.provider &&
+	a.providerId == b.providerId
+}
+
+wasEmpty(ref) {
+	prior(ref) == null
 }
 
 path / {
@@ -18,24 +20,17 @@ path / {
 }
 
 path /rooms/{roomId} {
-	write() { prior(this) == null }
+	write() { wasEmpty(this) }
 
-	path /adminPassword {
-		write() {
-			prior(this) == null || isAdminOf(roomId)
-		}
-		read() {
-			isAdminOf(roomId)
+	path /admins {
+		write() { wasEmpty(this) }
+		path /{uid} {
+			write() { isAdminOf(roomId) }
 		}
 	}
 
-	path /admins {
-		write() { prior(this) == null }
-		path /{uid} {
-			write() {
-				isCorrectAdminPassword(roomId, this)
-			}
-		}
+	path /adminRequests/{uid} {
+		write() { true }
 	}
 
 	path /nowPlaying is Track {
@@ -50,6 +45,21 @@ path /rooms/{roomId} {
 		write() {
 			true
 		}
+
+		path /votes/{uid} {
+			write() {
+				true
+			}
+			validate() {
+				auth.uid == uid
+			}
+		}
+	}
+}
+
+type AdminRequest extends String {
+	validate() {
+		key() == auth.uid && !isAdminOf(roomId)
 	}
 }
 
