@@ -31,7 +31,8 @@ const storage = compose(
 	storageFilter([
 		"settings",
 		"session.roomId",
-		"session.isAdmin"
+		"session.isAdmin",
+		"session.adminRequestIdentifier"
 	])
 )(storageAdapter(window.localStorage))
 
@@ -40,5 +41,5 @@ const createPersistentStore = compose(
 	applyMiddleware.apply(null, middleware)
 )(createStore);
 
-const store = createPersistentStore(persistentReducer, new Map());
+const store = createPersistentStore(persistentReducer, Map());
 export default store;

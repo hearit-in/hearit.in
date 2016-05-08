@@ -20,25 +20,66 @@ export const setIsAdmin = createAction(SET_IS_ADMIN);
 
 export function login(roomId) {
 	return (dispatch, getState) => {
-		firebaseForRoomId(roomId).once('value', snapshot => {
-			if(snapshot.val()) {
+		const roomRef = firebaseForRoomId(roomId);
+
+		dispatch(validateAuth())
+			.then(() => roomRef.once('value'))
+			.then(snapshot => {
+				if(!snapshot.exists()) {
+					 dispatch(showError(`Rommet "${roomId}" finnes ikke`));
+					 return;
+				}
+
 				dispatch(setRoomId(roomId));
 				history.push("/app");
-			}
-			else {
-				dispatch(showError(`${roomId}: Feil passord!`));
-			}
-		});
+
+				roomRef.child("adminPassword").once("value")
+					.then(() => {
+						dispatch(setIsAdmin(true))
+					}, (err) => {
+						dispatch(setIsAdmin(false))
+					})
+			})
 	}
 }
 
 export function logout() {
 	return (dispatch) => {
 		dispatch(setRoomId(undefined));
-		dispatch(setAuthData(undefined));
-
 		history.push("/");
 	}
+}
+
+
+export function requestAdmin(message) {
+	return (dispatch, getState) =>
+		dispatch(validateAuth())
+			.then(() => dispatch(roomRef()))
+			.then((ref) => {
+				const uid = getState().getIn(["session", "authData", "uid"]);
+				return ref
+					.child("adminRequests")
+					.child(uid)
+					.set(message || "[ingen identifikasjon]")
+			})
+			.then(() => {
+				console.log("success")
+			}, (err) => {
+				console.error(err)
+			})
+}
+
+export function removeAdminRequest(uid) {
+	return (dispatch) => dispatch(validateAuth())
+		.then(() => dispatch(roomRef()))
+		.then(ref => ref.child("adminRequests").child(uid).remove())
+}
+
+export function grantAdmin(uid) {
+	return (dispatch) => dispatch(validateAuth())
+		.then(() => dispatch(roomRef()))
+		.then(ref => ref.child("admins").child(uid).set(true))
+		.then(() => dispatch(removeAdminRequest(uid)))
 }
 
 export function roomRef() {
@@ -59,24 +100,19 @@ export function roomRef() {
 	}
 }
 
-export function adminLogin(password) {
+export function validateAuth() {
 	return (dispatch, getState) => {
-		return dispatch(roomRef()).then((ref) => {
-			const state = getState();
-			const uid = state.getIn(["session", "authData", "uid"]);
-			return ref
-				.child("admins")
-				.child(uid)
-				.set(password)
-				.then(
-					() => {
-						dispatch(setIsAdmin(true))
-					},
-					(err) => {
-						dispatch(showError(`Feil administratorpassord!`));
-						return err;
-					}
-				)
-		})
+		const deferred = Q.defer();
+		const state = getState();
+		const session = state.get("session");
+
+		if(session.get("authData")) {
+			deferred.resolve();
+		}
+		else {
+			deferred.reject(new Error("Invalid authentication"));
+		}
+
+		return deferred.promise;
 	}
 }

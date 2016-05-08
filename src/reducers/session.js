@@ -7,6 +7,8 @@ import {
 	SET_IS_ADMIN
 } from '../actions';
 
+import { humanReadableIdentifier } from 'helpers';
+
 export const session = handleActions({
 	SET_ROOM_ID:        (state, action) => state.set("roomId", action.payload),
 	SET_AUTH_DATA:      (state, action) => state.set("authData", fromJS(action.payload)),
@@ -16,5 +18,6 @@ export const session = handleActions({
 	roomId: undefined,
 	authData: undefined,
 	loggingIn: false,
-	isAdmin: false
+	isAdmin: false,
+	adminRequestIdentifier: humanReadableIdentifier()
 }));

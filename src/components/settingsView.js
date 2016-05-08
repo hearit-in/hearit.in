@@ -20,9 +20,10 @@ import {
 	HardwareSecurity
 } from 'material-ui/lib/svg-icons';
 
-import { connect } from 'react-redux';
+import { humanReadableIdentifier } from 'helpers';
 
-import { adminLogin } from 'actions';
+import { connect } from 'react-redux';
+import { requestAdmin } from 'actions/session';
 
 class SettingsView extends React.Component {
 	constructor(props) {
@@ -45,6 +46,7 @@ class SettingsView extends React.Component {
 	render() {
 		let adminAuthModal = (
 			<Dialog
+				title="Be om administratortilgang?"
 				open={this.state.showAdminAuthDialog}
 				onRequestClose={() => this.setShowAdminAuthDialog(false)}
 				actions={[
@@ -57,14 +59,16 @@ class SettingsView extends React.Component {
 						primary={true}
 						onClick={() => {
 							this.setShowAdminAuthDialog(false);
-							this.props.onAdminLogin(this.state.adminPassword);
+							this.props.onRequestAdmin(this.props.adminRequestIdentifier);
 						}} />
 				]}>
-				<TextField
-					floatingLabelText="Administratorpassord"
-					value={this.state.adminPassword}
-					onChange={event => this.setAdminPassword(event.target.value)}
-					fullWidth={true} />
+
+				<p>Nåværende administratorer vil se forespørselen neste gang de åpner appen.</p>
+				<p>Bruk koden under for å identifisere deg.</p>
+
+				<strong className="admin-request-code">
+					{this.props.adminRequestIdentifier}
+				</strong>
 			</Dialog>
 		);
 
@@ -87,12 +91,11 @@ class SettingsView extends React.Component {
 									<ListItem type="" disabled>
 										<div className="row">
 											<FlatButton
-												label="Logg inn som administrator"
+												label="Be om administratortilgang"
 												secondary
 												className="col-md-8 col-md-push-2  col-xs-12"
 												icon={<HardwareSecurity />}
 												onClick={() => this.setShowAdminAuthDialog(true)}>
-
 											</FlatButton>
 										</div>
 									</ListItem>
@@ -109,12 +112,13 @@ class SettingsView extends React.Component {
 
 function mapStateToProps(state) {
 	return {
+		adminRequestIdentifier: state.getIn(["session", "adminRequestIdentifier"])
 	}
 }
 
 function mapDispatchToProps(dispatch) {
 	return {
-		onAdminLogin: (password) => dispatch(adminLogin(password))
+		onRequestAdmin: (message) => dispatch(requestAdmin(message))
 	}
 }
 

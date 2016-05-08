@@ -19,6 +19,16 @@ body
 	width: 100%
 	color: #aaa
 
+.admin-request-code
+	display: block
+	text-align: center
+	margin: 0px auto
+	font-size: 1.7em
+	font-weight: 300
+	color: #9c27b0
+	background: alpha(#9c27b0, 0.1)
+	border-radius: 3px
+	padding: 5px
 
 .search-bar
 	display: inline-block

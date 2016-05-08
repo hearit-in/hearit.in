@@ -31,17 +31,12 @@ class CreateRoomView extends React.Component {
 		super(props);
 
 		this.state = {
-			roomId: "",
-			adminPassword: ""
+			roomId: ""
 		}
 	}
 
 	roomIdChanged(roomId) {
 		this.setState({ roomId });
-	}
-
-	adminPasswordChanged(adminPassword) {
-		this.setState({ adminPassword });
 	}
 
 	render() {
@@ -68,35 +63,21 @@ class CreateRoomView extends React.Component {
 										backgroundColor={color.purple500}
 										icon={<NotificationEventAvailable />} />
 								} />
-							<CardText>
+							<CardText style={{paddingTop: 0}}>
 								<TextField
 									fullWidth
-									floatingLabelText="Offentlig kode"
+									floatingLabelText="Kode"
+									style={{ marginBottom: 20 }}
 									value={this.state.roomId}
 									onChange={event => this.roomIdChanged(event.target.value)} />
-								<p>
-									Dette er navnet på rommet ditt.
-								</p>
-								<p>
-									Del dette med andre så de kan legge til sanger i spillelisten.
-								</p>
-								<TextField
-									fullWidth
-									floatingLabelText="Administratorpassord"
-									value={this.state.adminPassword}
-									onChange={event => this.adminPasswordChanged(event.target.value)} />
-								<p>
-									Privat passord du kan bruke for å ta kontroll over rommet.
-								</p>
+								Dette er koden til rommet ditt.
+								Del dette med andre så de kan legge til sanger i spillelisten.
 							</CardText>
 							<CardActions>
 								<FlatButton
 									primary
 									label="Opprett rom"
-									onTouchTap={() => this.props.onCreateRoom(
-											this.state.roomId,
-											this.state.adminPassword
-										)} />
+									onTouchTap={() => this.props.onCreateRoom(this.state.roomId)} />
 							</CardActions>
 						</Card>
 					</div>
@@ -116,7 +97,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
 	return {
 		onNavigateTo: (location) => dispatch(navigateTo(location)),
-		onCreateRoom: (roomId, adminPassword) => dispatch(createRoom(roomId, adminPassword))
+		onCreateRoom: (roomId) => dispatch(createRoom(roomId))
 	}
 }
 
