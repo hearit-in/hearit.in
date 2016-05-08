@@ -129,7 +129,7 @@ class SearchView extends React.Component {
 							<TrackListItem
 								className="animate-me"
 								track={track}
-								key={track.get("id")}
+								key={track.get("providerId")}
 								onClick={() => this.onTrackClicked(track)} />
 						) }
 					</FlipMove>

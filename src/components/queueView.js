@@ -53,7 +53,9 @@ class EmptyQueueView extends React.Component {
 					}} />
 				<h1 style={{
 					fontWeight: "300"
-				}}>Ingen sanger i køen!</h1>
+				}}>
+					Blæst opp noe da
+				</h1>
 				<span>Legg til sanger ved å søke i feltet over. </span>
 			</div>
 		);
@@ -153,7 +155,7 @@ class QueueView extends React.Component {
 			let hasVoted = votes.has(this.props.uid);
 
 			return (
-				<div key={track.get("id")} className="animate-me">
+				<div key={index} className="animate-me">
 					<QueueListItem
 						track={track}
 						hasVoted={hasVoted}
@@ -170,7 +172,7 @@ class QueueView extends React.Component {
 						<Paper>
 							{ items.length === 0 ? <EmptyQueueView /> : null}
 							<List>
-								<FlipMove easing="ease">
+								<FlipMove easing="ease" enterAnimation="accordionVertical">
 									{items}
 								</FlipMove>
 							</List>

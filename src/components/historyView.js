@@ -56,7 +56,7 @@ export default class HistoryView extends React.Component {
 							<Card>
 								<List>
 									{ this.state.tracks.map((track, index) => {
-										<TrackListItem key={track.get("id")} track={track} />
+										<TrackListItem key={track.get("providerId")} track={track} />
 									}) }
 								</List>
 							</Card>

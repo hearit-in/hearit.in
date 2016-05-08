@@ -19,7 +19,6 @@ export default class TrackListItem extends React.Component {
 				{...this.props}
 				primaryText={this.props.track.get("name")}
 				secondaryText={this.props.track.get("artistString")}
-				key={this.props.track.get("id")}
 				type=""
 				onTouchTap={() => {}}
 				leftAvatar={<Avatar src={image.get("url")} />} />

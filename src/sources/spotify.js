@@ -20,7 +20,8 @@ function processTrack(track) {
 		artistString: getArtistString(track.artists),
 		artists: track.artists,
 		name: track.name,
-		id: track.id,
+		provider: "spotify",
+		providerId: track.id,
 		images: album.images
 	}
 }
