@@ -4,10 +4,6 @@ import { connect } from 'react-redux';
 import { firebaseForRoomId } from 'helpers/firebase';
 
 class RoomRefProvider extends React.Component {
-	constructor(props) {
-		super(props);
-	}
-
 	getChildContext() {
 		return {
 			roomRef: this.props.roomRef
@@ -20,10 +16,6 @@ class RoomRefProvider extends React.Component {
 }
 
 RoomRefProvider.childContextTypes = {
-	roomRef: PropTypes.object
-};
-
-RoomRefProvider.propTypes = {
 	roomRef: PropTypes.object
 };
 
