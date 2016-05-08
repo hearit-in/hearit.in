@@ -106,10 +106,10 @@ class Nav extends React.Component {
 					leftIcon={<AvQueueMusic />}
 					primaryText="Spilleliste"
 					onTouchTap={() => this.navigateToAndClose("/app")} />
-				<NavItem
+				{/*<NavItem
 					leftIcon={<ActionHistory />}
 					primaryText="Historikk"
-					onTouchTap={() => this.navigateToAndClose("/app/history")} />
+					onTouchTap={() => this.navigateToAndClose("/app/history")} />*/}
 
 				<NavItem
 					leftIcon={<ActionSettings />}
