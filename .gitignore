@@ -32,3 +32,5 @@ bower_components/
 npm-debug.log
 
 dist/
+
+cfg/rules.json
