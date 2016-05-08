@@ -1,6 +1,7 @@
 import { firebaseForRoomId } from 'helpers/firebase';
 import { setRoomId } from './session';
 import { navigateTo } from './navigation';
+import { login } from './session';
 
 export default function createRoom(roomId, adminPassword) {
 	return (dispatch, getState) => {
@@ -13,11 +14,10 @@ export default function createRoom(roomId, adminPassword) {
 
 			let state = getState();
 			let uid = state.getIn(["session", "authData", "uid"]);
-
-			ref.child("admins").set({ [uid]: adminPassword });
-			ref.child("adminPassword").set(adminPassword);
-			dispatch(setRoomId(roomId));
-			dispatch(navigateTo("/app"));
+			
+			ref.child("adminPassword").set(adminPassword)
+				.then(() => ref.child("admins").set({ [uid]: adminPassword }))
+				.then(() => dispatch(login(roomId)))
 		});
 	}
 }
