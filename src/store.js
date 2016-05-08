@@ -4,7 +4,7 @@ import { Map } from 'immutable';
 
 import thunkMiddleware from 'redux-thunk';
 import createLogger from 'redux-logger';
-import persistState, { mergePersistedState, actionTypes } from 'redux-localstorage';
+import persistState, { mergePersistedState, actionTypes as reduxLocalStorageActionTypes } from 'redux-localstorage';
 import storageAdapter from 'redux-localstorage/lib/adapters/localStorage';
 import storageFilter from 'redux-localstorage-filter';
 import { serialize, deserialize } from 'redux-localstorage-immutable';
@@ -21,7 +21,7 @@ let middleware = [
 const combinedReducer = combineReducers(reducers);
 
 function rootReducer(state, action) {
-	if(action.type === actionTypes.INIT) {
+	if(action.type === reduxLocalStorageActionTypes.INIT) {
 		let persistedState = action.payload;
 		let mergedState = Map()
 			.merge(state, persistedState)
