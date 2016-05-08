@@ -13,7 +13,7 @@ const routes = (
 		<IndexRoute component={AuthView} />
 		<Route path="createRoom" component={CreateRoomView} />
 		<Route path="app" component={App}>
-			<Route path="queue" component={QueueView} />
+			<IndexRoute component={QueueView} />
 			<Route path="history" component={HistoryView} />
 			<Route path="settings" component={SettingsView} />
 		</Route>
