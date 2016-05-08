@@ -1,0 +1,58 @@
+room(roomId) {
+	root.rooms[roomId]
+}
+
+isAdminOf(roomId) {
+	isCorrectAdminPassword(
+		roomId,
+		room(roomId).admins[auth.uid]
+	)
+}
+
+isCorrectAdminPassword(roomId, attemptedPassword) {
+	room(roomId).adminPassword == attemptedPassword
+}
+
+path / {
+	read() { true }
+}
+
+path /rooms/{roomId} {
+	write() { prior(this) == null }
+
+	path /adminPassword {
+		write() {
+			prior(this) == null || isAdminOf(roomId)
+		}
+		read() {
+			isAdminOf(roomId)
+		}
+	}
+
+	path /admins {
+		write() { prior(this) == null }
+		path /{uid} {
+			write() {
+				isCorrectAdminPassword(roomId, this)
+			}
+		}
+	}
+
+	path /nowPlaying is Track {
+		write() { true }
+	}
+
+	path /history {
+		write() { true }
+	}
+
+	path /queue/{trackId} {
+		write() {
+			true
+		}
+	}
+}
+
+type Track {
+
+}
