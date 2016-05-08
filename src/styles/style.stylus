@@ -2,6 +2,8 @@
 
 .centered
 	margin 0px auto
+	display: block
+	text-align: center
 
 .top-margin
 	margin-top 15px
@@ -9,9 +11,7 @@
 body
 	background-image: url("../images/background-dark.png")
 	background-position: center
-
-body.dark-theme
-	background-image: url("../images/background-dark.png")
+	font-family: Roboto
 
 .credits
 	text-align: center
