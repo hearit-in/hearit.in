@@ -22,6 +22,7 @@ import { search, clearSearchResults, addTrackToQueue } from 'actions';
 
 import { Map, List as IList } from 'immutable';
 import { debounce } from 'lodash';
+import FlipMove from 'react-flip-move';
 
 class SearchResultItem extends React.Component {
 	render() {
@@ -123,11 +124,15 @@ class SearchView extends React.Component {
 		return (
 			<Paper>
 				<List>
-					{ this.props.results.get("tracks").map(track =>
-						<TrackListItem
-							track={track}
-							onClick={() => this.onTrackClicked(track)} />
-					) }
+					<FlipMove easing="ease">
+						{ this.props.results.get("tracks").map(track =>
+							<TrackListItem
+								className="animate-me"
+								track={track}
+								key={track.get("id")}
+								onClick={() => this.onTrackClicked(track)} />
+						) }
+					</FlipMove>
 				</List>
 			</Paper>
 		);
