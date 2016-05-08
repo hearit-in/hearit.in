@@ -1,6 +1,6 @@
 import { createStore, applyMiddleware, compose } from 'redux';
 import { combineReducers } from 'redux-immutable';
-import { Map } from 'immutable';
+import { Map, fromJS } from 'immutable';
 
 import thunkMiddleware from 'redux-thunk';
 import createLogger from 'redux-logger';
@@ -18,24 +18,11 @@ let middleware = [
 	})
 ];
 
-const combinedReducer = combineReducers(reducers);
-
-function rootReducer(state, action) {
-	if(action.type === reduxLocalStorageActionTypes.INIT) {
-		let persistedState = action.payload;
-		let mergedState = Map()
-			.merge(state, persistedState)
-			.setIn(["lifecycle", "hasLoadedPersistentState"], true);
-
-		return mergedState;
-	}
-
-	return combinedReducer(state, action);
-}
+const rootReducer = combineReducers(reducers);
 
 const persistentReducer = compose(
 	mergePersistedState(
-		deserialize
+		(state, persistedState) => state.mergeDeep(fromJS(persistedState))
 	)
 )(rootReducer);
 
