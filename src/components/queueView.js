@@ -17,19 +17,46 @@ import {
 
 import Colors from 'material-ui/lib/styles/colors';
 
-import ActionFavorite from 'material-ui/lib/svg-icons/action/favorite';
-import ActionFavoriteBorder from 'material-ui/lib/svg-icons/action/favorite-border';
+import {
+	ActionFavorite,
+	ActionFavoriteBorder,
+	AvPlaylistAdd
+} from 'material-ui/lib/svg-icons';
 
 import { connect } from 'react-redux';
 import { tryEnterSession } from '../actions';
 
 import Firebase from 'firebase';
-import { firebaseForRoomId } from '../helpers/firebase';
 import { sortQueueByVotes } from 'helpers/queue';
 
 import FlipMove from 'react-flip-move';
 import { VelocityTransitionGroup } from 'velocity-react';
 import TrackListItem from './trackListItem';
+
+class EmptyQueueView extends React.Component {
+	render() {
+		return (
+			<div
+				className="centered"
+				style={{
+					color: "#ddd",
+					marginTop: 20,
+					marginBottom: 20
+				}}>
+				<AvPlaylistAdd
+					color="#ddd"
+					style={{
+						marginLeft: "auto",
+						marginRight: "auto",
+						width: 200,
+						height: 200
+					}} />
+				<h2>Ingen sanger i køen!</h2>
+				<span>Legg til sanger ved å søke i feltet over. </span>
+			</div>
+		);
+	}
+}
 
 class QueueListItem extends React.Component {
 	render() {
@@ -69,6 +96,10 @@ class QueueView extends React.Component {
 	}
 
 	componentDidMount() {
+		this.listenToRoom(this.context.roomRef);
+	}
+
+	listenToRoom(roomRef) {
 		this.ref = this.context.roomRef
 			.child("queue");
 
@@ -82,8 +113,21 @@ class QueueView extends React.Component {
 			});
 	}
 
+	stopListeningToRoom() {
+		if(this.ref) {
+			this.ref.off("value", this.onQueueUpdated);
+		}
+	}
+
+	componentWillReceiveProps(nextProps, nextContext) {
+		if(this.context.roomRef !== nextContext.roomRef) {
+			this.stopListeningToRoom();
+			this.listenToRoom(nextContext.roomRef);
+		}
+	}
+
 	componentWillUnmount() {
-		this.ref.off("value", this.onQueueUpdated)
+		this.stopListeningToRoom();
 	}
 
 	toggleVote(trackId) {
@@ -107,7 +151,7 @@ class QueueView extends React.Component {
 			let hasVoted = votes.has(this.props.uid);
 
 			return (
-				<div key={index} className="animate-me">
+				<div key={track.get("id")} className="animate-me">
 					<QueueListItem
 						track={track}
 						hasVoted={hasVoted}
@@ -122,6 +166,7 @@ class QueueView extends React.Component {
 				<div className="row top-margin">
 					<div className="col-md-8 col-md-offset-2 col-xs-12">
 						<Paper>
+							{ items.length === 0 ? <EmptyQueueView /> : null}
 							<List>
 								<FlipMove easing="ease">
 									{items}
@@ -141,7 +186,6 @@ QueueView.contextTypes = {
 
 function mapStateToProps(state) {
 	return {
-		roomId: state.getIn(["session", "roomId"]),
 		uid: state.getIn(["session", "authData", "uid"])
 	}
 }
