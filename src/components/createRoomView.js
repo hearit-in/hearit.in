@@ -24,10 +24,24 @@ import {
 import color from 'material-ui/lib/styles/colors';
 
 import { navigateTo } from 'actions/navigation';
+import createRoom from 'actions/createRoom';
 
 class CreateRoomView extends React.Component {
 	constructor(props) {
 		super(props);
+
+		this.state = {
+			roomId: "",
+			adminPassword: ""
+		}
+	}
+
+	roomIdChanged(roomId) {
+		this.setState({ roomId });
+	}
+
+	adminPasswordChanged(adminPassword) {
+		this.setState({ adminPassword });
 	}
 
 	render() {
@@ -55,20 +69,34 @@ class CreateRoomView extends React.Component {
 										icon={<NotificationEventAvailable />} />
 								} />
 							<CardText>
-								<TextField fullWidth floatingLabelText="Offentlig kode" />
+								<TextField
+									fullWidth
+									floatingLabelText="Offentlig kode"
+									value={this.state.roomId}
+									onChange={event => this.roomIdChanged(event.target.value)} />
 								<p>
 									Dette er navnet på rommet ditt.
 								</p>
 								<p>
-									Del dette med andre for å gi de tilgang til å legge sanger i spillelisten.
+									Del dette med andre så de kan legge til sanger i spillelisten.
 								</p>
-								<TextField fullWidth floatingLabelText="Administratorkode" />
+								<TextField
+									fullWidth
+									floatingLabelText="Administratorpassord"
+									value={this.state.adminPassword}
+									onChange={event => this.adminPasswordChanged(event.target.value)} />
 								<p>
-									Dette er den private koden du kan bruke for å ta kontroll over rommet.
+									Privat passord du kan bruke for å ta kontroll over rommet.
 								</p>
 							</CardText>
 							<CardActions>
-								<FlatButton primary label="Opprett" />
+								<FlatButton
+									primary
+									label="Opprett rom"
+									onTouchTap={() => this.props.onCreateRoom(
+											this.state.roomId,
+											this.state.adminPassword
+										)} />
 							</CardActions>
 						</Card>
 					</div>
@@ -87,7 +115,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
 	return {
-		onNavigateTo: (location) => dispatch(navigateTo(location))
+		onNavigateTo: (location) => dispatch(navigateTo(location)),
+		onCreateRoom: (roomId, adminPassword) => dispatch(createRoom(roomId, adminPassword))
 	}
 }
 
