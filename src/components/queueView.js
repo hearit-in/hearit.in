@@ -51,7 +51,9 @@ class EmptyQueueView extends React.Component {
 						width: 200,
 						height: 200
 					}} />
-				<h2>Ingen sanger i køen!</h2>
+				<h1 style={{
+					fontWeight: "300"
+				}}>Ingen sanger i køen!</h1>
 				<span>Legg til sanger ved å søke i feltet over. </span>
 			</div>
 		);
