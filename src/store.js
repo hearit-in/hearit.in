@@ -42,8 +42,9 @@ const persistentReducer = compose(
 const storage = compose(
 	serialize,
 	storageFilter([
+		"settings",
 		"session.roomId",
-		"settings"
+		"session.isAdmin"
 	])
 )(storageAdapter(window.localStorage))
 

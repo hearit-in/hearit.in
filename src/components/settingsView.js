@@ -22,14 +22,15 @@ import {
 
 import { connect } from 'react-redux';
 
-import { setDarkThemeEnabled } from 'actions/settings';
+import { adminLogin } from 'actions';
 
 class SettingsView extends React.Component {
 	constructor(props) {
 		super(props);
 
 		this.state = {
-			showAdminAuthDialog: false
+			showAdminAuthDialog: false,
+			adminPassword: ""
 		};
 	}
 
@@ -37,11 +38,34 @@ class SettingsView extends React.Component {
 		this.setState({ showAdminAuthDialog: show });
 	}
 
+	setAdminPassword(adminPassword) {
+		this.setState({ adminPassword });
+	}
+
 	render() {
 		let adminAuthModal = (
 			<Dialog
 				open={this.state.showAdminAuthDialog}
-				onRequestClose={() => this.setShowAdminAuthDialog(false)} />
+				onRequestClose={() => this.setShowAdminAuthDialog(false)}
+				actions={[
+					<FlatButton
+						label="Avbryt"
+						secondary={true}
+						onClick={() => this.setShowAdminAuthDialog(false)} />,
+					<FlatButton
+						label="OK"
+						primary={true}
+						onClick={() => {
+							this.setShowAdminAuthDialog(false);
+							this.props.onAdminLogin(this.state.adminPassword);
+						}} />
+				]}>
+				<TextField
+					floatingLabelText="Administratorpassord"
+					value={this.state.adminPassword}
+					onChange={event => this.setAdminPassword(event.target.value)}
+					fullWidth={true} />
+			</Dialog>
 		);
 
 		return (
@@ -85,13 +109,12 @@ class SettingsView extends React.Component {
 
 function mapStateToProps(state) {
 	return {
-		darkThemeEnabled: state.getIn(["settings", "darkThemeEnabled"])
 	}
 }
 
 function mapDispatchToProps(dispatch) {
 	return {
-		onSetDarkThemeEnabled: (enabled) => dispatch(setDarkThemeEnabled(enabled))
+		onAdminLogin: (password) => dispatch(adminLogin(password))
 	}
 }
 
