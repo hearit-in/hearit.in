@@ -7,6 +7,7 @@ import QueueView from './queueView';
 import SettingsView from './settingsView';
 import HistoryView from './historyView';
 import CreateRoomView from './createRoomView';
+import AdminView from './adminView';
 
 const routes = (
 	<Route path="/">
@@ -16,6 +17,7 @@ const routes = (
 			<IndexRoute component={QueueView} />
 			<Route path="history" component={HistoryView} />
 			<Route path="settings" component={SettingsView} />
+			<Route path="admin" component={AdminView} />
 		</Route>
 	</Route>
 );
