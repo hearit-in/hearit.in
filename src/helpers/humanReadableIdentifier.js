@@ -2,6 +2,7 @@ import { random } from 'lodash';
 
 const adjectives = [
 	"ti av ti",
+	"beezy",
 	"lysende",
 	"glad",
 	"ekkel",
