@@ -9,8 +9,6 @@ import { initFirebase } from 'actions/firebase';
 
 class Shell extends React.Component {
 	componentDidMount() {
-		let hasLoadedPersistentState = false;
-
 		store.dispatch(initFirebase());
 	}
 
