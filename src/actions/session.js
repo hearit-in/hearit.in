@@ -31,7 +31,9 @@ export function login(roomId) {
 				}
 
 				dispatch(setRoomId(roomId));
-				history.push("/app");
+				if(!history.isActive("/app")) {
+					history.push("/app");
+				}
 
 				roomRef.child("adminPassword").once("value")
 					.then(() => {
