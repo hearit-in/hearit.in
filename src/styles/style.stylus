@@ -22,7 +22,7 @@ body
 .admin-request-code
 	display: block
 	text-align: center
-	margin: 0px auto
+	margin: 10px auto
 	font-size: 1.7em
 	font-weight: 300
 	color: #9c27b0
