@@ -36,11 +36,7 @@ class AppComponent extends React.Component {
 	setNavigationOpen(isNavigationOpen) {
 		this.setState({ isNavigationOpen });
 	}
-
-	renderAppBar() {
-
-	}
-
+	
 	hasSearchQuery() {
 		return this.state.searchQuery.trim().length != 0;
 	}
