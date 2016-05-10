@@ -6,4 +6,5 @@ export * from './navigation';
 export * from './settings';
 export * from './firebase';
 export * from './lifecycle';
+export * from './router';
 export { default as createRoom } from './createRoom';
