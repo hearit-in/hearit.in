@@ -15,7 +15,7 @@ export class Row extends React.Component {
 export class Col extends React.Component {
 	classNameFromProperty(classPrefix, propertyValue) {
 		if(propertyValue === undefined) {
-			return "";
+			return null;
 		}
 		
 		return classPrefix + propertyValue;
@@ -25,9 +25,14 @@ export class Col extends React.Component {
 		return [
 			this.classNameFromProperty("col-md-", this.props.md),
 			this.classNameFromProperty("col-md-push-", this.props.mdPush),
+			this.classNameFromProperty("col-md-offset-", this.props.mdOffset),
+			
 			this.classNameFromProperty("col-xs-", this.props.xs),
 			this.classNameFromProperty("col-xs-push-", this.props.xsPush),
-		].join(" ");
+			this.classNameFromProperty("col-xs-offset-", this.props.xsOffset)
+		]
+		.filter(a => a)
+		.join(" ");
 	}
 	
 	render() {
