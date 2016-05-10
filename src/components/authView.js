@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 
 import {
 	TextField,
@@ -17,7 +17,7 @@ import {
 import Overlay from './overlay';
 
 import { connect } from 'react-redux';
-import { login } from '../actions';
+import { loginAndRedirect } from '../actions';
 import history from 'helpers/history';
 
 import { navigateTo } from 'actions';
@@ -89,6 +89,10 @@ class AuthView extends React.Component {
 	}
 }
 
+AuthView.contextTypes = {
+	router: PropTypes.object
+}
+
 function mapStateToProps(state) {
 	return {
 		isLoading: state.getIn(["session", "isLoading"]),
@@ -98,7 +102,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
 	return {
-		onLogin: (roomId) => dispatch(login(roomId))
+		onLogin: (roomId, router) => dispatch(loginAndRedirect(roomId, router))
 	};
 }
 

@@ -1,7 +1,7 @@
 import { firebaseForRoomId } from 'helpers/firebase';
 import { setRoomId } from './session';
 import { navigateTo } from './navigation';
-import { login } from './session';
+import { loginAndRedirect } from './session';
 
 export default function createRoom(roomId) {
 	return (dispatch, getState) => {
@@ -18,7 +18,7 @@ export default function createRoom(roomId) {
 
 				 ref.child("admins")
 				 	.set({ [uid]: true })
-					.then(() => dispatch(login(roomId)))
+					.then(() => dispatch(loginAndRedirect(roomId)))
 			});
 	}
 }

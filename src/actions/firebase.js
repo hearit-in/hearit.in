@@ -1,7 +1,7 @@
 import Firebase from 'firebase';
 import { createFirebase } from '../helpers/firebase';
 import history from 'helpers/history';
-import { setAuthData, login } from 'actions/session';
+import { setAuthData, loginAndRedirect } from 'actions/session';
 
 export function initFirebase() {
 	return (dispatch, getState) => {
@@ -17,10 +17,10 @@ export function initFirebase() {
 			const state = getState();
 			const roomId = state.getIn(["session", "roomId"]);
 			if(!roomId) {
-				return;
+				history.push("/");
 			}
 
-			dispatch(login(roomId));
+			dispatch(loginAndRedirect(roomId));
 		});
 	}
 }

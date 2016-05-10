@@ -5,11 +5,9 @@ import React from 'react';
 import routes from './routes';
 import history from '../helpers/history';
 import ThemeProvider from './themeProvider';
-import { initFirebase } from 'actions/firebase';
 
 class Shell extends React.Component {
 	componentDidMount() {
-		store.dispatch(initFirebase());
 	}
 
 	render () {

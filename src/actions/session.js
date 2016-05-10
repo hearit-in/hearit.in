@@ -22,25 +22,31 @@ export function login(roomId) {
 	return (dispatch, getState) => {
 		const roomRef = firebaseForRoomId(roomId);
 
-		dispatch(validateAuth())
+		return dispatch(validateAuth())
 			.then(() => roomRef.once('value'))
 			.then(snapshot => {
 				if(!snapshot.exists()) {
-					 dispatch(showError(`Rommet "${roomId}" finnes ikke`));
-					 return;
+					console.log("no can do m8");
+					let message = `Rommet "${roomId}" finnes ikke`;
+					dispatch(showError(message));
+					return new Error(message);
 				}
 
 				dispatch(setRoomId(roomId));
-				if(!history.isActive("/app")) {
+				
+				return true;
+			})
+	}
+}
+
+export function loginAndRedirect(roomId) {
+	return (dispatch, getState) => {
+		return dispatch(login(roomId))
+			.then(() => {
+				const active = getState().get("router").isActive("/app");
+				if(!active) {
 					history.push("/app");
 				}
-
-				roomRef.child("adminPassword").once("value")
-					.then(() => {
-						dispatch(setIsAdmin(true))
-					}, (err) => {
-						dispatch(setIsAdmin(false))
-					})
 			})
 	}
 }

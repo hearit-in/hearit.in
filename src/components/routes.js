@@ -1,6 +1,7 @@
 import { Route, IndexRoute } from 'react-router';
 import React from 'react';
 
+import RootView from './rootView';
 import App from './app';
 import AuthView from './authView';
 import QueueView from './queueView';
@@ -9,8 +10,9 @@ import HistoryView from './historyView';
 import CreateRoomView from './createRoomView';
 import AdminView from './adminView';
 
+
 const routes = (
-	<Route path="/">
+	<Route path="/" component={RootView}>
 		<IndexRoute component={AuthView} />
 		<Route path="createRoom" component={CreateRoomView} />
 		<Route path="app" component={App}>
