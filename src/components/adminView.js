@@ -1,8 +1,12 @@
 import React, {PropTypes} from 'react';
 import { Container, Row, Col } from './layout';
 import {
-	Card
+	Card,
+	List,
+	ListItem
 } from 'material-ui';
+
+import AdminRequestsList from './adminRequestList';
 
 export default class AdminView extends React.Component {
 	constructor(props) {
@@ -12,12 +16,8 @@ export default class AdminView extends React.Component {
 	render() {
 		return (
 			<Container>
-				<Row>
-					<Col md={10} mdPush={2}>
-						<Card>
-							<h1>Admin</h1>
-						</Card>
-					</Col>
+				<Row style={{marginTop: 40}}>
+					<AdminRequestsList />
 				</Row>
 			</Container>
 		);
