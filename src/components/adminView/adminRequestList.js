@@ -13,7 +13,7 @@ import {
 } from 'material-ui/lib/svg-icons';
 
 import color from 'material-ui/lib/styles/colors';
-import { map } from 'lodash';
+import { map, size } from 'lodash';
 import { connect } from 'react-redux';
 import { grantAdmin, removeAdminRequest } from 'actions';
 
@@ -55,25 +55,25 @@ class AdminRequestsList extends React.Component {
 	}
 
 	render() {
-		return (
-			<List subheader="Administratorforespørsler" style={{ borderRadius: 0 }}>
+
+		return size(this.state.requests) == 0 ? <div /> : (
+			<List subheader="Administratorforespørsler">
 				{map(this.state.requests, (message, uid) =>
 					<AdminRequestListItem
 						uid={uid}
 						key={uid}
 						message={message}
-						rightIconButton={
-							<span>
-								<IconButton onTouchTap={() => this.props.onGrantAdmin(uid)}>
-									<NavigationCheck color={color.green400} />
-								</IconButton>
+						rightIconButton={<span>
+							<IconButton onTouchTap={() => this.props.onGrantAdmin(uid)}>
+								<NavigationCheck color={color.green400} />
+							</IconButton>
 
-								<IconButton onTouchTap={() => this.props.onRemoveAdminRequest(uid)}>
-									<NavigationClose color={color.red400} />
-								</IconButton>
-							</span>
-						} />
+							<IconButton onTouchTap={() => this.props.onRemoveAdminRequest(uid)}>
+								<NavigationClose color={color.red400} />
+							</IconButton>
+						</span>} />
 				)}
+
 			</List>
 		);
 	}

@@ -1,5 +1,5 @@
 import React, {PropTypes} from 'react';
-import { Container, Row, Col } from './layout';
+import { Container, Row, Col } from 'components/layout';
 import {
 	Card,
 	List,
@@ -16,8 +16,10 @@ export default class AdminView extends React.Component {
 	render() {
 		return (
 			<Container>
-				<Row style={{marginTop: 40}}>
-					<AdminRequestsList />
+				<Row className="top-margin">
+					<Col md={12} xs={12}>
+						<AdminRequestsList />
+					</Col>
 				</Row>
 			</Container>
 		);
