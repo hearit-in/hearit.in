@@ -116,16 +116,17 @@ class Nav extends React.Component {
 					leftIcon={<ActionSettings />}
 					primaryText="Innstillinger"
 					onTouchTap={() => this.navigateToAndClose("/app/settings")} />
-				
+
 				{
 					!this.props.isAdmin ? null:
-					
+
 					<NavItem
 						leftIcon={<HardwareSecurity />}
 						primaryText="Administrator"
 						onTouchTap={() => this.navigateToAndClose("/app/admin")} />
 				}
 
+				<Divider />
 
 				<NavItem
 					leftIcon={<ActionPowerSettingsNew />}
