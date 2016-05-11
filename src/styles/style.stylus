@@ -48,5 +48,4 @@ body
 		box-shadow: 0px 0px 0px #000
 
 	&,&::placeholder
-		color: darken(#9c27b0, 50%)
-		font-size: 1.1em
+		color: desaturate(#9c27b0, 50%)
