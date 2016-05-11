@@ -1,16 +1,30 @@
 import React, { PropTypes } from 'react';
 
-export class Container extends React.Component {
-	render() {
-		return <div className="container">{this.props.children}</div>
+function MergeClassNames(baseClassName) {
+	function mergeProps(props) {
+		return Object.assign({}, props, {
+			className: `${baseClassName} ${props.className}`
+		});
+	}
+	
+	return (ComposedComponent) => class extends React.Component {
+		constructor(props) {
+			super(mergeProps(props));
+		}
+		
+		componentWillReceiveProps(newProps) {
+			return mergeProps(newProps);
+		}
+		
+		render() {
+			return <ComposedComponent {...this.props} />
+		}
 	}
 }
 
-export class Row extends React.Component {
-	render() {
-		return <div className="row">{this.props.children}</div>
-	}
-}
+export const Container = MergeClassNames("container")("div");
+
+export const Row = MergeClassNames("row")("div");
 
 export class Col extends React.Component {
 	classNameFromProperty(classPrefix, propertyValue) {
@@ -36,6 +50,6 @@ export class Col extends React.Component {
 	}
 	
 	render() {
-		return <div className={this.getClassName()}>{this.props.children}</div>
+		return <div className={this.getClassName()} {...this.props}>{this.props.children}</div>
 	}
 }
