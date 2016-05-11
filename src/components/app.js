@@ -17,6 +17,7 @@ import { history } from 'helpers';
 import  RoomRefProvider from './roomRefProvider';
 import { clearSearchResults } from 'actions/search';
 import SearchView from './searchView';
+import AdminListener from './adminListener';
 
 class AppComponent extends React.Component {
 	constructor(props) {
@@ -85,6 +86,8 @@ class AppComponent extends React.Component {
 		return (
 		<RoomRefProvider>
 			<div>
+				<AdminListener />
+				
 				{ appBar }
 
 				<Nav open={this.state.isNavigationOpen} onRequestChange={(open) => this.setNavigationOpen(open)} />
