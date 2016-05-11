@@ -12,7 +12,8 @@ import {
 	ActionSearch,
 	ActionSettings,
 	ActionPowerSettingsNew,
-	ActionHistory
+	ActionHistory,
+	HardwareSecurity
 } from 'material-ui/lib/svg-icons';
 
 import { connect } from 'react-redux';
@@ -115,6 +116,16 @@ class Nav extends React.Component {
 					leftIcon={<ActionSettings />}
 					primaryText="Innstillinger"
 					onTouchTap={() => this.navigateToAndClose("/app/settings")} />
+				
+				{
+					!this.props.isAdmin ? null:
+					
+					<NavItem
+						leftIcon={<HardwareSecurity />}
+						primaryText="Administrator"
+						onTouchTap={() => this.navigateToAndClose("/app/admin")} />
+				}
+
 
 				<NavItem
 					leftIcon={<ActionPowerSettingsNew />}
@@ -132,7 +143,8 @@ Nav.defaultProps = {
 
 function mapStateToProps(state) {
 	return {
-		roomId: state.getIn(["session", "roomId"])
+		roomId: state.getIn(["session", "roomId"]),
+		isAdmin: state.getIn(["session", "isAdmin"])
 	}
 }
 
