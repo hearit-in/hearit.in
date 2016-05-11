@@ -2,8 +2,12 @@ room(roomId) {
 	root.rooms[roomId]
 }
 
-isAdminOf(roomId) {
-	room(roomId).admins[auth.uid] != null
+isAdminOf(uid, roomId) {
+	room(roomId).admins[uid] != null
+}
+
+isCurrentUserAdminOf(roomId) {
+	isAdminOf(auth.uid, roomId)
 }
 
 isSameTrack(a, b) {
@@ -25,7 +29,7 @@ path /rooms/{roomId} {
 	path /admins {
 		write() { wasEmpty(this) }
 		path /{uid} {
-			write() { isAdminOf(roomId) }
+			write() { isCurrentUserAdminOf(roomId) }
 		}
 	}
 
@@ -59,7 +63,7 @@ path /rooms/{roomId} {
 
 type AdminRequest extends String {
 	validate() {
-		key() == auth.uid && !isAdminOf(roomId)
+		key() == auth.uid && !isCurrentUserAdminOf(roomId)
 	}
 }
 
