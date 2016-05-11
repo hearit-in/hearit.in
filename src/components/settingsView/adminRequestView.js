@@ -1,10 +1,11 @@
-import React from 'react';
+import React, {PropTypes} from 'react';
 
 import {
 	Divider,
 	Toggle,
 	List,
 	ListItem,
+	Avatar,
 	Card,
 	CardHeader,
 	CardTitle,
@@ -20,12 +21,14 @@ import {
 	HardwareSecurity
 } from 'material-ui/lib/svg-icons';
 
+import color from 'material-ui/lib/styles/colors';
+
 import { humanReadableIdentifier } from 'helpers';
 
 import { connect } from 'react-redux';
 import { requestAdmin } from 'actions/session';
 
-class SettingsView extends React.Component {
+class AdminRequestView extends React.Component {
 	constructor(props) {
 		super(props);
 
@@ -75,39 +78,34 @@ class SettingsView extends React.Component {
 		return (
 			<div>
 				{ adminAuthModal }
-				<div className="container">
-					<div className="col-md-6 col-md-push-3">
-						<div className="row">
-							<Paper className="col-md-12" style={{ marginTop: "15px"}}>
-								<List>
-									{/*<ListItem
-										primaryText="Bruk mørkt tema"
-										rightToggle={
-											<Toggle
-												toggled={this.props.darkThemeEnabled}
-												onToggle={() => this.props.onSetDarkThemeEnabled(!this.props.darkThemeEnabled)} />
-										} />
-									<Divider />*/}
-									<ListItem type="" disabled>
-										<div className="row">
-											<FlatButton
-												label="Be om administratortilgang"
-												secondary
-												className="col-md-8 col-md-push-2  col-xs-12"
-												icon={<HardwareSecurity />}
-												onClick={() => this.setShowAdminAuthDialog(true)}>
-											</FlatButton>
-										</div>
-									</ListItem>
-								</List>
-							</Paper>
-						</div>
-					</div>
-
-				</div>
+				<Paper style={{ marginTop: "15px"}}>
+					<List>
+						{/*<ListItem
+							primaryText="Bruk mørkt tema"
+							rightToggle={
+								<Toggle
+									toggled={this.props.darkThemeEnabled}
+									onToggle={() => this.props.onSetDarkThemeEnabled(!this.props.darkThemeEnabled)} />
+							} />
+						<Divider />*/}
+						<ListItem
+							type=""
+							leftAvatar={
+								<Avatar
+									icon={<HardwareSecurity />}
+									backgroundColor={color.purple500}/>
+							}
+							primaryText="Be om administratortilgang"
+							onClick={() => this.setShowAdminAuthDialog(true)} />
+					</List>
+				</Paper>
 			</div>
 		)
 	}
+}
+
+AdminRequestView.contextTypes = {
+	muiTheme: PropTypes.object
 }
 
 function mapStateToProps(state) {
@@ -122,4 +120,4 @@ function mapDispatchToProps(dispatch) {
 	}
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(SettingsView);
+export default connect(mapStateToProps, mapDispatchToProps)(AdminRequestView);
