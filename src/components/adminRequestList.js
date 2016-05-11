@@ -55,33 +55,25 @@ class AdminRequestsList extends React.Component {
 	}
 
 	render() {
-		const acceptButtonStyle = {
-			color: color.green400
-		};
-
-		const declineButtonStyle = {
-			color: color.red400
-		}
-
 		return (
-			<List subheader="Administratorforespørsler">
-				<Divider />
+			<List subheader="Administratorforespørsler" style={{ borderRadius: 0 }}>
 				{map(this.state.requests, (message, uid) =>
 					<AdminRequestListItem
 						uid={uid}
 						key={uid}
 						message={message}
-						rightIconButton={<span>
-							<IconButton onTouchTap={() => this.props.onGrantAdmin(uid)}>
-								<NavigationCheck color={color.green400} />
-							</IconButton>
+						rightIconButton={
+							<span>
+								<IconButton onTouchTap={() => this.props.onGrantAdmin(uid)}>
+									<NavigationCheck color={color.green400} />
+								</IconButton>
 
-							<IconButton onTouchTap={() => this.props.onRemoveAdminRequest(uid)}>
-								<NavigationClose color={color.red400} />
-							</IconButton>
-						</span>} />
+								<IconButton onTouchTap={() => this.props.onRemoveAdminRequest(uid)}>
+									<NavigationClose color={color.red400} />
+								</IconButton>
+							</span>
+						} />
 				)}
-
 			</List>
 		);
 	}
