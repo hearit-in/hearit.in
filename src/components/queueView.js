@@ -36,28 +36,31 @@ import TrackListItem from './trackListItem';
 class EmptyQueueView extends React.Component {
 	render() {
 		return (
-			<div
-				className="centered"
-				style={{
-					color: "#ddd",
-					marginTop: 20,
-					marginBottom: 20
-				}}>
-				<AvPlaylistAdd
-					color="#ddd"
+			<Paper style={{
+				padding: "20px 0"
+			}}>
+				<div
+					className="centered"
 					style={{
-						marginLeft: "auto",
-						marginRight: "auto",
-						width: 200,
-						height: 200
-					}} />
-				<h1 style={{
-					fontWeight: "300"
-				}}>
-					Blæst opp noe da
-				</h1>
-				<span>Legg til sanger ved å søke i feltet over. </span>
-			</div>
+						color: "#ddd",
+						marginBottom: 20
+					}}>
+					<AvPlaylistAdd
+						color="#ddd"
+						style={{
+							marginLeft: "auto",
+							marginRight: "auto",
+							width: 200,
+							height: 200
+						}} />
+					<h1 style={{
+						fontWeight: "300"
+					}}>
+						Blæst opp noe da
+					</h1>
+					<span>Legg til sanger ved å søke i feltet over. </span>
+				</div>
+			</Paper>
 		);
 	}
 }
@@ -169,14 +172,13 @@ class QueueView extends React.Component {
 			<div className="container">
 				<div className="row top-margin">
 					<div className="col-md-8 col-md-offset-2 col-xs-12">
-						<Paper>
-							{ items.length === 0 ? <EmptyQueueView /> : null}
+						{ items.length == 0 ? <EmptyQueueView /> : (
 							<List>
-								<FlipMove easing="ease" enterAnimation="accordionVertical">
+								<FlipMove easing="ease" enterAnimation="fade" exitAnimation="fade">
 									{items}
 								</FlipMove>
 							</List>
-						</Paper>
+						)}
 					</div>
 				</div>
 			</div>
