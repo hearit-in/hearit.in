@@ -1,23 +1,25 @@
 import React, { PropTypes } from 'react';
 
 function MergeClassNames(baseClassName) {
-	function mergeProps(props) {
-		return Object.assign({}, props, {
-			className: `${baseClassName} ${props.className}`
-		});
-	}
-	
 	return (ComposedComponent) => class extends React.Component {
 		constructor(props) {
-			super(mergeProps(props));
+			super(props);
+
+			this.state = {
+				className: this.getClassName(props.className)
+			};
 		}
-		
+
+		getClassName(className) {
+			return `${baseClassName || ""} ${className || ""}`;
+		}
+
 		componentWillReceiveProps(newProps) {
-			return mergeProps(newProps);
+			this.setState({ className: this.getClassName(newProps.className) })
 		}
-		
+
 		render() {
-			return <ComposedComponent {...this.props} />
+			return <ComposedComponent className={this.state.className} {...this.props} />
 		}
 	}
 }
@@ -31,16 +33,16 @@ export class Col extends React.Component {
 		if(propertyValue === undefined) {
 			return null;
 		}
-		
+
 		return classPrefix + propertyValue;
 	}
-	
+
 	getClassName() {
 		return [
 			this.classNameFromProperty("col-md-", this.props.md),
 			this.classNameFromProperty("col-md-push-", this.props.mdPush),
 			this.classNameFromProperty("col-md-offset-", this.props.mdOffset),
-			
+
 			this.classNameFromProperty("col-xs-", this.props.xs),
 			this.classNameFromProperty("col-xs-push-", this.props.xsPush),
 			this.classNameFromProperty("col-xs-offset-", this.props.xsOffset)
@@ -48,7 +50,7 @@ export class Col extends React.Component {
 		.filter(a => a)
 		.join(" ");
 	}
-	
+
 	render() {
 		return <div className={this.getClassName()} {...this.props}>{this.props.children}</div>
 	}
