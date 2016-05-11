@@ -1,5 +1,5 @@
 import { Router, Route, IndexRoute } from 'react-router';
-import { Provider } from 'react-redux';
+import { Provider as StoreProvider } from 'react-redux';
 import store from '../store';
 import React from 'react';
 import routes from './routes';
@@ -12,13 +12,13 @@ class Shell extends React.Component {
 
 	render () {
 		return (
-			<Provider store={store}>
+			<StoreProvider store={store}>
 				<ThemeProvider>
 					<Router history={history}>
 						{ routes }
 					</Router>
 				</ThemeProvider>
-			</Provider>
+			</StoreProvider>
 		)
 	}
 }
