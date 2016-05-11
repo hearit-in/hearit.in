@@ -8,7 +8,7 @@ import QueueView from './queueView';
 import SettingsView from './settingsView';
 import HistoryView from './historyView';
 import CreateRoomView from './createRoomView';
-import AdminView from './adminView';
+import AdminView from './adminView/';
 
 import FourOhFour from './fourOhFour';
 
