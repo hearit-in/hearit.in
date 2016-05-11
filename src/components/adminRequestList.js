@@ -13,8 +13,9 @@ import {
 } from 'material-ui/lib/svg-icons';
 
 import color from 'material-ui/lib/styles/colors';
-
 import { map } from 'lodash';
+import { connect } from 'react-redux';
+import { grantAdmin, removeAdminRequest } from 'actions';
 
 class AdminRequestListItem extends React.Component {
 	render() {
@@ -32,54 +33,50 @@ AdminRequestListItem.propTypes = {
 	uid: PropTypes.string
 }
 
-export default class AdminRequestsList extends React.Component {
+class AdminRequestsList extends React.Component {
 	constructor(props) {
 		super(props);
-		
+
 		this.state = {
 			requests: {}
 		}
 	}
-	
+
 	componentDidMount() {
 		this.ref = this.context.roomRef.child("adminRequests");
-		
+
 		this.ref.on("value", (snapshot) => {
-			if(!snapshot.exists()) {
-				return;
-			}
-			
-			this.setState({ requests: snapshot.val() });
+			this.setState({ requests: snapshot.val() || {} });
 		});
 	}
-	
+
 	componentWillUnmount() {
 		this.ref.off();
 	}
-	
+
 	render() {
 		const acceptButtonStyle = {
 			color: color.green400
 		};
-		
+
 		const declineButtonStyle = {
 			color: color.red400
 		}
-		
+
 		return (
 			<List subheader="Administratorforespørsler">
 				<Divider />
-				{map(this.state.requests, (message, uid) => 
+				{map(this.state.requests, (message, uid) =>
 					<AdminRequestListItem
 						uid={uid}
 						key={uid}
 						message={message}
 						rightIconButton={<span>
-							<IconButton onTouchTap={() => {}}>
+							<IconButton onTouchTap={() => this.props.onGrantAdmin(uid)}>
 								<NavigationCheck color={color.green400} />
 							</IconButton>
-							
-							<IconButton onTouchTap={() => {}}>
+
+							<IconButton onTouchTap={() => this.props.onRemoveAdminRequest(uid)}>
 								<NavigationClose color={color.red400} />
 							</IconButton>
 						</span>} />
@@ -93,3 +90,12 @@ export default class AdminRequestsList extends React.Component {
 AdminRequestsList.contextTypes = {
 	roomRef: PropTypes.object
 };
+
+function mapDispatchToProps(dispatch) {
+	return {
+		onGrantAdmin: (uid) => dispatch(grantAdmin(uid)),
+		onRemoveAdminRequest: (uid) => dispatch(removeAdminRequest(uid))
+	}
+}
+
+export default connect(undefined, mapDispatchToProps)(AdminRequestsList)
