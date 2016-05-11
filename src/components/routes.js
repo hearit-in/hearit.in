@@ -10,6 +10,7 @@ import HistoryView from './historyView';
 import CreateRoomView from './createRoomView';
 import AdminView from './adminView';
 
+import FourOhFour from './fourOhFour';
 
 const routes = (
 	<Route path="/" component={RootView}>
@@ -21,6 +22,7 @@ const routes = (
 			<Route path="settings" component={SettingsView} />
 			<Route path="admin" component={AdminView} />
 		</Route>
+		<Route path="*" component={FourOhFour} />
 	</Route>
 );
 
