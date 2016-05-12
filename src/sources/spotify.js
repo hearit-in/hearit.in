@@ -3,6 +3,8 @@ import {includes,curry} from 'lodash';
 
 const BASE_URL = "https://api.spotify.com/v1";
 
+const MARKETS = ['NO'];
+
 function processAlbum(album) {
 	return album;
 }
@@ -45,7 +47,7 @@ export function search(query, types) {
 
 	let escapedQuery = escape(query);
 
-	return fetch(`${BASE_URL}/search?q=${escapedQuery}&type=${typesString}&market=NO`)
+	return fetch(`${BASE_URL}/search?q=${escapedQuery}&type=${typesString}&market=${MARKETS.join(',')}`)
 		.then(result => result.json())
 		.then(processSearchResults);
 }
