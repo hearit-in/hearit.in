@@ -33,6 +33,10 @@
 		"email": "sebastian@sebbert.me",
 		"url": "https://github.com/sebbert"
 	},
+	"gh-pages-deploy": {
+		"staticpath": "dist",
+		"cname": "hearit.in"
+	},
 	"devDependencies": {
 		"autoprefixer": "^6.3.6",
 		"babel-core": "^6.0.0",
