@@ -13,7 +13,8 @@ import {
 	ActionSettings,
 	ActionPowerSettingsNew,
 	ActionHistory,
-	HardwareSecurity
+	HardwareSecurity,
+	ActionAndroid
 } from 'material-ui/lib/svg-icons';
 
 import { connect } from 'react-redux';
@@ -119,11 +120,17 @@ class Nav extends React.Component {
 
 				{
 					!this.props.isAdmin ? null:
+					<div>
+						<NavItem
+							leftIcon={<HardwareSecurity />}
+							primaryText="Administrator"
+							onTouchTap={() => this.navigateToAndClose("/app/admin")} />
 
-					<NavItem
-						leftIcon={<HardwareSecurity />}
-						primaryText="Administrator"
-						onTouchTap={() => this.navigateToAndClose("/app/admin")} />
+						<NavItem
+							leftIcon={<ActionAndroid />}
+							primaryText="Last ned avspiller"
+							onTouchTap={() => window.location.href = "https://github.com/sebbert/hearit.in/releases/download/0.0.1/hearit.in.apk"} />
+					</div>
 				}
 
 				<Divider />
