@@ -27,7 +27,7 @@ export function addTrackToQueue(newTrack) {
 					.then(snap => snap.val())
 					.then(fromJS)
 					.then(tracks => tracks != null ? tracks : Map())
-					// Search through all the tracks to possibly find the key of a track with the same provider and providerId
+					// Compare by id from provider
 					.then(tracks => tracks.findKey(
 						track => compareTracksByProviderId(track, newTrack)
 					))
@@ -38,7 +38,8 @@ export function addTrackToQueue(newTrack) {
 								.set("queuedAt", Firebase.ServerValue.TIMESTAMP)
 								.toJS();
 
-							queueRef.push(trackObj);
+							let trackRef = queueRef.push(trackObj);
+							trackRef.child("id").set(trackRef.key());
 						}
 						else {
 							queueRef
