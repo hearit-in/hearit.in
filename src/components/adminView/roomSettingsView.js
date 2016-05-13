@@ -45,6 +45,7 @@ export default class RoomSettingsView extends React.Component {
 	render() {
 		return (
 			<List>
+				<ToggleListItem primaryText="Dank memes?" />
 			</List>
 		);
 	}
