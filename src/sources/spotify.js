@@ -45,7 +45,7 @@ export function search(query, types) {
 
 	let escapedQuery = escape(query);
 
-	return fetch(`${BASE_URL}/search?q=${escapedQuery}&type=${typesString}&market=NO`)
+	return fetch(`${BASE_URL}/search?q=${escapedQuery}&type=${typesString}&market=NO&limit=50`)
 		.then(result => result.json())
 		.then(processSearchResults);
 }
