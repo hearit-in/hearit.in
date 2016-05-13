@@ -19,7 +19,7 @@ import Colors from 'material-ui/lib/styles/colors';
 
 
 import { connect } from 'react-redux';
-import { tryEnterSession } from 'actions';
+import { toggleVote } from 'actions';
 
 import Firebase from 'firebase';
 import { sortQueueByVotes } from 'helpers/queue';
@@ -65,8 +65,6 @@ class QueueView extends React.Component {
 			adminMenuTrack: null
 		}
 	}
-	
-	
 
 	componentDidMount() {
 		this.listenToRoom(this.context.roomRef);
@@ -76,7 +74,7 @@ class QueueView extends React.Component {
 		this.ref = this.context.roomRef
 			.child("queue");
 
-		this.onQueueUpdated = this.ref
+		this.ref
 			.on("value", (snapshot) => {
 				let tracksObject = snapshot.val();
 				let tracks = fromJS(tracksObject);
@@ -88,7 +86,7 @@ class QueueView extends React.Component {
 
 	stopListeningToRoom() {
 		if(this.ref) {
-			this.ref.off("value", this.onQueueUpdated);
+			this.ref.off();
 		}
 	}
 
@@ -102,18 +100,18 @@ class QueueView extends React.Component {
 	componentWillUnmount() {
 		this.stopListeningToRoom();
 	}
-
-	toggleVote(trackId) {
-		this.ref
-			.child(`${trackId}/votes/${this.props.uid}`)
-			.once("value", (snap) => {
-				if(snap.exists()) {
-					snap.ref().remove();
-				}
-				else {
-					snap.ref().set(true);
-				}
+	
+	handleTrackClicked(id, track) {
+		if(this.props.isAdmin) {
+			this.setState({
+				isAdminMenuOpen: true,
+				adminMenuTrack: track
 			});
+			return;
+		}
+		else {
+			this.props.onToggleVote(id);
+		}
 	}
 
 	render() {
@@ -129,13 +127,17 @@ class QueueView extends React.Component {
 						track={track}
 						hasVoted={hasVoted}
 						numVotes={votes.size}
-						onToggleVote={() => this.toggleVote(index)} />
+						onToggleVote={() => this.handleTrackClicked(index, track)} />
 				</div>
 			);
 		}).toArray();
 
 		return (
 			<div className="container">
+				<TrackAdminMenu
+					open={this.state.isAdminMenuOpen}
+					track={this.state.adminMenuTrack}
+					onRequestClose={() => this.setState({ isAdminMenuOpen: false})} />
 				<div className="row top-margin">
 					<div className="col-md-8 col-md-offset-2 col-xs-12">
 						{ items.length == 0 ? <EmptyQueueView /> : (
@@ -163,13 +165,14 @@ QueueView.contextTypes = {
 
 function mapStateToProps(state) {
 	return {
-		uid: state.getIn(["session", "authData", "uid"])
+		uid: state.getIn(["session", "authData", "uid"]),
+		isAdmin: state.getIn(["session", "isAdmin"])
 	}
 }
 
 function mapDispatchToProps(dispatch) {
 	return {
-
+		onToggleVote: (trackId) => dispatch(toggleVote(trackId))
 	}
 }
 
