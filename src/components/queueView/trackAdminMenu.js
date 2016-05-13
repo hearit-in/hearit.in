@@ -26,6 +26,11 @@ class TrackAdminMenu extends React.Component {
 		super(props);
 	}
 	
+	requestCloseAnd(fn) {
+		this.props.onRequestClose();
+		fn.call(this);
+	}
+	
 	render() {
 		return (
 			<Dialog open={this.props.open} modal={false} onRequestClose={() => this.props.onRequestClose()}>
@@ -35,11 +40,13 @@ class TrackAdminMenu extends React.Component {
 						type=""
 						className="top-margin"
 						leftIcon={<ActionFavorite />}
-						primaryText="Stem på" />
+						primaryText="Stem på"
+						onTouchTap={() => this.requestCloseAnd(() => this.props.onToggleVote(this.props.track))} />
 					<ListItem
 						type=""
 						leftIcon={<EditorVerticalAlignTop />}
-						primaryText="Spill neste" />
+						primaryText="Spill neste"
+						onTouchTap={() => this.requestCloseAnd(() => this.props.onPlayNext(this.props.track))} />
 					<ListItem
 						type=""
 						leftIcon={<AvPlayArrow />}
@@ -58,7 +65,7 @@ TrackAdminMenu.propTypes = {
 
 function mapDispatchToProps(dispatch) {
 	return {
-		toggleVote
+		onToggleVote: (trackId) => dispatch(toggleVote(trackId))
 	}
 }
 
