@@ -6,7 +6,7 @@
 	"main": "",
 	"scripts": {
 		"clean": "rimraf dist/*",
-		"copy": "copyfiles -f ./src/index.html ./src/favicon.ico ./dist",
+		"copy": "copyfiles -f ./src/index.html ./src/404.html ./src/favicon.ico ./dist",
 		"dist": "npm run copy & webpack --env=dist",
 		"lint": "eslint ./src",
 		"posttest": "npm run lint",
@@ -20,7 +20,7 @@
 		"test": "karma start",
 		"test:watch": "karma start --autoWatch=true --singleRun=false",
 		"predeploy": "npm run dist & npm run firebase-rules",
-		"deploy": "firebase deploy",
+		"deploy": "gh-pages-deploy",
 		"deploy:rules": "npm run firebase-rules && firebase deploy:rules"
 	},
 	"repository": {
