@@ -8,8 +8,19 @@ function defaultMapPathsToProps() {
 	}
 }
 
+/**
+ * A higher-order component that takes an object, mapping prop names to firebase paths (or a function returning said object).
+ * The component passed in to the function acquired by calling listenToRoom() will have the data passed as props
+ *
+ *        {a, b}  => c => c
+ * (() => {a, b}) => c => c
+ */
 export default function listenToRoom(mapPathsToProps) {
 	mapPathsToProps = mapPathsToProps || defaultMapPathsToProps;
+
+	if(mapPathToProps == undefined) {
+		throw new Error("listenToRoom() called without a prop/path mapping")
+	}
 
 	if(typeof(mapPathToProps) !== 'function') {
 		let pathsProps = mapPathsToProps;

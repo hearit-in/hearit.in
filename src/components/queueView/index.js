@@ -17,53 +17,21 @@ import {
 
 import Colors from 'material-ui/lib/styles/colors';
 
-import {
-	ActionFavorite,
-	ActionFavoriteBorder,
-	AvPlaylistAdd
-} from 'material-ui/lib/svg-icons';
 
 import { connect } from 'react-redux';
-import { tryEnterSession } from '../actions';
+import { toggleVote } from 'actions';
 
 import Firebase from 'firebase';
 import { sortQueueByVotes } from 'helpers/queue';
 
 import FlipMove from 'react-flip-move';
 import { VelocityTransitionGroup } from 'velocity-react';
-import TrackListItem from './trackListItem';
 
-class EmptyQueueView extends React.Component {
-	render() {
-		return (
-			<Paper style={{
-				padding: "20px 0"
-			}}>
-				<div
-					className="centered"
-					style={{
-						color: "#ddd",
-						marginBottom: 20
-					}}>
-					<AvPlaylistAdd
-						color="#ddd"
-						style={{
-							marginLeft: "auto",
-							marginRight: "auto",
-							width: 200,
-							height: 200
-						}} />
-					<h1 style={{
-						fontWeight: "300"
-					}}>
-						Blæst opp noe da
-					</h1>
-					<span>Legg til sanger ved å søke i feltet over. </span>
-				</div>
-			</Paper>
-		);
-	}
-}
+import TrackListItem from '../trackListItem';
+import EmptyQueueView from './emptyQueueView';
+import TrackAdminMenu from './trackAdminMenu';
+
+import LikeCheckbox from './likeCheckbox';
 
 class QueueListItem extends React.Component {
 	render() {
@@ -71,16 +39,10 @@ class QueueListItem extends React.Component {
 			<TrackListItem
 				{...this.props}
 				rightToggle={
-					<Checkbox
-						labelPosition="left"
-						label={this.props.numVotes.toString()}
+					<LikeCheckbox
 						checked={this.props.hasVoted}
-						onCheck={() => this.props.onToggleVote()}
-						iconStyle={{
-							fill: Colors.pink500
-						}}
-						checkedIcon={<ActionFavorite />}
-						unCheckedIcon={<ActionFavoriteBorder />} />
+						label={this.props.numVotes.toString()}
+						onCheck={() => this.props.onToggleVote()} />
 				} />
 		);
 	}
@@ -98,7 +60,9 @@ class QueueView extends React.Component {
 		super(props);
 
 		this.state = {
-			queue: Map()
+			queue: Map(),
+			isAdminMenuOpen: false,
+			adminMenuTrack: null
 		}
 	}
 
@@ -110,7 +74,7 @@ class QueueView extends React.Component {
 		this.ref = this.context.roomRef
 			.child("queue");
 
-		this.onQueueUpdated = this.ref
+		this.ref
 			.on("value", (snapshot) => {
 				let tracksObject = snapshot.val();
 				let tracks = fromJS(tracksObject);
@@ -122,7 +86,7 @@ class QueueView extends React.Component {
 
 	stopListeningToRoom() {
 		if(this.ref) {
-			this.ref.off("value", this.onQueueUpdated);
+			this.ref.off();
 		}
 	}
 
@@ -136,18 +100,18 @@ class QueueView extends React.Component {
 	componentWillUnmount() {
 		this.stopListeningToRoom();
 	}
-
-	toggleVote(trackId) {
-		this.ref
-			.child(`${trackId}/votes/${this.props.uid}`)
-			.once("value", (snap) => {
-				if(snap.exists()) {
-					snap.ref().remove();
-				}
-				else {
-					snap.ref().set(true);
-				}
+	
+	handleTrackClicked(id, track) {
+		if(this.props.isAdmin) {
+			this.setState({
+				isAdminMenuOpen: true,
+				adminMenuTrack: track
 			});
+			return;
+		}
+		else {
+			this.props.onToggleVote(id);
+		}
 	}
 
 	render() {
@@ -158,23 +122,32 @@ class QueueView extends React.Component {
 			let hasVoted = votes.has(this.props.uid);
 
 			return (
-				<div key={index} className="animate-me">
+				<div key={index} index={index} className="animate-me">
 					<QueueListItem
 						track={track}
 						hasVoted={hasVoted}
 						numVotes={votes.size}
-						onToggleVote={() => this.toggleVote(index)} />
+						onToggleVote={() => this.handleTrackClicked(index, track)} />
 				</div>
 			);
 		}).toArray();
 
 		return (
 			<div className="container">
+				<TrackAdminMenu
+					open={this.state.isAdminMenuOpen}
+					track={this.state.adminMenuTrack}
+					onRequestClose={() => this.setState({ isAdminMenuOpen: false})} />
 				<div className="row top-margin">
 					<div className="col-md-8 col-md-offset-2 col-xs-12">
 						{ items.length == 0 ? <EmptyQueueView /> : (
 							<List>
-								<FlipMove easing="ease" enterAnimation="fade" exitAnimation="fade">
+								<FlipMove
+									easing="ease"
+									enterAnimation="fade"
+									exitAnimation="fade"
+									staggerDelayBy={30}
+									duration={400}>
 									{items}
 								</FlipMove>
 							</List>
@@ -192,13 +165,14 @@ QueueView.contextTypes = {
 
 function mapStateToProps(state) {
 	return {
-		uid: state.getIn(["session", "authData", "uid"])
+		uid: state.getIn(["session", "authData", "uid"]),
+		isAdmin: state.getIn(["session", "isAdmin"])
 	}
 }
 
 function mapDispatchToProps(dispatch) {
 	return {
-
+		onToggleVote: (trackId) => dispatch(toggleVote(trackId))
 	}
 }
 
