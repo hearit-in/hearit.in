@@ -1,17 +1,17 @@
 import { roomRef } from './session';
 
-export default function toggleVote(trackId) {
+export default function toggleVote(track) {
 	return (dispatch, getState) => {
 		let uid = getState().getIn(["session", "authData", "uid"]);
 		
 		return dispatch(roomRef())
 			.then(ref => {
 				return ref
-				.child("queue")
-				.child(trackId)
-				.child("votes")
-				.child(uid)
-				.once("value")
+					.child("queue")
+					.child(track.get("id"))
+					.child("votes")
+					.child(uid)
+					.once("value")
 			})
 			.then(snapshot => {
 				if(snapshot.exists()) {

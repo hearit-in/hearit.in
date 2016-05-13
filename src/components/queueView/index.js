@@ -101,7 +101,7 @@ class QueueView extends React.Component {
 		this.stopListeningToRoom();
 	}
 	
-	handleTrackClicked(id, track) {
+	handleTrackClicked(track) {
 		if(this.props.isAdmin) {
 			this.setState({
 				isAdminMenuOpen: true,
@@ -110,7 +110,7 @@ class QueueView extends React.Component {
 			return;
 		}
 		else {
-			this.props.onToggleVote(id);
+			this.props.onToggleVote(track);
 		}
 	}
 
@@ -127,7 +127,7 @@ class QueueView extends React.Component {
 						track={track}
 						hasVoted={hasVoted}
 						numVotes={votes.size}
-						onToggleVote={() => this.handleTrackClicked(index, track)} />
+						onToggleVote={() => this.handleTrackClicked(track)} />
 				</div>
 			);
 		}).toArray();
