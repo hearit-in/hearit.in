@@ -144,8 +144,9 @@ class QueueView extends React.Component {
 							<List>
 								<FlipMove
 									easing="ease"
-									enterAnimation="accordionVertical"
-									exitAnimation="accordionVertical"
+									enterAnimation="accordianVertical"
+									exitAnimation="accordianVertical"
+									staggerDelayBy={50}
 									duration={400}>
 									{items}
 								</FlipMove>
