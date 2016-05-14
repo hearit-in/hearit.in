@@ -20,7 +20,7 @@ import TrackListItem from '../trackListItem';
 
 import { connect } from 'react-redux';
 
-import { toggleVote } from 'actions';
+import { toggleVote, removeTrackFromQueue } from 'actions';
 
 class TrackAdminMenu extends React.Component {
 	constructor(props) {
@@ -34,7 +34,11 @@ class TrackAdminMenu extends React.Component {
 
 	render() {
 		return (
-			<Dialog open={this.props.open} modal={false} onRequestClose={() => this.props.onRequestClose()}>
+			<Dialog
+				open={this.props.open}
+				modal={false}
+				width={300}
+				onRequestClose={() => this.props.onRequestClose()}>
 				<List>
 					<TrackListItem track={this.props.track} disabled />
 					<ListItem
@@ -55,7 +59,8 @@ class TrackAdminMenu extends React.Component {
 					<ListItem
 						type=""
 						leftIcon={<ActionDelete />}
-						primaryText="Fjern" />
+						primaryText="Fjern"
+						onTouchTap={() => this.requestCloseAnd(() => this.props.onRemoveTrack(this.props.track))} />
 				</List>
 			</Dialog>
 		)
@@ -70,7 +75,8 @@ TrackAdminMenu.propTypes = {
 
 function mapDispatchToProps(dispatch) {
 	return {
-		onToggleVote: (trackId) => dispatch(toggleVote(trackId))
+		onToggleVote: (track) => dispatch(toggleVote(track)),
+		onRemoveTrack: (track) => dispatch(removeTrackFromQueue(track))
 	}
 }
 
