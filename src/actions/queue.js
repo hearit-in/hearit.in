@@ -52,3 +52,12 @@ export function addTrackToQueue(newTrack) {
 			})
 	}
 }
+
+export function removeTrackFromQueue(track) {
+	return (dispatch) =>
+		dispatch(roomRef())
+			.then(ref => ref
+				.child("queue")
+				.child(track.get("id")))
+			.then(trackRef => trackRef.remove(), (err) => console.error(err))
+}
