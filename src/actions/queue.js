@@ -64,3 +64,19 @@ export function removeTrackFromQueue(track) {
 		dispatch(queuedTrackRef(track.get("id")))
 			.then(trackRef => trackRef.remove(), (err) => console.error(err))
 }
+
+export function pinTrackToTop(track) {
+	return (dispatch) =>
+		dispatch(queuedTrackRef(track.get("id")))
+			.then(trackRef => trackRef
+				.child("pinned")
+				.set(true))
+}
+
+export function unpinTrackFromTop(track) {
+	return (dispatch) =>
+		dispatch(queuedTrackRef(track.get("id")))
+			.then(trackRef => trackRef
+				.child("pinned")
+				.set(false))
+}

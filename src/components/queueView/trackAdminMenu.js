@@ -20,7 +20,12 @@ import TrackListItem from '../trackListItem';
 
 import { connect } from 'react-redux';
 
-import { toggleVote, removeTrackFromQueue } from 'actions';
+import {
+	toggleVote,
+	removeTrackFromQueue,
+	pinTrackToTop,
+ 	unpinTrackFromTop
+} from 'actions';
 
 class TrackAdminMenu extends React.Component {
 	constructor(props) {
@@ -37,7 +42,9 @@ class TrackAdminMenu extends React.Component {
 			<Dialog
 				open={this.props.open}
 				modal={false}
-				width={300}
+				contentStyle={{
+					width: 350
+				}}
 				onRequestClose={() => this.props.onRequestClose()}>
 				<List>
 					<TrackListItem track={this.props.track} disabled />
@@ -55,7 +62,7 @@ class TrackAdminMenu extends React.Component {
 						type=""
 						leftIcon={<AvQueuePlayNext />}
 						primaryText="Spill neste"
-						onTouchTap={() => this.requestCloseAnd(() => this.props.onPlayNext(this.props.track))} />
+						onTouchTap={() => this.requestCloseAnd(() => this.props.onPinTrackToTop(this.props.track))} />
 					<ListItem
 						type=""
 						leftIcon={<ActionDelete />}
@@ -76,7 +83,8 @@ TrackAdminMenu.propTypes = {
 function mapDispatchToProps(dispatch) {
 	return {
 		onToggleVote: (track) => dispatch(toggleVote(track)),
-		onRemoveTrack: (track) => dispatch(removeTrackFromQueue(track))
+		onRemoveTrack: (track) => dispatch(removeTrackFromQueue(track)),
+		onPinTrackToTop: (track) => dispatch(pinTrackToTop(track))
 	}
 }
 
