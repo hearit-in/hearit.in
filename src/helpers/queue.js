@@ -1,6 +1,12 @@
 import { Map } from 'immutable';
 
 export function sortQueueByVotes(a, b) {
+	let pinnedA = a.get("pinned", false);
+	let pinnedB = b.get("pinned", false);
+
+	if(pinnedA && !pinnedB) return -1;
+	if(pinnedB && !pinnedA) return 1;
+
 	let votesA = a.get("votes", new Map()).size;
 	let votesB = b.get("votes", new Map()).size;
 
