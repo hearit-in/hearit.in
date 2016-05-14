@@ -100,7 +100,7 @@ class QueueView extends React.Component {
 	componentWillUnmount() {
 		this.stopListeningToRoom();
 	}
-	
+
 	handleTrackClicked(track) {
 		if(this.props.isAdmin) {
 			this.setState({
@@ -117,12 +117,12 @@ class QueueView extends React.Component {
 	render() {
 		let queue = this.state.queue.sort(sortQueueByVotes);
 
-		let items = queue.map((track, index) => {
+		let items = queue.valueSeq().map((track, index) => {
 			let votes = track.get("votes", new Map());
 			let hasVoted = votes.has(this.props.uid);
 
 			return (
-				<div key={index} index={index} className="animate-me">
+				<div key={track.get("id")} index={index} className="animate-me">
 					<QueueListItem
 						track={track}
 						hasVoted={hasVoted}
@@ -144,9 +144,8 @@ class QueueView extends React.Component {
 							<List>
 								<FlipMove
 									easing="ease"
-									enterAnimation="fade"
-									exitAnimation="fade"
-									staggerDelayBy={30}
+									enterAnimation="accordionVertical"
+									exitAnimation="accordionVertical"
 									duration={400}>
 									{items}
 								</FlipMove>
