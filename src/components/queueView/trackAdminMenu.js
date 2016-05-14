@@ -10,8 +10,9 @@ import {
 import {
 	ActionFavorite,
 	NavigationMoreVert,
-	EditorVerticalAlignTop,
-	AvPlayArrow
+	AvQueuePlayNext,
+	AvPlayArrow,
+	ActionDelete
 } from 'material-ui/lib/svg-icons';
 
 import LikeCheckbox from './likeCheckbox';
@@ -25,12 +26,12 @@ class TrackAdminMenu extends React.Component {
 	constructor(props) {
 		super(props);
 	}
-	
+
 	requestCloseAnd(fn) {
 		this.props.onRequestClose();
 		fn.call(this);
 	}
-	
+
 	render() {
 		return (
 			<Dialog open={this.props.open} modal={false} onRequestClose={() => this.props.onRequestClose()}>
@@ -44,13 +45,17 @@ class TrackAdminMenu extends React.Component {
 						onTouchTap={() => this.requestCloseAnd(() => this.props.onToggleVote(this.props.track))} />
 					<ListItem
 						type=""
-						leftIcon={<EditorVerticalAlignTop />}
+						leftIcon={<AvPlayArrow />}
+						primaryText="Spill nå" />
+					<ListItem
+						type=""
+						leftIcon={<AvQueuePlayNext />}
 						primaryText="Spill neste"
 						onTouchTap={() => this.requestCloseAnd(() => this.props.onPlayNext(this.props.track))} />
 					<ListItem
 						type=""
-						leftIcon={<AvPlayArrow />}
-						primaryText="Spill nå" />
+						leftIcon={<ActionDelete />}
+						primaryText="Fjern" />
 				</List>
 			</Dialog>
 		)
