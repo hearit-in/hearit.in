@@ -10,6 +10,12 @@ import { fromJS, Map } from 'immutable';
 export const RECEIVE_QUEUE = "RECEIVE_QUEUE";
 export const receiveQueue = createAction(RECEIVE_QUEUE);
 
+function queuedTrackRef(trackId) {
+	return (dispatch) =>
+		dispatch(roomRef())
+		.then(room => room.child("queue").child(trackId))
+}
+
 export function addTrackToQueue(newTrack) {
 	return (dispatch, getState) => {
 		return dispatch(validateAuth())
@@ -55,9 +61,6 @@ export function addTrackToQueue(newTrack) {
 
 export function removeTrackFromQueue(track) {
 	return (dispatch) =>
-		dispatch(roomRef())
-			.then(ref => ref
-				.child("queue")
-				.child(track.get("id")))
+		dispatch(queuedTrackRef(track.get("id")))
 			.then(trackRef => trackRef.remove(), (err) => console.error(err))
 }
