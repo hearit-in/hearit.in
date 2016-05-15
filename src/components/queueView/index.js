@@ -41,8 +41,7 @@ class QueueListItem extends React.Component {
 				rightToggle={
 					<LikeCheckbox
 						checked={this.props.hasVoted}
-						label={
-							this.props.track.get("pinned") ? "" : this.props.numVotes.toString()}
+						label={this.props.numVotes.toString()}
 						onCheck={() => this.props.onToggleVote()}
 						isInfinity={this.props.track.get("pinned")} />
 				} />
