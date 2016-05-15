@@ -12,11 +12,17 @@ import { serialize, deserialize } from 'redux-localstorage-immutable';
 import * as reducers from './reducers';
 
 let middleware = [
-	thunkMiddleware,
-	createLogger({
-		stateTransformer: state => state.toJS()
-	})
+	thunkMiddleware
 ];
+
+
+if(process.env.NODE_ENV !== "production") {
+	middleware.push(
+		createLogger({
+			stateTransformer: state => state.toJS()
+		})
+	)
+}
 
 const rootReducer = combineReducers(reducers);
 
