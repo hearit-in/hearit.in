@@ -1,7 +1,8 @@
 import { firebaseForRoomId } from 'helpers/firebase';
-import { setRoomId } from './session';
+import { setRoomId, getUid } from './session';
 import { navigateTo } from './navigation';
 import { loginAndRedirect } from './session';
+import { showError } from './errors';
 
 export default function createRoom(roomId) {
 	return (dispatch, getState) => {
@@ -10,15 +11,19 @@ export default function createRoom(roomId) {
 		ref.once("value")
 			.then(snapshot => {
 				if(snapshot.exists()) {
-					return;
+					return new Error("Room already exists");
 				}
+				
 
 				let state = getState();
-				let uid = state.getIn(["session", "authData", "uid"]);
+				let uid = dispatch(getUid());
+				
+				debugger;
 
 				 ref.child("admins")
 				 	.set({ [uid]: true })
 					.then(() => dispatch(loginAndRedirect(roomId)))
-			});
+			})
+			.catch(e => console.error(e));
 	}
 }

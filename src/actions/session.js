@@ -25,16 +25,16 @@ export function login(roomId) {
 		return dispatch(validateAuth())
 			.then(() => roomRef.once('value'))
 			.then(snapshot => {
-				if(!snapshot.exists()) {
+				if(!snapshot.exists) {
 					console.log("no can do m8");
 					let message = `Rommet "${roomId}" finnes ikke`;
 					dispatch(showError(message));
-					return new Error(message);
+					throw new Error(message);
 				}
 
 				dispatch(setRoomId(roomId));
 				
-				return true;
+				return roomId;
 			})
 	}
 }
@@ -43,8 +43,8 @@ export function loginAndRedirect(roomId) {
 	return (dispatch, getState) => {
 		return dispatch(login(roomId))
 			.then(() => {
-				const active = getState().get("router").isActive("/app");
-				if(!active) {
+				const isInApp = getState().get("router").isActive("/app");
+				if(!isInApp) {
 					history.push("/app");
 				}
 			})
@@ -64,7 +64,7 @@ export function requestAdmin(message) {
 		dispatch(validateAuth())
 			.then(() => dispatch(roomRef()))
 			.then((ref) => {
-				const uid = getState().getIn(["session", "authData", "uid"]);
+				const uid = dispatch(getUid());
 				return ref
 					.child("adminRequests")
 					.child(uid)
@@ -123,4 +123,9 @@ export function validateAuth() {
 
 		return deferred.promise;
 	}
+}
+
+export function getUid() {
+	return (dispatch, getState) =>
+		getState().getIn(["session", "authData", "uid"]);
 }

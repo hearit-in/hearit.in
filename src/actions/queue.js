@@ -1,5 +1,5 @@
 import { createAction } from 'redux-actions';
-import { roomRef, validateAuth } from './session';
+import { roomRef, validateAuth, getUid } from './session';
 import Firebase from 'firebase';
 
 import { pushError } from './errors';
@@ -18,43 +18,46 @@ function queuedTrackRef(trackId) {
 
 export function addTrackToQueue(newTrack) {
 	return (dispatch, getState) => {
+		// SHAME SHAME SHAME SHAME
+		var queueRef;
 		return dispatch(validateAuth())
 			.then(() => dispatch(roomRef()))
-			.then((ref) => {
-				const queueRef = ref.child("queue");
-
-
-				const uid = getState().getIn(["session", "authData", "uid"]);
-				if(uid == undefined) {
-					return;
+			.then(ref => {
+				queueRef = ref.child("queue");
+				return ref.child("queue").once("value")
+			})
+			.then(snap => snap.val())
+			.then(fromJS)
+			.then(tracks => tracks || Map())
+			// Compare by id from provider
+			.then(tracks => tracks.findKey(
+				track => compareTracksByProviderId(track, newTrack)
+			))
+			.then(existingTrackKey => {
+				let uid = dispatch(getUid());
+				
+				if(existingTrackKey == undefined) {
+					const trackObj = newTrack
+						.set("votes", { [uid]: true })
+						.set("queuedAt", Firebase.database.ServerValue.TIMESTAMP)
+						.toJS();
+						
+					queueRef.push(trackObj)
+						.then(trackRef => {
+							trackRef.child("id").set(trackRef.key);
+						});
 				}
-
-				queueRef.once("value")
-					.then(snap => snap.val())
-					.then(fromJS)
-					.then(tracks => tracks != null ? tracks : Map())
-					// Compare by id from provider
-					.then(tracks => tracks.findKey(
-						track => compareTracksByProviderId(track, newTrack)
-					))
-					.then(existingTrackKey => {
-						if(existingTrackKey == undefined) {
-							const trackObj = newTrack
-								.set("votes", { [uid]: true })
-								.set("queuedAt", Firebase.ServerValue.TIMESTAMP)
-								.toJS();
-
-							let trackRef = queueRef.push(trackObj);
-							trackRef.child("id").set(trackRef.key());
-						}
-						else {
-							queueRef
-								.child(existingTrackKey)
-								.child("votes")
-								.child(uid)
-								.set(true);
-						}
-					})
+				else {
+					
+					queueRef
+						.child(existingTrackKey)
+						.child("votes")
+						.child(uid)
+						.set(true);
+				}
+			})
+			.catch(e => {
+				console.error(e);
 			})
 	}
 }

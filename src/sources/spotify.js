@@ -31,7 +31,7 @@ function processTrack(track) {
 function processSearchResults(results) {
 	return {
 		tracks: results.tracks.items.map(processTrack),
-		albums: results.albums.items.map(processAlbum)
+		//albums: results.albums.items.map(processAlbum)
 	}
 }
 
@@ -39,9 +39,6 @@ export function search(query, types) {
 	let typesString = types
 		.filter(curry(includes)([
 			'track',
-			'album',
-			'artist',
-			'playlist'
 		]))
 		.join(",");
 

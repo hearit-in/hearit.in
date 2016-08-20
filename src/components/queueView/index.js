@@ -19,7 +19,7 @@ import Colors from 'material-ui/lib/styles/colors';
 
 
 import { connect } from 'react-redux';
-import { toggleVote } from 'actions';
+import { toggleVote, getUid } from 'actions';
 
 import Firebase from 'firebase';
 import { sortQueueByVotes } from 'helpers/queue';
@@ -116,6 +116,7 @@ class QueueView extends React.Component {
 	}
 
 	render() {
+		console.log(this.state.queue);
 		let queue = this.state.queue.sort(sortQueueByVotes);
 
 		let items = queue.valueSeq().map((track, index) => {
@@ -138,7 +139,7 @@ class QueueView extends React.Component {
 				<TrackAdminMenu
 					open={this.state.isAdminMenuOpen}
 					track={this.state.adminMenuTrack}
-					onRequestClose={() => this.setState({ isAdminMenuOpen: false})} />
+					onRequestClose={() => this.setState({ isAdminMenuOpen: false })} />
 				<div className="row top-margin">
 					<div className="col-md-8 col-md-offset-2 col-xs-12">
 						{ items.length == 0 ? <EmptyQueueView /> : (
@@ -165,6 +166,7 @@ QueueView.contextTypes = {
 }
 
 function mapStateToProps(state) {
+	
 	return {
 		uid: state.getIn(["session", "authData", "uid"]),
 		isAdmin: state.getIn(["session", "isAdmin"])
@@ -173,7 +175,10 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
 	return {
-		onToggleVote: (trackId) => dispatch(toggleVote(trackId))
+		onToggleVote: (track) => {
+			console.log("Toggle vote of track ", track)
+			dispatch(toggleVote(track.get("id")))
+		}
 	}
 }
 

@@ -1,13 +1,13 @@
-require('normalize.css/normalize.css');
 require('styles/style.stylus');
 
 import React from 'react';
 import { connect } from 'react-redux';
+import { findDOMNode } from 'react-dom';
 
 import { AppBar, Icon, IconButton, Snackbar } from 'material-ui';
 import {
 	NavigationMenu,
-	NavigationArrowBack
+	NavigationClose
 } from 'material-ui/lib/svg-icons';
 import { VelocityTransitionGroup } from 'velocity-react';
 
@@ -24,7 +24,8 @@ class AppComponent extends React.Component {
 		super(props);
 		this.state = {
 			isNavigationOpen: false,
-			searchQuery: ""
+			searchQuery: "",
+			isSearchBarFocused: false
 		}
 	}
 
@@ -33,33 +34,46 @@ class AppComponent extends React.Component {
 			history.push("/");
 		}
 	}
+	
+	setIsSearchBarFocused(isSearchBarFocused) {
+		console.log(isSearchBarFocused);
+		this.setState({ isSearchBarFocused });
+	}
 
 	setNavigationOpen(isNavigationOpen) {
 		this.setState({ isNavigationOpen });
 	}
 	
 	hasSearchQuery() {
-		return this.state.searchQuery.trim().length != 0;
+		return this.state.searchQuery.trim().length !== 0;
 	}
 
 	setSearchQuery(searchQuery) {
+		if(searchQuery.trim().length === 0) {
+			searchQuery = "";
+		}
+		
 		this.setState({searchQuery});
 	}
 
 	exitSearch() {
 		this.setSearchQuery("");
 		this.props.onClearSearchResults();
+		this.refs.searchInput.blur();
+	}
+	
+	get isSearchActive() {
+		return this.hasSearchQuery() || this.state.isSearchBarFocused;
 	}
 
 	render() {
-		if(this.hasSearchQuery()) {
+		if(this.isSearchActive) {
 			var button = (
 				<IconButton onTouchTap={() => this.exitSearch()}>
-					<NavigationArrowBack />
+					<NavigationClose />
 				</IconButton>
 			)
-		}
-		else {
+		} else {
 			var button = (
 				<IconButton onTouchTap={() => this.setNavigationOpen(true)}>
 					<NavigationMenu />
@@ -79,7 +93,10 @@ class AppComponent extends React.Component {
 						className="search-bar"
 						placeholder="Søk for å legge til sanger"
 						value={this.state.searchQuery}
-						onChange={(e) => this.setSearchQuery(e.target.value)} />
+						ref="searchInput"
+						onChange={e => this.setSearchQuery(e.target.value)}
+						onFocus={() => this.setIsSearchBarFocused(true)}
+						onBlur={() => this.setIsSearchBarFocused(false)} />
 			</AppBar>
 		);
 
@@ -106,13 +123,10 @@ class AppComponent extends React.Component {
 				<div style={{
 					marginTop: "62px"
 				}}>
-					<VelocityTransitionGroup enter={{animation: "slideDown"}} leave={{animation: "slideUp"}}>
-						{
-							this.hasSearchQuery()
-								? <SearchView query={this.state.searchQuery} key="searchView" />
-								: <div key="childView">{this.props.children}</div>
-						}
-					</VelocityTransitionGroup>
+					{ this.isSearchActive
+						? <SearchView query={this.state.searchQuery} key="searchView" />
+						: this.props.children
+					}
 				</div>
 			</div>
 		</RoomRefProvider>

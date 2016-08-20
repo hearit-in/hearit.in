@@ -22,6 +22,7 @@ import { connect } from 'react-redux';
 
 import {
 	toggleVote,
+	playNow,
 	removeTrackFromQueue,
 	pinTrackToTop,
  	unpinTrackFromTop
@@ -54,10 +55,11 @@ class TrackAdminMenu extends React.Component {
 						leftIcon={<ActionFavorite />}
 						primaryText="Stem på"
 						onTouchTap={() => this.requestCloseAnd(() => this.props.onToggleVote(this.props.track))} />
-					<ListItem
+					{/* <ListItem
 						type=""
 						leftIcon={<AvPlayArrow />}
-						primaryText="Spill nå" />
+						primaryText="Spill nå"
+						onTouchTap={() => this.requestCloseAnd(() => this.props.onPlayNow(this.props.track))} /> */}
 					<ListItem
 						type=""
 						leftIcon={<AvQueuePlayNext />}
@@ -82,7 +84,8 @@ TrackAdminMenu.propTypes = {
 
 function mapDispatchToProps(dispatch) {
 	return {
-		onToggleVote: (track) => dispatch(toggleVote(track)),
+		onToggleVote: (track) => dispatch(toggleVote(track.get("id"))),
+		onPlayNow: (track) => dispatch(playNow(track)),
 		onRemoveTrack: (track) => dispatch(removeTrackFromQueue(track)),
 		onPinTrackToTop: (track) => dispatch(pinTrackToTop(track))
 	}

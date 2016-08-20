@@ -15,7 +15,12 @@ const adjectives = [
 	"ekte",
 	"real",
 	"modernistisk",
-	"dank"
+	"dank",
+	"rutete",
+	"seksuell",
+	"shitty",
+	"kåt",
+	"horete"
 ];
 
 const substantives = [
@@ -34,7 +39,12 @@ const substantives = [
 	"pære",
 	"osteskive",
 	"mann",
-	"dame"
+	"dame",
+	"bil",
+	"milf",
+	"fest",
+	"Vegard",
+	"mus"
 ];
 
 function randomElement(array) {

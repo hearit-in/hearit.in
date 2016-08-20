@@ -1,7 +1,7 @@
 import React, {PropTypes} from 'react';
 
 import { connect } from 'react-redux';
-import { setIsAdmin } from 'actions';
+import { setIsAdmin, getUid } from 'actions';
 
 /**
  * Listens on {room}.admins.{uid}, dispatching SET_IS_ADMIN based on wether the current user is admin.
@@ -50,9 +50,10 @@ AdminListener.contextTypes = {
 	roomRef: PropTypes.object
 };
 
-const mapStateToProps = (state) => ({
-	uid: state.getIn(["session", "authData", "uid"])
-});
+const mapStateToProps = (state) => {
+	let uid = state.getIn(["session", "authData", "uid"]);
+	return { uid };
+};
 
 const mapDispatchToProps = (dispatch) => ({
 	onSetIsAdmin: (isAdmin) => dispatch(setIsAdmin(isAdmin))

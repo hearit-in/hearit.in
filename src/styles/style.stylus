@@ -11,7 +11,7 @@
 body
 	background-image: url("../images/background-dark.png")
 	background-position: center
-	font-family: Roboto
+	font-family: "Roboto", "Roboto Regular", sans-serif;
 
 .credits
 	text-align: center

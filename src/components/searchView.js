@@ -122,23 +122,16 @@ class SearchView extends React.Component {
 		}
 
 		return (
-			<Paper className="flexy"	>
+			<Paper className="">
 				<List>
-					<FlipMove
-						easing="ease"
-						enterAnimation="accordianVertical"
-						exitAnimation="accordianVertical"
-						staggerDelayBy={60}
-						duration={400}>
-						{ this.props.results.get("tracks").valueSeq().map((track, i) =>
-							<TrackListItem
-								className="animate-me"
-								track={track}
-								key={track.get("providerId")}
-								index={i}
-								onClick={() => this.onTrackClicked(track)} />
-						) }
-					</FlipMove>
+					{ this.props.results.get("tracks", Map()).valueSeq().map((track, i) =>
+						<TrackListItem
+							className="animate-me"
+							track={track}
+							key={track.get("providerId")}
+							index={i}
+							onClick={() => this.onTrackClicked(track)} />
+					) }
 				</List>
 			</Paper>
 		);
