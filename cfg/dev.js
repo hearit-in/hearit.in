@@ -30,7 +30,10 @@ config.module.loaders.push({
 	include: [].concat(
 		config.additionalPaths,
 		[ path.join(__dirname, '/../src') ]
-	)
+	),
+	exclude: [
+		"./node_modules"
+	]
 });
 
 module.exports = config;
