@@ -28,18 +28,18 @@ export default class HistoryView extends React.Component {
 			.child("history")
 			.orderByChild("playedAt");
 
-		this.onQueueUpdated = this.query.on("value",
+		this.onHistoryUpdated = this.query.on("value",
 			(snapshot) => {
 				let tracksObject = snapshot.val();
 				let tracks = fromJS(tracksObject);
 				this.setState({
-					tracks: tracks == null ? [] : tracks.toArray().reverse()
+					tracks: tracks == null ? [] : tracks.toSeq().reverse()
 				});
 			});
 	}
 
 	componentWillUnmount() {
-		this.query.off("value", this.onQueueUpdated)
+		this.query.off("value", this.onHistoryUpdated)
 	}
 
 	render() {
@@ -55,9 +55,9 @@ export default class HistoryView extends React.Component {
 						<div className="col-md-12 top-margin">
 							<Card>
 								<List>
-									{ this.state.tracks.map((track, index) => {
-										<TrackListItem key={track.get("providerId")} track={track} />
-									}) }
+									{ this.state.tracks.map((track, index) =>
+										<TrackListItem key={track.get("id")} track={track} />
+									) }
 								</List>
 							</Card>
 						</div>
