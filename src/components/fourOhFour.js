@@ -7,7 +7,6 @@ const bernieGif = require("../images/bernie-404.gif");
 
 export default class FourOhFour extends React.Component {
 	render() {
-		console.log(bernieGif);
 		return (
 			<Container>
 				<Row>

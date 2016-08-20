@@ -116,7 +116,6 @@ class QueueView extends React.Component {
 	}
 
 	render() {
-		console.log(this.state.queue);
 		let queue = this.state.queue.sort(sortQueueByVotes);
 
 		let items = queue.valueSeq().map((track, index) => {
@@ -166,7 +165,7 @@ QueueView.contextTypes = {
 }
 
 function mapStateToProps(state) {
-	
+
 	return {
 		uid: state.getIn(["session", "authData", "uid"]),
 		isAdmin: state.getIn(["session", "isAdmin"])
@@ -176,7 +175,6 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
 	return {
 		onToggleVote: (track) => {
-			console.log("Toggle vote of track ", track)
 			dispatch(toggleVote(track.get("id")))
 		}
 	}

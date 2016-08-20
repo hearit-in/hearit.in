@@ -36,7 +36,6 @@ class AppComponent extends React.Component {
 	}
 	
 	setIsSearchBarFocused(isSearchBarFocused) {
-		console.log(isSearchBarFocused);
 		this.setState({ isSearchBarFocused });
 	}
 

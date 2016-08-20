@@ -3,7 +3,7 @@ import { roomRef, getUid } from './session';
 export default function toggleVote(trackId) {
 	return (dispatch, getState) => {
 		let uid = dispatch(getUid());
-		
+
 		return dispatch(roomRef())
 			.then(ref => {
 				return ref
@@ -20,9 +20,7 @@ export default function toggleVote(trackId) {
 				else {
 					snapshot.ref.set(true)
 				}
-			}, err => {
-				console.error(err);
 			})
-			.catch(e => { debugger; })
+			.catch(e => console.error(e))
 	}
 }

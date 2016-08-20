@@ -13,12 +13,10 @@ export default function createRoom(roomId) {
 				if(snapshot.exists()) {
 					return new Error("Room already exists");
 				}
-				
+
 
 				let state = getState();
 				let uid = dispatch(getUid());
-				
-				debugger;
 
 				 ref.child("admins")
 				 	.set({ [uid]: true })
