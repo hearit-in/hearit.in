@@ -1,9 +1,9 @@
 {
-  "name": "crowdplay",
+  "name": "hearit",
   "private": true,
   "version": "0.0.2",
   "description": "Front-end for a music queuing system",
-  "main": "",
+  "main": "./server.js",
   "scripts": {
     "clean": "rimraf dist/*",
     "copy": "copyfiles -f ./src/index.html ./src/404.html ./src/favicon.ico ./dist",
