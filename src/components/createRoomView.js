@@ -67,6 +67,8 @@ class CreateRoomView extends React.Component {
 								<TextField
 									fullWidth
 									floatingLabelText="Kode"
+									autoCorrect="off"
+									autoCapitalize="off"
 									style={{ marginBottom: 20 }}
 									value={this.state.roomId}
 									onChange={event => this.roomIdChanged(event.target.value)} />

@@ -51,6 +51,9 @@ class AuthView extends React.Component {
 							<TextField
 								floatingLabelText="Kode"
 								fullWidth={true}
+								tabIndex={0}
+								autoCorrect="off"
+								autoCapitalize="off"
 								onChange={event => this.onRoomIdChanged(event.target.value)} />
 						</CardText>
 
