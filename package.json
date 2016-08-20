@@ -19,9 +19,9 @@
     "start": "node server.js --env=dev",
     "test": "karma start",
     "test:watch": "karma start --autoWatch=true --singleRun=false",
-    "predeploy": "npm run dist & npm run deploy:rules",
-    "deploy": "gh-pages-deploy",
-    "deploy:rules": "npm run firebase-rules && firebase deploy:rules"
+    "predeploy": "npm run dist && npm run firebase-rules",
+    "deploy": "firebase deploy",
+    "deploy:rules": "npm run firebase-rules && firebase deploy --only database"
   },
   "repository": {
     "type": "git",
@@ -32,11 +32,6 @@
     "name": "Sebastian Reinhard",
     "email": "sebastian@sebbert.me",
     "url": "https://github.com/sebbert"
-  },
-  "gh-pages-deploy": {
-    "staticpath": "dist",
-    "cname": "hearit.in",
-    "noprompt": true
   },
   "devDependencies": {
     "autoprefixer": "^6.3.6",
