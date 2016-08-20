@@ -84,7 +84,7 @@
   },
   "dependencies": {
     "core-js": "^2.0.0",
-    "firebase": "^3.0.0",
+    "firebase": "^3.1.0",
     "history": "^2.0.2",
     "immutable": "^3.8.0",
     "isomorphic-fetch": "^2.2.1",
