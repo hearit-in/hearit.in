@@ -20,7 +20,8 @@ export function initFirebase() {
 			const state = getState();
 			const roomId = state.getIn(["session", "roomId"]);
 			if(!roomId) {
-				history.push("/");
+				if(location.pathname !== "/")
+					history.push("/");
 			}
 
 			dispatch(loginAndRedirect(roomId));
