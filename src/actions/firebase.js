@@ -12,6 +12,7 @@ export function initFirebase() {
 		auth.onAuthStateChanged((authData) => {
 			if(authData == null) {
 				auth.signInAnonymously();
+				return;
 			}
 
 			dispatch(setAuthData(authData));
