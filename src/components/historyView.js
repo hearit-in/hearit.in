@@ -33,7 +33,11 @@ export default class HistoryView extends React.Component {
 				let tracksObject = snapshot.val();
 				let tracks = fromJS(tracksObject);
 				this.setState({
-					tracks: tracks == null ? [] : tracks.toSeq().reverse()
+					tracks: tracks == null ? [] :
+						tracks
+							.toSeq()
+							.sortBy(x => x.get("playedAt"))
+							.reverse()
 				});
 			});
 	}
