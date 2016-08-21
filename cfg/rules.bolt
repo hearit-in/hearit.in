@@ -32,13 +32,13 @@ path /rooms/{roomId} {
 			write() { isCurrentUserAdminOf(roomId) }
 		}
 	}
-	
+
 	path /settings {
 		write() { isCurrentUserAdminOf(roomId) }
 	}
 
 	path /adminRequests/{uid} {
-		write() { true }
+		write() { uid == auth.uid  }
 	}
 
 	path /nowPlaying is Track {
