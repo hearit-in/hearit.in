@@ -1,0 +1,16 @@
+{
+	"manifest_version": 2,
+	"name": "hearit.in",
+	"description": "Communist music player",
+	"short_name": "hearit",
+	"scope": "/",
+	"start_url": "/",
+	"display": "standalone",
+	"icons": [
+		{
+			"src": "assets/favicon/apple-icon-180x180.png",
+			"sizes": "180x180",
+			"type": "image/png"
+		}
+	]
+}

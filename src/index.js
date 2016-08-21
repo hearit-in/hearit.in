@@ -7,5 +7,7 @@ require("react-tap-event-plugin")();
 require("velocity-animate");
 require("velocity-animate/velocity.ui");
 
+require("./serviceWorker");
+
 // Render the main component into the dom
 ReactDOM.render(<Shell />, document.getElementById('app'));
