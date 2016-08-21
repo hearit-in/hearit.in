@@ -14,12 +14,11 @@ export default function createRoom(roomId) {
 					return new Error("Room already exists");
 				}
 
-
 				let state = getState();
 				let uid = dispatch(getUid());
 
-				 ref.child("admins")
-				 	.set({ [uid]: true })
+				return ref.child("admins")
+					.set({ [uid]: true })
 					.then(() => dispatch(loginAndRedirect(roomId)))
 			})
 			.catch(e => console.error(e));
