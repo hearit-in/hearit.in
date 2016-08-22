@@ -46,8 +46,8 @@ class AuthView extends React.Component {
 
 	render() {
 		return (
-		<div>
-			<div className="hero-image" />
+		<div className="hero-image">
+			<span className="hero-title">hearit.in</span>
 			<div className="container">
 				<div className="row top-margin">
 					<div className="col-md-6 col-md-offset-3 col-xs-12">
