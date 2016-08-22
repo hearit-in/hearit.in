@@ -3,7 +3,6 @@ import config from 'config';
 require("firebase");
 
 export const app = firebase.initializeApp({
-	databaseURL: config.firebaseURL,
 	apiKey: config.apiKey,
 	authDomain: config.authDomain,
 	databaseURL: config.databaseURL,

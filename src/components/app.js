@@ -1,4 +1,3 @@
-require('styles/style.stylus');
 
 import React from 'react';
 import { connect } from 'react-redux';
@@ -34,7 +33,7 @@ class AppComponent extends React.Component {
 			history.push("/");
 		}
 	}
-	
+
 	setIsSearchBarFocused(isSearchBarFocused) {
 		this.setState({ isSearchBarFocused });
 	}
@@ -42,7 +41,7 @@ class AppComponent extends React.Component {
 	setNavigationOpen(isNavigationOpen) {
 		this.setState({ isNavigationOpen });
 	}
-	
+
 	hasSearchQuery() {
 		return this.state.searchQuery.trim().length !== 0;
 	}
@@ -51,7 +50,7 @@ class AppComponent extends React.Component {
 		if(searchQuery.trim().length === 0) {
 			searchQuery = "";
 		}
-		
+
 		this.setState({searchQuery});
 	}
 
@@ -60,7 +59,7 @@ class AppComponent extends React.Component {
 		this.props.onClearSearchResults();
 		this.refs.searchInput.blur();
 	}
-	
+
 	get isSearchActive() {
 		return this.hasSearchQuery() || this.state.isSearchBarFocused;
 	}
@@ -103,7 +102,7 @@ class AppComponent extends React.Component {
 		<RoomRefProvider>
 			<div>
 				<AdminListener />
-				
+
 				{ appBar }
 
 				<Nav open={this.state.isNavigationOpen} onRequestChange={(open) => this.setNavigationOpen(open)} />

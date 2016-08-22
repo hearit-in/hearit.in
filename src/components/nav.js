@@ -14,7 +14,7 @@ import {
 	ActionPowerSettingsNew,
 	ActionHistory,
 	HardwareSecurity,
-	ActionAndroid
+	ActionGetApp
 } from 'material-ui/lib/svg-icons';
 
 import { connect } from 'react-redux';
@@ -127,9 +127,9 @@ class Nav extends React.Component {
 							onTouchTap={() => this.navigateToAndClose("/app/admin")} />
 
 						<NavItem
-							leftIcon={<ActionAndroid />}
+							leftIcon={<ActionGetApp />}
 							primaryText="Last ned avspiller"
-							onTouchTap={() => window.location.href = "https://github.com/sebbert/hearit.in/releases/download/0.0.1/hearit.in.apk"} />
+							onTouchTap={() => this.navigateToAndClose("/app/downloadPlayerInstructions")} />
 					</div>
 				}
 

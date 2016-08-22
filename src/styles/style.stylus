@@ -9,9 +9,24 @@
 	margin-top 15px
 
 body
-	background-image: url("../images/background-dark.png")
+	background-color: rgb(20, 20, 20)
+	//background-image: url("../images/background-dark.png")
 	background-position: center
 	font-family: "Roboto", "Roboto Regular", sans-serif;
+	margin-bottom: 10px;
+
+.hero-image
+	position: relative;
+	background-color: rgb(245, 44, 47);
+	background-image: url("../images/header1.jpg")
+	width: 100%
+	top: 0;
+	bottom: 0;
+	//margin-bottom: -100%;
+	background-repeat: no-repeat
+	background-size:contain;
+	background-position: top center;
+
 
 .credits
 	text-align: center

@@ -10,6 +10,7 @@ import HistoryView from './historyView';
 import CreateRoomView from './createRoomView';
 import AdminView from './adminView/';
 import RedirectToRoomView from './redirectToRoomView';
+import DownloadPlayerInstructionsView from './downloadPlayerInstructionsView';
 
 import FourOhFour from './fourOhFour';
 
@@ -22,6 +23,7 @@ const routes = (
 			<Route path="history" component={HistoryView} />
 			<Route path="settings" component={SettingsView} />
 			<Route path="admin" component={AdminView} />
+			<Route path="downloadPlayerInstructions" component={DownloadPlayerInstructionsView} />
 		</Route>
 		<Route path=":roomId" component={RedirectToRoomView} />
 		<Route path="*" component={FourOhFour} />

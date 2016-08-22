@@ -6,7 +6,7 @@
   "scripts": {
     "clean": "rimraf dist/*",
     "copy": "copyfiles -f ./src/index.html ./src/404.html ./src/favicon.ico ./src/favicon/* ./src/manifest.json ./src/serviceWorker/serviceWorker.js ./dist",
-    "dist": "npm run copy & webpack --env=dist",
+    "dist": "npm run copy && webpack --env=dist",
     "lint": "eslint ./src",
     "posttest": "npm run lint",
     "firebase-rules": "firebase-bolt < cfg/rules.bolt > cfg/rules.json",

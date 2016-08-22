@@ -6,8 +6,6 @@ import routes from './routes';
 import history from '../helpers/history';
 import ThemeProvider from './themeProvider';
 
-require('normalize.css/normalize.css');
-
 class Shell extends React.Component {
 	componentDidMount() {
 	}
