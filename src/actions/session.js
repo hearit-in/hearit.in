@@ -25,7 +25,7 @@ export function login(roomId) {
 		return dispatch(validateAuth())
 			.then(() => roomRef.once('value'))
 			.then(snapshot => {
-				if(!snapshot.exists) {
+				if(!snapshot.exists()) {
 					console.log("no can do m8");
 					let message = `Rommet "${roomId}" finnes ikke`;
 					dispatch(showError(message));
@@ -33,7 +33,7 @@ export function login(roomId) {
 				}
 
 				dispatch(setRoomId(roomId));
-				
+
 				return roomId;
 			})
 	}
