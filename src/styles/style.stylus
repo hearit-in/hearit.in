@@ -9,7 +9,7 @@
 	margin-top 15px
 
 body
-	background-color: #181523;
+	background-color: #151623;
 	//background-image: url("../images/background-dark.png")
 	background-position: center
 	font-family: "Roboto", "Roboto Regular", sans-serif;
@@ -25,9 +25,10 @@ body
 	background-image: url("../images/header2@1x.jpg")
 	background-repeat: no-repeat
 	background-position: top center;
-	background-size: 250% auto
+	background-size: 280% auto
+
 	@media screen and (min-width: 992px)
-		background-position: center -50px;
+		background-position: center top;
 		background-size: cover;
 
 .hero-title
