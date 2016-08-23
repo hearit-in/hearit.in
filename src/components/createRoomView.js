@@ -72,8 +72,8 @@ class CreateRoomView extends React.Component {
 									style={{ marginBottom: 20 }}
 									value={this.state.roomId}
 									onChange={event => this.roomIdChanged(event.target.value)} />
-								Dette er koden til rommet ditt.
-								Del dette med andre så de kan legge til sanger i spillelisten.
+									Dette er koden til rommet ditt.
+									Alle som har koden kan legge til og stemme på sanger i spillelisten.
 							</CardText>
 							<CardActions>
 								<FlatButton

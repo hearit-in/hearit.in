@@ -112,7 +112,6 @@ class Nav extends React.Component {
 					leftIcon={<ActionHistory />}
 					primaryText="Historikk"
 					onTouchTap={() => this.navigateToAndClose("/app/history")} />
-
 				<NavItem
 					leftIcon={<ActionSettings />}
 					primaryText="Innstillinger"

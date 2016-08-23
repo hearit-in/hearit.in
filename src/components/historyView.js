@@ -12,7 +12,7 @@ import {
 
 import TrackListItem from './trackListItem';
 
-import { Map, fromJS } from 'immutable';
+import { Map, List as ImmutableList, fromJS } from 'immutable';
 
 export default class HistoryView extends React.Component {
 	constructor(props) {
@@ -33,7 +33,7 @@ export default class HistoryView extends React.Component {
 				let tracksObject = snapshot.val();
 				let tracks = fromJS(tracksObject);
 				this.setState({
-					tracks: tracks == null ? [] :
+					tracks: tracks == null ? ImmutableList() :
 						tracks
 							.toSeq()
 							.sortBy(x => x.get("playedAt"))
@@ -52,7 +52,13 @@ export default class HistoryView extends React.Component {
 				<div className="container">
 					<div className="row top-margin">
 						<div className="col-md-12">
-							<RaisedButton fullWidth={true} primary label="Åpne i Spotify" />
+							<RaisedButton
+								fullWidth={true}
+								backgroundColor="#1ED760"
+								labelStyle={{
+									color: "#fff"
+								}}
+								label="Åpne i Spotify" />
 						</div>
 					</div>
 					<div className="row">
@@ -60,8 +66,8 @@ export default class HistoryView extends React.Component {
 							<Card>
 								<List>
 									{ this.state.tracks.map((track, index) =>
-										<TrackListItem key={track.get("id")} track={track} />
-									) }
+										<TrackListItem key={track.get("id")} track={track} disabled />
+									).valueSeq() }
 								</List>
 							</Card>
 						</div>
