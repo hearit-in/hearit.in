@@ -66,7 +66,7 @@ class CreateRoomView extends React.Component {
 							<CardText style={{paddingTop: 0}}>
 								<TextField
 									fullWidth
-									floatingLabelText="Kode"
+									floatingLabelText="Velg en kode..."
 									autoCorrect="off"
 									autoCapitalize="off"
 									style={{ marginBottom: 20 }}

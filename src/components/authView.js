@@ -49,7 +49,7 @@ class AuthView extends React.Component {
 		<div className="hero-image">
 			<span className="hero-title">hearit.in</span>
 			<div className="container">
-				<div className="row top-margin">
+				<div className="row">
 					<div className="col-md-6 col-md-offset-3 col-xs-12">
 						<Card disabled={true}>
 							<CardMedia>
@@ -90,11 +90,11 @@ class AuthView extends React.Component {
 						</Card>
 					</div>
 				</div>
-
-				<span className="credits top-margin" style={{ textAlign: "center" }}>
-					Copyright © 2016 Sebastian Reinhard
-				</span>
 			</div>
+
+			<span className="credits top-margin" style={{ textAlign: "center" }}>
+				Copyright © 2016 Sebastian Reinhard
+			</span>
 		</div>
 		);
 	}

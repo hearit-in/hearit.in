@@ -32,6 +32,12 @@
     "email": "sebastian@sebbert.me",
     "url": "https://github.com/sebbert"
   },
+  "david": {
+    "ignore": [
+		"react"
+
+	]
+  },
   "devDependencies": {
     "autoprefixer": "^6.3.6",
     "babel-core": "^6.0.0",
