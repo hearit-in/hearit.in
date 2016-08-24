@@ -86,7 +86,7 @@ class AuthView extends React.Component {
 						<Card disabled={true}>
 							<CardActions>
 								<FlatButton
-									label="OPPRETT NYTT ROM"
+									label="LAG NY SPILLELISTE"
 									icon={<NotificationEventAvailable />}
 									secondary
 									fullWidth={true}
@@ -125,7 +125,10 @@ class AuthView extends React.Component {
 									BETA
 								</span>
 								<FlatButton
-									label="LAST NED HEARIT PLAYER"
+									label="HEARIT PLAYER"
+									labelStyle={{
+										margin: "0px 30px"
+									}}
 									icon={ <FileFileDownload style={{ color: "#FFF" }} /> }
 									primary
 									hoverColor={Color.blue50}

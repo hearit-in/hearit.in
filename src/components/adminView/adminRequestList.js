@@ -56,8 +56,11 @@ class AdminRequestsList extends React.Component {
 
 	render() {
 
-		return size(this.state.requests) == 0 ? <div /> : (
+		return (
 			<List subheader="Administratorforespørsler">
+				{(this.state.requests.length > 0) ? undefined :
+					<div className="centered" style={{ color: "#ddd", margin: "30px 0px" }}>Det er ingen administratorforespørsler</div>
+				}
 				{map(this.state.requests, (message, uid) =>
 					<AdminRequestListItem
 						uid={uid}

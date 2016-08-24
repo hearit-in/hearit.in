@@ -125,10 +125,10 @@ class Nav extends React.Component {
 							primaryText="Administrator"
 							onTouchTap={() => this.navigateToAndClose("/app/admin")} />
 
-						<NavItem
+						{/* <NavItem
 							leftIcon={<ActionGetApp />}
 							primaryText="Last ned hearit player"
-							onTouchTap={() => this.navigateToAndClose("/app/downloadPlayerInstructions")} />
+							onTouchTap={() => this.navigateToAndClose("/app/downloadPlayerInstructions")} /> */}
 					</div>
 				}
 

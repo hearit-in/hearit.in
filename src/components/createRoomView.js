@@ -18,7 +18,8 @@ import {
 
 import {
 	NotificationEventAvailable,
-	ActionVerifiedUser
+	ActionVerifiedUser,
+	CommunicationVpnKey
 } from 'material-ui/lib/svg-icons';
 
 import color from 'material-ui/lib/styles/colors';
@@ -55,30 +56,32 @@ class CreateRoomView extends React.Component {
 				<div className="row top-margin">
 					<div className="col-md-8 col-md-push-2 col-xs-12">
 						<Card>
-							<CardHeader
-								title="Opprett nytt rom"
-								subtitle="For deg og din fest ellernoe"
+							{/* <CardHeader
+								title="Finn på en kode til spillelisten"
+								subtitle="Alle som har koden kan legge til og stemme på sanger i spillelisten."
 								avatar={
 									<Avatar
 										backgroundColor={color.purple500}
-										icon={<NotificationEventAvailable />} />
-								} />
-							<CardText style={{paddingTop: 0}}>
+										icon={<CommunicationVpnKey />} />
+								} /> */}
+							<CardHeader title="Lag en kode til spillelisten" subtitle="Del den med andre så de kan legge til og stemme på sanger i spillelisten." />
+								
+							<CardText style={{paddingTop: 0, paddingBottom: 0}}>
+								<br />
 								<TextField
 									fullWidth
-									floatingLabelText="Velg en kode..."
+									hintText="Velg en kode..."
 									autoCorrect="off"
 									autoCapitalize="off"
 									style={{ marginBottom: 20 }}
 									value={this.state.roomId}
 									onChange={event => this.roomIdChanged(event.target.value)} />
-									Dette er koden til rommet ditt.
-									Alle som har koden kan legge til og stemme på sanger i spillelisten.
 							</CardText>
-							<CardActions>
+							<CardActions style={{ textAlign: "right" }}>
 								<FlatButton
 									primary
-									label="Opprett rom"
+									label="Lag spilleliste"
+									fullWidth={true}
 									onTouchTap={() => this.props.onCreateRoom(this.state.roomId)} />
 							</CardActions>
 						</Card>
