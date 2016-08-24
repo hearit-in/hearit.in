@@ -64,7 +64,7 @@ function getDefaultModules() {
 
 module.exports = {
 	srcPath: srcPath,
-	publicPath: '/assets/',
+	publicPath: '/',
 	port: defaultPort,
 	host: defaultHost,
 	getDefaultModules: getDefaultModules
