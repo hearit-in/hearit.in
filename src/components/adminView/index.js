@@ -16,16 +16,18 @@ export default class AdminView extends React.Component {
 
 	render() {
 		return (
-			<Container>
-				<Row className="top-margin">
-					<Col md={6} xs={12}>
-						<AdminRequestsList />
-					</Col>
-					<Col md={6} xs={12}>
+			<div className="container">
+				<div className="row top-margin">
+					<Col md={6} mdPush={3} xs={12}>
 						<RoomSettingsView />
 					</Col>
-				</Row>
-			</Container>
+				</div>
+				<div className="row top-margin">
+					<Col md={6} mdPush={3} xs={12}>
+						<AdminRequestsList />
+					</Col>
+				</div>
+			</div>
 		);
 	}
 }

@@ -3,17 +3,22 @@ import React, { PropTypes } from 'react';
 import {
 	TextField,
 	FlatButton,
+	RaisedButton,
 	Card,
 	CardText,
 	CardMedia,
 	CardActions,
-	Divider
+	Divider,
+	Badge
 } from 'material-ui';
 
 import {
 	NotificationEventAvailable,
-	ActionVerifiedUser
+	ActionVerifiedUser,
+	FileFileDownload
 } from 'material-ui/lib/svg-icons';
+
+import Color from 'material-ui/lib/styles/colors';
 
 import Overlay from './overlay';
 
@@ -47,7 +52,7 @@ class AuthView extends React.Component {
 	render() {
 		return (
 		<div className="hero-image">
-			<span className="hero-title">hearit.in</span>
+			<span className="hero-title">hearit</span>
 			<div className="container">
 				<div className="row">
 					<div className="col-md-6 col-md-offset-3 col-xs-12">
@@ -90,6 +95,46 @@ class AuthView extends React.Component {
 						</Card>
 					</div>
 				</div>
+
+					<div className="top-margin hide-mobile">
+						<div style={{
+							textAlign: "center",
+							marginTop: "90px"
+						}}>
+							<div style={{
+								display: "inline-block",
+								position: "relative"
+							}}>
+								<span style={{
+									backgroundColor: Color.purple700,
+									borderRadius: 22,
+									padding: "2px 12px",
+									color: "white",
+									fontWeight: 400,
+									fontSize: "0.8em",
+									position: "absolute",
+									display: "inline-block",
+									top: -12,
+									right: -25,
+									zIndex: 9000,
+									boxShadow: `
+										0px 1px 1px rgba(0,0,0, 0.3),
+										0px 2px 5px rgba(0,0,0, 0.15)
+									`
+								}}>
+									BETA
+								</span>
+								<FlatButton
+									label="LAST NED HEARIT PLAYER"
+									icon={ <FileFileDownload style={{ color: "#FFF" }} /> }
+									primary
+									hoverColor={Color.blue50}
+									backgroundColor="#fff"
+									fullWidth={true}
+									onClick={() => {}} />
+							</div>
+						</div>
+					</div>
 			</div>
 
 			<span className="credits top-margin" style={{ textAlign: "center" }}>

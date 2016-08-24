@@ -1,5 +1,6 @@
 'use strict';
 const path = require('path');
+const ServiceWorkerPlugin = require("serviceworker-webpack-plugin");
 const defaultSettings = require('./defaults');
 const autoprefixer = require("autoprefixer");
 
@@ -21,6 +22,11 @@ module.exports = {
 		filename: 'app.js',
 		publicPath: defaultSettings.publicPath
 	},
+	plugins: [
+		new ServiceWorkerPlugin({
+			entry: path.join(__dirname, "../src/sw.js")
+		})
+	],
 	devServer: {
 		contentBase: './src/',
 		historyApiFallback: true,

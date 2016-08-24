@@ -24,9 +24,10 @@ import {
 	toggleVote,
 	playNow,
 	removeTrackFromQueue,
-	pinTrackToTop,
- 	unpinTrackFromTop
+	toggleTrackPinnedToTop
 } from 'actions';
+
+import { Map } from 'immutable';
 
 class TrackAdminMenu extends React.Component {
 	constructor(props) {
@@ -39,6 +40,7 @@ class TrackAdminMenu extends React.Component {
 	}
 
 	render() {
+		let trackOrEmpty = this.props.track ? this.props.track : Map();
 		return (
 			<Dialog
 				open={this.props.open}
@@ -63,8 +65,10 @@ class TrackAdminMenu extends React.Component {
 					<ListItem
 						type=""
 						leftIcon={<AvQueuePlayNext />}
-						primaryText="Spill neste"
-						onTouchTap={() => this.requestCloseAnd(() => this.props.onPinTrackToTop(this.props.track))} />
+						primaryText={
+							trackOrEmpty.get("pinned") ? "Ikke lås som neste" : "Lås som neste"
+						}
+						onTouchTap={() => this.requestCloseAnd(() => this.props.onToggleTrackPinnedToTop(this.props.track))} />
 					<ListItem
 						type=""
 						leftIcon={<ActionDelete />}
@@ -87,7 +91,7 @@ function mapDispatchToProps(dispatch) {
 		onToggleVote: (track) => dispatch(toggleVote(track.get("id"))),
 		onPlayNow: (track) => dispatch(playNow(track)),
 		onRemoveTrack: (track) => dispatch(removeTrackFromQueue(track)),
-		onPinTrackToTop: (track) => dispatch(pinTrackToTop(track))
+		onToggleTrackPinnedToTop: (track) => dispatch(toggleTrackPinnedToTop(track))
 	}
 }
 

@@ -7,5 +7,5 @@ import {
 
 export const errors = handleActions({
 	PUSH_ERROR: (state, action) => state.push(action.payload),
-	POP_ERROR: (state, action) => state.pop()
+	POP_ERROR: (state, action) => state.rest()
 }, new List());

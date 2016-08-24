@@ -31,10 +31,10 @@ import { merge } from 'lodash';
 const rawTheme = merge({}, lightTheme, {
 	palette: {
 		primary1Color: color.purple500,
-		primary2Color: color.blue500,
+		primary2Color: color.purple400,
 		primary3Color: color.purple300,
 		accent1Color: color.blue500,
-		accent2Color: color.blue500,
+		accent2Color: color.purple200,
 		accent3Color: color.blue500
 	}
 });

@@ -7,7 +7,7 @@ export const POP_ERROR = "POP_ERROR";
 export const popError = createAction(POP_ERROR);
 
 export function showError(message, seconds) {
-	seconds = seconds || 3;
+	seconds = seconds || 6;
 	return (dispatch, getState) => {
 		dispatch(pushError(message));
 

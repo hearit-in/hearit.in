@@ -1,6 +1,6 @@
 {
 	"manifest_version": 2,
-	"name": "hearit.in",
+	"name": "hearit",
 	"description": "Communist music player",
 	"short_name": "hearit",
 	"scope": "/",

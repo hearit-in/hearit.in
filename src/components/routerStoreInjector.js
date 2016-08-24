@@ -7,7 +7,7 @@ class RouterStoreInjector extends React.Component {
 	componentDidMount() {
 		this.props.onSetRouter(this.context.router);
 	}
-	
+
 	render() {
 		return this.props.children;
 	}
@@ -23,4 +23,4 @@ function mapDispatchToProps(dispatch) {
 	}
 }
 
-export default connect(() => ({}), mapDispatchToProps)(RouterStoreInjector);
+export default connect(undefined, mapDispatchToProps)(RouterStoreInjector);

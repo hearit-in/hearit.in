@@ -7,6 +7,7 @@ import { app } from 'helpers/firebase';
 
 const auth = app.auth();
 
+// TODO: Rename
 export function initFirebase() {
 	return (dispatch, getState) => {
 		auth.onAuthStateChanged((authData) => {
@@ -22,6 +23,8 @@ export function initFirebase() {
 			if(!roomId) {
 				if(location.pathname !== "/")
 					history.push("/");
+
+				return;
 			}
 
 			dispatch(loginAndRedirect(roomId));

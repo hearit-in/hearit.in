@@ -38,7 +38,7 @@ function getDefaultModules() {
 				loader: 'style-loader!css-loader!postcss-loader!sass-loader?outputStyle=expanded'
 			},
 			{
-				test: /\.less/, 
+				test: /\.less/,
 				loader: 'style-loader!css-loader!postcss-loader!less-loader'
 			},
 			{
@@ -46,7 +46,11 @@ function getDefaultModules() {
 				loader: 'style-loader!css-loader!postcss-loader!stylus-loader'
 			},
 			{
-				test: /\.(png|jpg|gif|woff|woff2)$/,
+				test: /\.(woff|woff2)$/,
+				loader: 'url-loader?limit=8192'
+			},
+			{
+				test: /\.(png|jpe?g|gif)$/,
 				loader: 'url-loader?limit=8192'
 			},
 			{

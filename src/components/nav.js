@@ -127,7 +127,7 @@ class Nav extends React.Component {
 
 						<NavItem
 							leftIcon={<ActionGetApp />}
-							primaryText="Last ned avspiller"
+							primaryText="Last ned hearit player"
 							onTouchTap={() => this.navigateToAndClose("/app/downloadPlayerInstructions")} />
 					</div>
 				}

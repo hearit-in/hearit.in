@@ -25,7 +25,6 @@ const routes = (
 			<Route path="admin" component={AdminView} />
 			<Route path="downloadPlayerInstructions" component={DownloadPlayerInstructionsView} />
 		</Route>
-		<Route path=":roomId" component={RedirectToRoomView} />
 		<Route path="*" component={FourOhFour} />
 	</Route>
 );

@@ -107,15 +107,6 @@ class AppComponent extends React.Component {
 
 				<Nav open={this.state.isNavigationOpen} onRequestChange={(open) => this.setNavigationOpen(open)} />
 
-				<div>
-					{this.props.errors.map((error, index) =>
-						<Snackbar
-							open={true}
-							message={error}
-							key={index}
-							onRequestClose={() => {}} />
-					)}
-				</div>
 
 
 				<div style={{
@@ -134,7 +125,6 @@ class AppComponent extends React.Component {
 
 function mapStateToProps(state) {
 	return {
-		errors: state.get("errors"),
 		roomId: state.getIn(["session", "roomId"]),
 		hasSearchResults: state.getIn(["search", "hasResults"])
 	}

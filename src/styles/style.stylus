@@ -25,11 +25,17 @@ body
 	background-image: url("../images/header2@1x.jpg")
 	background-repeat: no-repeat
 	background-position: top center;
-	background-size: 280% auto
+	background-size: cover
 
 	@media screen and (min-width: 992px)
-		background-position: center top;
-		background-size: cover;
+		background-position: center center;
+
+.hide-mobile
+	opacity: 0
+	transition: opacity 0.5s ease
+
+	@media screen and (min-width: 992px)
+		opacity: 1
 
 .hero-title
 	margin-top: 40px;

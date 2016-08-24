@@ -2,7 +2,7 @@ import { createAction } from 'redux-actions';
 import { roomRef, validateAuth, getUid } from './session';
 import Firebase from 'firebase';
 
-import { pushError } from './errors';
+import { showError } from './errors';
 import { compareTracksByProviderId } from 'helpers/track';
 
 import { fromJS, Map } from 'immutable';
@@ -35,20 +35,20 @@ export function addTrackToQueue(newTrack) {
 			))
 			.then(existingTrackKey => {
 				let uid = dispatch(getUid());
-				
+
 				if(existingTrackKey == undefined) {
 					const trackObj = newTrack
 						.set("votes", { [uid]: true })
 						.set("queuedAt", Firebase.database.ServerValue.TIMESTAMP)
 						.toJS();
-						
+
 					queueRef.push(trackObj)
 						.then(trackRef => {
 							trackRef.child("id").set(trackRef.key);
 						});
 				}
 				else {
-					
+
 					queueRef
 						.child(existingTrackKey)
 						.child("votes")
@@ -82,4 +82,15 @@ export function unpinTrackFromTop(track) {
 			.then(trackRef => trackRef
 				.child("pinned")
 				.set(false))
+}
+
+export function toggleTrackPinnedToTop(track) {
+	return (dispatch) =>
+		dispatch(queuedTrackRef(track.get("id")))
+			.then(trackRef => trackRef
+				.child("pinned")
+				.set(!track.get("pinned")))
+			.catch(e =>
+				console.error(e)
+			)
 }

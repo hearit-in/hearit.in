@@ -19,7 +19,7 @@ let config = Object.assign({}, baseConfig, {
 			'process.env.NODE_ENV': '"dev"'
 		}),
 		new webpack.NoErrorsPlugin()
-	],
+	].concat(baseConfig.plugins),
 	module: defaultSettings.getDefaultModules()
 });
 

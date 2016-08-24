@@ -11,16 +11,16 @@ export default function createRoom(roomId) {
 		ref.once("value")
 			.then(snapshot => {
 				if(snapshot.exists()) {
-					return new Error("Room already exists");
+					throw new Error(`Et rom med navnet "${roomId}" finnes allerede`);
 				}
 
-				let state = getState();
+				// Set ourself as admin.
+				// The rules allow it if there are no admins.
 				let uid = dispatch(getUid());
-
 				return ref.child("admins")
 					.set({ [uid]: true })
 					.then(() => dispatch(loginAndRedirect(roomId)))
 			})
-			.catch(e => console.error(e));
+			.catch(e => dispatch(showError(e.message)));
 	}
 }

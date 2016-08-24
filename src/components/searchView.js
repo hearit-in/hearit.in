@@ -104,6 +104,9 @@ class SearchView extends React.Component {
 		return (
 			<Dialog
 				title={`Legg til "${this.state.selectedTrack.get('name')}" i kø?`}
+				contentStyle={{
+					maxWidth: "420px"
+				}}
 				modal={false}
 				open={this.state.showConfirmDialog}
 				actions={[

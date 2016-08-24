@@ -11,16 +11,16 @@ import {
 class ToggleListItem extends React.Component {
 	constructor(props) {
 		super(props);
-		
+
 		this.state = {
 			toggled: !!props.defaultToggled
 		}
 	}
-	
+
 	handleToggle() {
 		this.setState({ toggled: !this.state.toggled });
 	}
-	
+
 	render() {
 		return <ListItem
 			{...this.props}
@@ -44,8 +44,8 @@ export default class RoomSettingsView extends React.Component {
 
 	render() {
 		return (
-			<List>
-				<ToggleListItem primaryText="Dank memes?" />
+			<List subheader="Administrator-innstillinger">
+				<ToggleListItem primaryText="Hindre at én sang blir spilt flere ganger" />
 			</List>
 		);
 	}
