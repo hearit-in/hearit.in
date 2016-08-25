@@ -114,7 +114,7 @@ class AuthView extends React.Component {
 									fontSize: "0.8em",
 									position: "absolute",
 									display: "inline-block",
-									top: -12,
+									top: -10,
 									right: -25,
 									zIndex: 9000,
 									boxShadow: `
