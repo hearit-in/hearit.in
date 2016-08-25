@@ -52,6 +52,10 @@ class AdminRequestView extends React.Component {
 				title="Be om administratortilgang?"
 				open={this.state.showAdminAuthDialog}
 				onRequestClose={() => this.setShowAdminAuthDialog(false)}
+				contentStyle={{
+					maxWidth: 600,
+					width: "90%"
+				}}
 				actions={[
 					<FlatButton
 						label="Avbryt"

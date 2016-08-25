@@ -126,10 +126,9 @@ class SearchView extends React.Component {
 
 		return (
 			<Paper className="">
-				<List>
+				<List subheader="Søkeresultater">
 					{ this.props.results.get("tracks", Map()).valueSeq().map((track, i) =>
 						<TrackListItem
-							className="animate-me"
 							track={track}
 							key={track.get("providerId")}
 							index={i}

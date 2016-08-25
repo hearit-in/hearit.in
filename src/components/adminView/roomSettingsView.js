@@ -44,9 +44,10 @@ export default class RoomSettingsView extends React.Component {
 
 	render() {
 		return (
-			<List subheader="Administrator-innstillinger">
-				<ToggleListItem primaryText="Hindre at én sang blir spilt flere ganger" />
-			</List>
+			<div />
+			// <List subheader="Administrator-innstillinger">
+			// 	<ToggleListItem primaryText="Tillat at den samme sangen spilles flere ganger" />
+			// </List>
 		);
 	}
 }
