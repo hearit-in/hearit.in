@@ -11,7 +11,7 @@ export default function createRoom(roomId) {
 		ref.once("value")
 			.then(snapshot => {
 				if(snapshot.exists()) {
-					throw new Error(`Et rom med navnet "${roomId}" finnes allerede`);
+					throw new Error(`En spilleliste med navnet "${roomId}" finnes allerede`);
 				}
 
 				// Set ourself as admin.
