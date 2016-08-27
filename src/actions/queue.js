@@ -94,3 +94,26 @@ export function toggleTrackPinnedToTop(track) {
 				console.error(e)
 			)
 }
+
+export function playNow(track) {
+	return (dispatch, getState) =>
+		dispatch(validateAuth())
+			.then(() => dispatch(roomRef()))
+			.then(room => ({
+				queue: room.child("queue"),
+				nowPlaying: room.child("nowPlaying"),
+				history: room.child("history")
+			}))
+			.then(({queue, nowPlaying, history}) => {
+				queue.child(track.get("id")).remove();
+				let historyTrack = track.set("playedAt", Firebase.database.ServerValue.TIMESTAMP);
+				let historyTrackJS = historyTrack.toJS();
+
+				history
+					.child(historyTrack.get("id"))
+					.set(historyTrackJS);
+
+				nowPlaying.set(historyTrackJS);
+			})
+			.catch(e => console.error(e));
+}

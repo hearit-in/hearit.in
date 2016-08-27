@@ -57,11 +57,11 @@ class TrackAdminMenu extends React.Component {
 						leftIcon={<ActionFavorite />}
 						primaryText="Stem på"
 						onTouchTap={() => this.requestCloseAnd(() => this.props.onToggleVote(this.props.track))} />
-					{/* <ListItem
+					<ListItem
 						type=""
 						leftIcon={<AvPlayArrow />}
 						primaryText="Spill nå"
-						onTouchTap={() => this.requestCloseAnd(() => this.props.onPlayNow(this.props.track))} /> */}
+						onTouchTap={() => this.requestCloseAnd(() => this.props.onPlayNow(this.props.track))} />
 					<ListItem
 						type=""
 						leftIcon={<AvQueuePlayNext />}
