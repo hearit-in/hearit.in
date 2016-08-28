@@ -38,7 +38,7 @@ class AdminRequestsList extends React.Component {
 		super(props);
 
 		this.state = {
-			requests: {}
+			requests: []
 		}
 	}
 
@@ -46,7 +46,11 @@ class AdminRequestsList extends React.Component {
 		this.ref = this.context.roomRef.child("adminRequests");
 
 		this.ref.on("value", (snapshot) => {
-			this.setState({ requests: snapshot.val() || {} });
+			this.setState({
+				requests: map(snapshot.val(),
+					(message, uid) => ({message, uid})
+				) || []
+			});
 		});
 	}
 
@@ -58,24 +62,26 @@ class AdminRequestsList extends React.Component {
 
 		return (
 			<List subheader="Administratorforespørsler">
-				{(this.state.requests.length > 0) ? undefined :
-					<div className="centered" style={{ color: "#ddd", margin: "30px 0px" }}>Det er ingen administratorforespørsler</div>
-				}
-				{map(this.state.requests, (message, uid) =>
-					<AdminRequestListItem
-						uid={uid}
-						key={uid}
-						message={message}
-						rightIconButton={<span>
-							<IconButton onTouchTap={() => this.props.onGrantAdmin(uid)}>
-								<NavigationCheck color={color.green400} />
-							</IconButton>
+				{(this.state.requests.length <= 0)
+					? 	<div className="centered" style={{ color: "#ddd", margin: "30px 0px" }}>
+							Det er ingen administratorforespørsler
+						</div>
+					: 	map(this.state.requests, ({message, uid}) =>
+							<AdminRequestListItem
+								uid={uid}
+								key={uid}
+								message={message}
+								rightIconButton={<span>
+									<IconButton onTouchTap={() => this.props.onGrantAdmin(uid)}>
+										<NavigationCheck color={color.green400} />
+									</IconButton>
 
-							<IconButton onTouchTap={() => this.props.onRemoveAdminRequest(uid)}>
-								<NavigationClose color={color.red400} />
-							</IconButton>
-						</span>} />
-				)}
+									<IconButton onTouchTap={() => this.props.onRemoveAdminRequest(uid)}>
+										<NavigationClose color={color.red400} />
+									</IconButton>
+								</span>} />
+						)
+				}
 
 			</List>
 		);
