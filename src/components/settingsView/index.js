@@ -11,15 +11,13 @@ export default class SettingsView extends React.Component {
 
 	render() {
 		return (
-			<Container>
-				<Row>
+			<div className="container">
+				<div className="row">
 					<Col md={6} mdPush={3} xs={12}>
-						<Row>
 							<AdminRequestView />
-						</Row>
 					</Col>
-				</Row>
-			</Container>
+				</div>
+			</div>
 		);
 	}
 }
