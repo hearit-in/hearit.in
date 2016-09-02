@@ -1,5 +1,6 @@
 import { createAction } from 'redux-actions';
 import { Spotify } from '../sources';
+import { showError } from './errors';
 
 export const RECEIVE_SEARCH_RESULTS = "RECEIVE_SEARCH_RESULTS";
 export const receiveSearchResults = createAction(RECEIVE_SEARCH_RESULTS);
@@ -12,5 +13,7 @@ export function search(query) {
 		Spotify.search(query, ['track'])
 			.then(result => {
 				dispatch(receiveSearchResults(result))
+			}, error => {
+				dispatch(showError("En feil oppstod under søket: " + error));
 			})
 }

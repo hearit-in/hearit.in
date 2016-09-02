@@ -19,6 +19,20 @@ wasEmpty(ref) {
 	prior(ref) == null
 }
 
+isKey(val) {
+	key() == val
+}
+
+// Returns true if the value is intialized to init, or if it retains it's prior
+// value, otherwise.
+initial(value, init) {
+	value == (
+		prior(value) == null
+			? init
+			: prior(value)
+	)
+}
+
 path / {
 	read() { true }
 }
@@ -28,6 +42,7 @@ path /rooms/{roomId} {
 
 	path /admins {
 		write() { wasEmpty(this) }
+		
 		path /{uid} {
 			write() { isCurrentUserAdminOf(roomId) }
 		}
@@ -37,14 +52,18 @@ path /rooms/{roomId} {
 		write() { isCurrentUserAdminOf(roomId) }
 	}
 
-	path /adminRequests/{uid} {
+	path /adminRequests is AdminRequest[] {
 		write() {
-			   uid == auth.uid
+			   key() == auth.uid
 			|| isCurrentUserAdminOf(roomId)
 		}
 	}
 
-	path /nowPlaying is Track {
+	path /nowPlaying is NowPlayingTrack {
+		write() { true }
+	}
+	
+	path /spotifyPlaylistId {
 		write() { true }
 	}
 
@@ -52,28 +71,58 @@ path /rooms/{roomId} {
 		write() { true }
 	}
 
-	path /queue/{trackId} {
+	path /queue is QueuedTrack[] {
 		write() {
 			true
-		}
-
-		path /votes/{uid} {
-			write() {
-				true
-			}
-			validate() {
-				auth.uid == uid
-			}
 		}
 	}
 }
 
 type AdminRequest extends String {
 	validate() {
-		key() == auth.uid && !isCurrentUserAdminOf(roomId)
+		isKey(auth.uid) || isCurrentUserAdminOf(roomId)
 	}
 }
 
-type Track {
+type Vote {
+	validate() {
+		isKey(auth.uid)
+	}
+}
 
+type Timestamp extends Number {
+}
+
+type InitialTimestamp extends Timestamp {
+	validate() { initial(this, now) }
+}
+
+type Images {
+	small: String,
+	medium: String,
+	large: String
+}
+
+// TODO: Don't store ID twice, it's already the key.
+type Track {
+	id: String|Null,
+	name: String,
+	artist: String,
+	album: Any,
+	provider: String,
+	providerId: String,
+	images: Images
+}
+
+type QueuedTrack extends Track {
+	votes: Vote[],
+	queuedAt: InitialTimestamp
+}
+
+type HistoryTrack extends Track {
+	playedAt: Number
+}
+
+type NowPlayingTrack extends HistoryTrack {
+	
 }

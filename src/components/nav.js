@@ -40,7 +40,6 @@ class NowPlayingItem extends React.Component {
 
 
 		let images = track.get("images");
-		let image = images.get(1) || images.get(0);
 
 		return (
 			<div>
@@ -49,8 +48,8 @@ class NowPlayingItem extends React.Component {
 					type=""
 					disabled
 					primaryText={track.get("name")}
-					secondaryText={track.get("artistString")}
-					leftAvatar={<Avatar src={image.get("url")} />}
+					secondaryText={track.get("artist")}
+					leftAvatar={<Avatar src={track.getIn(["images", "medium"])} />}
 				/>
 			 </div>
 		);

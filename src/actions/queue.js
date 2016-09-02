@@ -39,9 +39,12 @@ export function addTrackToQueue(newTrack) {
 				if(existingTrackKey == undefined) {
 					const trackObj = newTrack
 						.set("votes", { [uid]: true })
-						.set("queuedAt", Firebase.database.ServerValue.TIMESTAMP)
 						.toJS();
-
+						
+					trackObj.queuedAt = Firebase.database.ServerValue.TIMESTAMP;
+					
+					console.log(JSON.stringify(trackObj));
+					
 					queueRef.push(trackObj)
 						.then(trackRef => {
 							trackRef.child("id").set(trackRef.key);
@@ -107,7 +110,7 @@ export function playNow(track) {
 			.then(({queue, nowPlaying, history}) => {
 				queue.child(track.get("id")).remove();
 				let historyTrack = track.set("playedAt", Firebase.database.ServerValue.TIMESTAMP);
-				let historyTrackJS = historyTrack.toJS();
+				let historyTrackJS = historyTrack.toJS()
 
 				history
 					.child(historyTrack.get("id"))

@@ -109,6 +109,7 @@ class SearchView extends React.Component {
 				}}
 				modal={false}
 				open={this.state.showConfirmDialog}
+				onRequestClose={() => this.setShowConfirmDialog(false)}
 				actions={[
 					<FlatButton label="Avbryt" secondary={true} onClick={() => this.setShowConfirmDialog(false)} />,
 					<FlatButton label="OK" primary={true} onClick={() => {

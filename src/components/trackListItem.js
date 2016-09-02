@@ -12,16 +12,17 @@ export default class TrackListItem extends React.Component {
 
 	render() {
 		let images = this.props.track.get("images");
-		let image = images.get(1) || images.get(0);
 
 		return (
 			<ListItem
 				{...this.props}
 				primaryText={this.props.track.get("name")}
-				secondaryText={this.props.track.get("artistString")}
+				secondaryText={this.props.track.get("artist")}
 				type=""
 				onTouchTap={() => {}}
-				leftAvatar={<Avatar src={image.get("url")} />} />
+				leftAvatar={<Avatar src={
+					this.props.track.getIn(["images", "medium"])
+				} />} />
 		)
 	}
 }

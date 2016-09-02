@@ -1,30 +1,57 @@
 import fetch from 'isomorphic-fetch';
-import {includes,curry} from 'lodash';
+import _, {includes,curry} from 'lodash';
 
 const BASE_URL = "https://api.spotify.com/v1";
 
 const MARKETS = ['NO'];
 
-function processAlbum(album) {
-	return album;
-}
-
-function getArtistString(artists) {
+function getArtist(artists) {
 	return artists
 		.map(artist => artist.name)
 		.join(", ")
 }
 
+// Fuck this piece of shit code
+function findImageForLimit(images, limit) {
+	let out = undefined;
+	let smallest = images[0];
+	
+	for(let i = 0; i < images.length; ++i) {
+		let image = images[i];
+		if(image.width < smallest.width)
+			smallest = image;
+		
+		// We're trying to find the largest image that satisfies the upper limit.
+		if(image.width < limit && (out === undefined ? true : image.width > out.width))
+			out = image;
+	}
+	
+	if(out === undefined)
+		return smallest;
+	
+	return out;
+}
+
+function getImages(imagesArray) {
+	const limits = {
+		small: 100,
+		medium: 300,
+		large: Infinity
+	};
+	
+	return _.mapValues(limits,
+		(limit) => findImageForLimit(imagesArray, limit).url
+	);
+}
+
 function processTrack(track) {
-	let album = processAlbum(track.album)
 	return {
-		album,
-		artistString: getArtistString(track.artists),
-		artists: track.artists,
+		artist: getArtist(track.artists),
+		album: track.album.name,
 		name: track.name,
 		provider: "spotify",
 		providerId: track.id,
-		images: album.images
+		images: getImages(track.album.images)
 	}
 }
 
