@@ -23,12 +23,6 @@
     "deploy": "firebase deploy",
     "deploy:rules": "npm run firebase-rules && firebase deploy --only database"
   },
-  "build": {
-      "appId": "in.hearit.player",
-      "category": "public.app-category.music",
-      "asar": false,
-      "files": "dist/"
-  },
   "repository": {
     "type": "git",
     "url": "https://github.com/sebbert/crowdplay-web.git"
