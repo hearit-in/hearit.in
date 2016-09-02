@@ -27,6 +27,7 @@ export function login(roomId) {
 			.then(snapshot => {
 				if(!snapshot.exists()) {
 					let message = `Rommet "${roomId}" finnes ikke`;
+					dispatch(setRoomId(undefined));
 					dispatch(showError(message));
 					throw new Error(message);
 				}
@@ -35,7 +36,12 @@ export function login(roomId) {
 
 				return roomId;
 			})
-			.catch(err => dispatch(showError(err)))
+			.catch(err => {
+				dispatch(showError(err));
+				
+				// Rethrow, so the promise rejects
+				throw err;
+			});
 	}
 }
 
