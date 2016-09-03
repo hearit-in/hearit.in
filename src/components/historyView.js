@@ -53,8 +53,9 @@ class HistoryView extends React.Component {
 		this.context.roomRef
 			.child("spotifyPlaylistId")
 			.once("value")
+			.then(snapshot => snapshot.val())
 			.then(playlistId => {
-				window.open("spotify:playlist:" + playlistId);
+				window.location.href = "spotify:user:hearitapp:playlist:" + playlistId;
 			}, err => {
 				this.props.onShowError("Spotify-listen har ikke blitt opprettet enda. Prøv igjen om litt.");
 			})
@@ -102,7 +103,9 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-	onShowError: (error) => dispatch(showError(error))
+	return {
+		onShowError: (error) => dispatch(showError(error))
+	}
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(HistoryView);
