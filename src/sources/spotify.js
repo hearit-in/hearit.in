@@ -69,7 +69,8 @@ export function search(query, types) {
 		]))
 		.join(",");
 
-	let escapedQuery = escape(query);
+	// The asterisks ensure drunk people can still search for partial words
+	let escapedQuery = escape("*" + query + "*");
 
 	return fetch(`${BASE_URL}/search?q=${escapedQuery}&type=${typesString}&market=${MARKETS.join(',')}&limit=50`)
 		.then(result => result.json())
