@@ -10,11 +10,12 @@ import {
 	Avatar
 } from 'material-ui';
 
+import { showError } from 'actions/errors';
 import TrackListItem from './trackListItem';
-
 import { Map, List as ImmutableList, fromJS } from 'immutable';
+import { connect } from 'react-redux';
 
-export default class HistoryView extends React.Component {
+class HistoryView extends React.Component {
 	constructor(props) {
 		super(props);
 
@@ -22,7 +23,7 @@ export default class HistoryView extends React.Component {
 			tracks: new Map()
 		};
 	}
-
+	
 	componentDidMount() {
 		this.query = this.context.roomRef
 			.child("history")
@@ -45,6 +46,19 @@ export default class HistoryView extends React.Component {
 	componentWillUnmount() {
 		this.query.off("value", this.onHistoryUpdated)
 	}
+	
+	openSpotifyPlaylist() {
+		// TODO: Remove really ugly hack
+		
+		this.context.roomRef
+			.child("spotifyPlaylistId")
+			.once("value")
+			.then(playlistId => {
+				window.open("spotify:playlist:" + playlistId);
+			}, err => {
+				this.props.onShowError("Spotify-listen har ikke blitt opprettet enda. Prøv igjen om litt.");
+			})
+	}
 
 	render() {
 		return (
@@ -58,7 +72,8 @@ export default class HistoryView extends React.Component {
 								labelStyle={{
 									color: "#fff"
 								}}
-								label="Åpne i Spotify" />
+								label="Åpne i Spotify"
+								onTouchTap={() => this.openSpotifyPlaylist()} />
 						</div>
 					</div>
 					<div className="row">
@@ -81,3 +96,13 @@ export default class HistoryView extends React.Component {
 HistoryView.contextTypes = {
 	roomRef: PropTypes.object
 };
+
+function mapStateToProps(state) {
+	return {};
+}
+
+function mapDispatchToProps(dispatch) {
+	onShowError: (error) => dispatch(showError(error))
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(HistoryView);
