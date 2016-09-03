@@ -39,7 +39,6 @@ export default function listenToRoom(mapPathsToProps) {
 				this.firebaseRefs = mapValues(mapPathsToProps(), (path) =>
 					this.context.roomRef.child(path)
 				);
-
 				map(this.firebaseRefs, (ref, prop) => {
 					ref.on("value", snapshot => {
 						this.setState({ [prop]: snapshot.val() })
@@ -48,6 +47,7 @@ export default function listenToRoom(mapPathsToProps) {
 			}
 
 			componentWillUnmount() {
+				// TODO: Probably broken
 				map(this.firebaseRefs, ref => ref.off());
 			}
 
