@@ -52,14 +52,13 @@ path /rooms/{roomId} {
 		write() { isCurrentUserAdminOf(roomId) }
 	}
 
-	path /adminRequests is AdminRequest[] {
+	path /adminRequests/{uid} is String|Null {
 		write() {
-			   key() == auth.uid
-			|| isCurrentUserAdminOf(roomId)
+			uid == auth.uid || isCurrentUserAdminOf(roomId)
 		}
 	}
 
-	path /nowPlaying is NowPlayingTrack {
+	path /nowPlaying {
 		write() { true }
 	}
 	
@@ -75,12 +74,6 @@ path /rooms/{roomId} {
 		write() {
 			true
 		}
-	}
-}
-
-type AdminRequest extends String {
-	validate() {
-		isKey(auth.uid) || isCurrentUserAdminOf(roomId)
 	}
 }
 
@@ -116,11 +109,12 @@ type Track {
 
 type QueuedTrack extends Track {
 	votes: Vote[],
-	queuedAt: InitialTimestamp
+	queuedAt: InitialTimestamp,
+	pinned: Boolean|Null
 }
 
 type HistoryTrack extends Track {
-	playedAt: Number
+	playedAt: InitialTimestamp
 }
 
 type NowPlayingTrack extends HistoryTrack {
