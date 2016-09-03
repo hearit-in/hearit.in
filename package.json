@@ -99,6 +99,7 @@
     "redux": "^3.4.0",
     "redux-actions": "^0.9.1",
     "redux-immutable": "^3.0.6",
+    "redux-infinite-scroll": "^1.0.9",
     "redux-localstorage": "^1.0.0-rc",
     "redux-localstorage-filter": "^0.1.1",
     "redux-localstorage-immutable": "^1.0.4",
