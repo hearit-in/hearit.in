@@ -23,6 +23,7 @@ import { search, clearSearchResults, addTrackToQueue } from 'actions';
 import { Map, List as IList } from 'immutable';
 import { debounce } from 'lodash';
 import FlipMove from 'react-flip-move';
+import InfiniteScroll from 'redux-infinite-scroll';
 
 class SearchResultItem extends React.Component {
 	render() {
@@ -74,6 +75,10 @@ class SearchView extends React.Component {
 			this.props.onSearch(query);
 		}
 	}
+	
+	loadMore() {
+		
+	}
 
 	setShowConfirmDialog(show) {
 		this.setState({
@@ -111,11 +116,17 @@ class SearchView extends React.Component {
 				open={this.state.showConfirmDialog}
 				onRequestClose={() => this.setShowConfirmDialog(false)}
 				actions={[
-					<FlatButton label="Avbryt" secondary={true} onClick={() => this.setShowConfirmDialog(false)} />,
-					<FlatButton label="OK" primary={true} onClick={() => {
-						this.setShowConfirmDialog(false);
-						this.confirmQueueTrack(track);
-					}} />
+					<FlatButton
+						label="Avbryt"
+						secondary={true}
+						onClick={() => this.setShowConfirmDialog(false)} />,
+					<FlatButton
+						label="OK"
+						primary={true}
+						onClick={() => {
+							this.setShowConfirmDialog(false);
+							this.confirmQueueTrack(track);
+						}} />
 				]} />
 		)
 	}
@@ -124,11 +135,13 @@ class SearchView extends React.Component {
 		if(!this.props.hasResults) {
 			return;
 		}
+		
+		var tracks = this.props.results.get("tracks", Map()).valueSeq();
 
 		return (
 			<Paper className="">
 				<List subheader="Søkeresultater">
-					{ this.props.results.get("tracks", Map()).valueSeq().map((track, i) =>
+					{ tracks.map((track, i) =>
 						<TrackListItem
 							track={track}
 							key={track.get("providerId")}
@@ -144,7 +157,15 @@ class SearchView extends React.Component {
 		return (
 			<div>
 				{ this.renderConfirmDialog(this.state.selectedTrack) }
-				{ this.renderSearchResults() }
+				
+				<Paper className="">
+					<List subheader="Søkeresultater">
+						<InfiniteScroll
+							items={this.renderSearchResults()}
+							loadMore={() => this.loadMore()} />
+					</List>
+				</Paper>
+				
 			</div>
 		);
 	}

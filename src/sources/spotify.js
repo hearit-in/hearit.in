@@ -2,8 +2,8 @@ import fetch from 'isomorphic-fetch';
 import _, {includes,curry} from 'lodash';
 
 const BASE_URL = "https://api.spotify.com/v1";
-
 const MARKETS = ['NO'];
+export const SEARCH_RESULTS_LIMIT = 50;
 
 function getArtist(artists) {
 	return artists
@@ -55,6 +55,7 @@ function processTrack(track) {
 	}
 }
 
+
 function processSearchResults(results) {
 	return {
 		tracks: results.tracks.items.map(processTrack),
@@ -72,7 +73,7 @@ export function search(query, types) {
 	// The asterisks ensure drunk people can still search for partial words
 	let escapedQuery = escape("*" + query + "*");
 
-	return fetch(`${BASE_URL}/search?q=${escapedQuery}&type=${typesString}&market=${MARKETS.join(',')}&limit=50`)
+	return fetch(`${BASE_URL}/search?q=${escapedQuery}&type=${typesString}&market=${MARKETS.join(',')}&limit=${SEARCH_RESULTS_LIMIT}`)
 		.then(result => result.json())
 		.then(processSearchResults);
 }
