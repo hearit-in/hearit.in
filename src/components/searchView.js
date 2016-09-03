@@ -14,6 +14,8 @@ import {
 	Dialog
 } from 'material-ui';
 
+import { NavigationMoreHoriz } from 'material-ui/lib/svg-icons';
+
 import TrackListItem from './trackListItem';
 
 import { connect } from 'react-redux';
@@ -77,7 +79,7 @@ class SearchView extends React.Component {
 	}
 	
 	loadMore() {
-		
+		this.props.onSearch(this.props.query, this.props.nextPage, false);
 	}
 
 	setShowConfirmDialog(show) {
@@ -114,7 +116,6 @@ class SearchView extends React.Component {
 				}}
 				modal={false}
 				open={this.state.showConfirmDialog}
-				onRequestClose={() => this.setShowConfirmDialog(false)}
 				actions={[
 					<FlatButton
 						label="Avbryt"
@@ -133,24 +134,17 @@ class SearchView extends React.Component {
 
 	renderSearchResults() {
 		if(!this.props.hasResults) {
-			return;
+			return [];
 		}
 		
-		var tracks = this.props.results.get("tracks", Map()).valueSeq();
+		var tracks = this.props.results;
 
-		return (
-			<Paper className="">
-				<List subheader="Søkeresultater">
-					{ tracks.map((track, i) =>
-						<TrackListItem
-							track={track}
-							key={track.get("providerId")}
-							index={i}
-							onClick={() => this.onTrackClicked(track)} />
-					) }
-				</List>
-			</Paper>
-		);
+		return tracks.valueSeq().map((track) =>
+			<TrackListItem
+				track={track}
+				key={track.get("providerId")}
+				onClick={() => this.onTrackClicked(track)} />
+		).toArray();
 	}
 
 	render() {
@@ -160,30 +154,44 @@ class SearchView extends React.Component {
 				
 				<Paper className="">
 					<List subheader="Søkeresultater">
-						<InfiniteScroll
-							items={this.renderSearchResults()}
-							loadMore={() => this.loadMore()} />
+						{this.renderSearchResults()}
+						
+						{ !this.props.hasResults ? null :
+							<ListItem
+								primaryText="Last inn flere..."
+								type=""
+								key="__load_more_btn"
+								onTouchTap={() => this.loadMore()}
+								leftAvatar={
+									<Avatar icon={<NavigationMoreHoriz />} />
+								} />
+						}
 					</List>
 				</Paper>
-				
 			</div>
 		);
 	}
 }
 
 function mapStateToProps(state) {
-	let res = {
-		results: state.getIn(["search", "results"]),
-		hasResults: state.getIn(["search", "hasResults"])
+	let searchState = state.get("search");
+	return {
+		results: searchState.get("results"),
+		hasResults: searchState.get("hasResults"),
+		nextPage: searchState.get("nextPage")
 	};
-	return res;
 }
 
 function mapDispatchToProps(dispatch) {
 	return {
-		onSearch: (query) => dispatch(search(query)),
-		onClearSearch: (query) => dispatch(clearSearchResults()),
-		onAddTrackToQueue: (track) => dispatch(addTrackToQueue(track))
+		onSearch: (query, page, clearExisting) =>
+			dispatch(search(query, page, clearExisting)),
+			
+		onClearSearch: (query) =>
+			dispatch(clearSearchResults()),
+			
+		onAddTrackToQueue: (track) =>
+			dispatch(addTrackToQueue(track))
 	}
 }
 

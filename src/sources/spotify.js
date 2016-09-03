@@ -3,7 +3,7 @@ import _, {includes,curry} from 'lodash';
 
 const BASE_URL = "https://api.spotify.com/v1";
 const MARKETS = ['NO'];
-export const SEARCH_RESULTS_LIMIT = 50;
+export const SEARCH_RESULTS_PER_PAGE = 50;
 
 function getArtist(artists) {
 	return artists
@@ -57,13 +57,16 @@ function processTrack(track) {
 
 
 function processSearchResults(results) {
-	return {
-		tracks: results.tracks.items.map(processTrack),
-		//albums: results.albums.items.map(processAlbum)
-	}
+	return results.tracks.items.map(processTrack);
 }
 
-export function search(query, types) {
+export function search(query, types, page) {3
+	if(page === undefined) {
+		page = 0;
+	}
+	
+	let offset = page * SEARCH_RESULTS_PER_PAGE;
+	
 	let typesString = types
 		.filter(curry(includes)([
 			'track',
@@ -71,9 +74,22 @@ export function search(query, types) {
 		.join(",");
 
 	// The asterisks ensure drunk people can still search for partial words
-	let escapedQuery = escape("*" + query + "*");
+	let escapedQuery = "*" + escape(query) + "*";
 
-	return fetch(`${BASE_URL}/search?q=${escapedQuery}&type=${typesString}&market=${MARKETS.join(',')}&limit=${SEARCH_RESULTS_LIMIT}`)
+	let apiQuery = {
+		q: escapedQuery,
+		type: typesString,
+		market: MARKETS.join(","),
+		limit: SEARCH_RESULTS_PER_PAGE,
+		offset
+	};
+	
+	let apiQueryString = "?" + _.map(apiQuery, (v,k) => k + "=" + v).join("&");
+
+	return fetch(BASE_URL + "/search" + apiQueryString)
 		.then(result => result.json())
-		.then(processSearchResults);
+		.then(processSearchResults)
+		.catch(err => {
+			throw new Error("Spotify gidder ikke as, kan ikke gjøre noe med det")
+		});
 }
