@@ -74,7 +74,7 @@ export function search(query, types, page) {3
 		.join(",");
 
 	// The asterisks ensure drunk people can still search for partial words
-	let escapedQuery = "*" + escape(query) + "*";
+	let escapedQuery = escape(query);
 
 	let apiQuery = {
 		q: escapedQuery,
