@@ -30,6 +30,8 @@ import { navigateTo } from 'actions';
 
 import headerImage from "../images/header1.jpg";
 
+import DownloadPlayerDialog from './downloadPlayerDialog';
+
 class AuthView extends React.Component {
 	constructor(props) {
 		super(props);
@@ -139,6 +141,8 @@ class AuthView extends React.Component {
 						</div>
 					</div>
 			</div>
+			
+			<DownloadPlayerDialog open={false} />
 
 			<span className="credits top-margin" style={{ textAlign: "center" }}>
 				Copyright © 2016 Sebastian Reinhard
