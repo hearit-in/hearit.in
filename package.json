@@ -1,6 +1,10 @@
 {
   "name": "hearit",
-  "author": "Sebastian Reinhard <sebastian@sebbert.me>",
+  "author": {
+    "name": "Sebastian Reinhard",
+    "email": "sebastian@sebbert.me",
+    "url": "https://github.com/sebbert"
+  },
   "private": true,
   "version": "0.0.2",
   "description": "Front-end for a music queuing system",
@@ -28,11 +32,6 @@
     "url": "https://github.com/sebbert/crowdplay-web.git"
   },
   "keywords": [],
-  "author": {
-    "name": "Sebastian Reinhard",
-    "email": "sebastian@sebbert.me",
-    "url": "https://github.com/sebbert"
-  },
   "david": {
     "ignore": [
       "react"
