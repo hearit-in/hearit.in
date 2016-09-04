@@ -9,6 +9,7 @@ import {
 
 import {
 	ActionFavorite,
+	ActionFavoriteBorder,
 	NavigationMoreVert,
 	AvQueuePlayNext,
 	AvPlayArrow,
@@ -40,7 +41,16 @@ class TrackAdminMenu extends React.Component {
 	}
 
 	render() {
-		let trackOrEmpty = this.props.track ? this.props.track : Map();
+		let trackOrDefault = this.props.track
+			? this.props.track
+			: Map({
+				votes: Map(),
+				pinned: false
+			});
+		
+		let votes = trackOrDefault.get("votes");
+		let hasVoted = votes.has(this.props.uid);
+		
 		return (
 			<Dialog
 				open={this.props.open}
@@ -54,8 +64,8 @@ class TrackAdminMenu extends React.Component {
 					<ListItem
 						type=""
 						className="top-margin"
-						leftIcon={<ActionFavorite />}
-						primaryText="Stem på"
+						leftIcon={hasVoted ? <ActionFavoriteBorder /> : <ActionFavorite />}
+						primaryText={hasVoted ? "Fjern stemme" : "Stem på"}
 						onTouchTap={() => this.requestCloseAnd(() => this.props.onToggleVote(this.props.track))} />
 					<ListItem
 						type=""
@@ -66,7 +76,7 @@ class TrackAdminMenu extends React.Component {
 						type=""
 						leftIcon={<AvQueuePlayNext />}
 						primaryText={
-							trackOrEmpty.get("pinned") ? "Ikke lås som neste" : "Lås som neste"
+							trackOrDefault.get("pinned") ? "Ikke lås som neste" : "Lås som neste"
 						}
 						onTouchTap={() => this.requestCloseAnd(() => this.props.onToggleTrackPinnedToTop(this.props.track))} />
 					<ListItem
@@ -83,8 +93,15 @@ class TrackAdminMenu extends React.Component {
 TrackAdminMenu.propTypes = {
 	open: PropTypes.bool,
 	track: PropTypes.object,
-	onRequestClose: PropTypes.func
+	onRequestClose: PropTypes.func,
+	hasVoted: PropTypes.bool
 };
+
+function mapStateToProps(state) {
+	return {
+		uid: state.getIn(["session", "authData", "uid"])
+	}
+}
 
 function mapDispatchToProps(dispatch) {
 	return {
@@ -95,4 +112,4 @@ function mapDispatchToProps(dispatch) {
 	}
 }
 
-export default connect(undefined, mapDispatchToProps)(TrackAdminMenu);
+export default connect(mapStateToProps, mapDispatchToProps)(TrackAdminMenu);
