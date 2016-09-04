@@ -73,7 +73,7 @@ class AppComponent extends React.Component {
 						 * has released their finger, so the menu doesn't pop up
 						 */
 						e.preventDefault();
-						setTimeout(() => this.exitSearch(), 80);
+						setTimeout(() => this.exitSearch(), 150);
 					}}>
 					<NavigationClose />
 				</IconButton>
