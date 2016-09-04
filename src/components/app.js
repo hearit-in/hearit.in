@@ -67,13 +67,21 @@ class AppComponent extends React.Component {
 	render() {
 		if(this.isSearchActive) {
 			var button = (
-				<IconButton onTouchTap={() => this.exitSearch()}>
+				<IconButton
+					onTouchTap={(e) => {
+						/* Prevent search field from losing focus until the user
+						 * has released their finger, so the menu doesn't pop up
+						 */
+						e.preventDefault();
+						setTimeout(() => this.exitSearch(), 80);
+					}}>
 					<NavigationClose />
 				</IconButton>
 			)
 		} else {
 			var button = (
-				<IconButton onTouchTap={() => this.setNavigationOpen(true)}>
+				<IconButton
+					onTouchTap={() => this.setNavigationOpen(true)}>
 					<NavigationMenu />
 				</IconButton>
 			)
