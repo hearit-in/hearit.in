@@ -5,6 +5,7 @@ import {
 	Toolbar,
 	ToolbarGroup,
 	RaisedButton,
+	FlatButton,
 	List,
 	ListItem,
 	Avatar
@@ -20,7 +21,8 @@ class HistoryView extends React.Component {
 		super(props);
 
 		this.state = {
-			tracks: new Map()
+			tracks: new Map(),
+			spotifyPlaylistId: null
 		};
 	}
 	
@@ -41,42 +43,50 @@ class HistoryView extends React.Component {
 							.reverse()
 				});
 			});
+		
+		this.spotifyPlaylistIdRef = this.context.roomRef.child("spotifyPlaylistId");
+		this.onSpotifyPlaylistIdUpdated =
+			this.spotifyPlaylistIdRef.on("value", (snapshot) => {
+				this.setState({
+					spotifyPlaylistId: snapshot.val()
+				})
+			});
 	}
 
 	componentWillUnmount() {
-		this.query.off("value", this.onHistoryUpdated)
+		this.query.off("value", this.onHistoryUpdated);
+		this.spotifyPlaylistIdRef.off("value", this.onSpotifyPlaylistIdUpdated);
 	}
 	
 	openSpotifyPlaylist() {
-		// TODO: Remove really ugly hack
-		
-		this.context.roomRef
-			.child("spotifyPlaylistId")
-			.once("value")
-			.then(snapshot => snapshot.val())
-			.then(playlistId => {
-				window.location.href = "spotify:user:hearitapp:playlist:" + playlistId;
-			}, err => {
-				this.props.onShowError("Spotify-listen har ikke blitt opprettet enda. Prøv igjen om litt.");
-			})
+		if(this.state.spotifyPlaylistId === null) {
+			this.props.onShowError("Spotify-listen har ikke blitt opprettet enda. Prøv igjen om litt.");
+			return;
+		}
+		window.open("https://open.spotify.com/user/hearitapp/playlist/" + this.state.spotifyPlaylistId);
 	}
 
 	render() {
 		return (
 			<div>
 				<div className="container">
-					<div className="row top-margin">
-						<div className="col-md-12">
-							<RaisedButton
-								fullWidth={true}
-								backgroundColor="#1ED760"
-								labelStyle={{
-									color: "#fff"
-								}}
-								label="Åpne i Spotify"
-								onTouchTap={() => this.openSpotifyPlaylist()} />
+					{this.state.spotifyPlaylistId === null ? null :
+						<div className="row top-margin">
+							<div className="col-md-12">
+								<FlatButton
+									fullWidth={true}
+									rippleColor="#1ED760"
+									style={{
+										width: "100%"
+									}}
+									labelStyle={{
+										color: "#1ED760"
+									}}
+									label="Åpne i Spotify"
+									onTouchTap={() => this.openSpotifyPlaylist()} />
+							</div>
 						</div>
-					</div>
+					}
 					<div className="row">
 						<div className="col-md-12 top-margin">
 							<Card>
