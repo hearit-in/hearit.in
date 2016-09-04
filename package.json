@@ -24,7 +24,7 @@
     "test": "karma start",
     "test:watch": "karma start --autoWatch=true --singleRun=false",
     "predeploy": "npm run dist && npm run firebase-rules",
-    "deploy": "firebase deploy -m \"$(git show --oneline --quiet HEAD)\"",
+	"deploy": "sh ./scripts/deploy.sh",
     "deploy:rules": "npm run firebase-rules && firebase deploy --only database"
   },
   "repository": {
