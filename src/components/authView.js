@@ -36,7 +36,8 @@ class AuthView extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			roomId: ""
+			roomId: "",
+			showDownloadDialog: false
 		};
 	}
 
@@ -50,6 +51,10 @@ class AuthView extends React.Component {
 	userHasEnteredRoomId() {
 		return this.state.roomId.trim().length != 0;
 	}
+	
+	setShowDownloadDialog(showDownloadDialog) {
+		this.setState({ showDownloadDialog });
+	}
 
 	render() {
 		return (
@@ -62,10 +67,17 @@ class AuthView extends React.Component {
 							<CardMedia>
 							</CardMedia>
 							<CardText>
-								<TextField
-									floatingLabelText="Kode"
+							<TextField
+									hintText="Kode"
 									fullWidth={true}
 									tabIndex={0}
+									hintStyle={{
+										fontSize: "25px"
+									}}
+									style={{
+										margin: "10px 0px",
+										fontSize: "25px"
+									}}
 									autoCorrect="off"
 									autoCapitalize="off"
 									onChange={event => this.onRoomIdChanged(event.target.value)} />
@@ -118,7 +130,7 @@ class AuthView extends React.Component {
 									display: "inline-block",
 									top: -10,
 									right: -25,
-									zIndex: 9000,
+									zIndex: 5,
 									boxShadow: `
 										0px 1px 1px rgba(0,0,0, 0.3),
 										0px 2px 5px rgba(0,0,0, 0.15)
@@ -136,13 +148,15 @@ class AuthView extends React.Component {
 									hoverColor={Color.blue50}
 									backgroundColor="#fff"
 									fullWidth={true}
-									onClick={() => {}} />
+									onClick={() => this.setShowDownloadDialog(true)} />
 							</div>
 						</div>
 					</div>
 			</div>
 			
-			<DownloadPlayerDialog open={false} />
+			<DownloadPlayerDialog
+				open={this.state.showDownloadDialog}
+				onRequestClose={() => this.setShowDownloadDialog(false)} />
 
 			<span className="credits top-margin" style={{ textAlign: "center" }}>
 				Copyright © 2016 Sebastian Reinhard
