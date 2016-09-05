@@ -33,6 +33,15 @@ initial(value, init) {
 	)
 }
 
+path /downloadPlayerUrls is DownloadPlayerUrls {
+	read() { true }
+}
+
+type DownloadPlayerUrls {
+	windows: String,
+	osx: String
+}
+
 path /users {
 	path /{uid} {
 		read() { auth.uid == uid }
