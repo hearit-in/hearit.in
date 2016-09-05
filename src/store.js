@@ -38,7 +38,8 @@ const storage = compose(
 		"settings",
 		"session.roomId",
 		"session.isAdmin",
-		"session.adminRequestIdentifier"
+		"session.adminRequestIdentifier",
+		"session.spotifyAuth"
 	])
 )(storageAdapter(window.localStorage))
 
