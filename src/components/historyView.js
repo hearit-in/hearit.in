@@ -76,6 +76,7 @@ class HistoryView extends React.Component {
 								<FlatButton
 									fullWidth={true}
 									rippleColor="#1ED760"
+									hoverColor="rgba(30, 215, 96, 0.3)"
 									style={{
 										width: "100%"
 									}}
