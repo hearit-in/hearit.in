@@ -60,7 +60,7 @@ function processSearchResults(results) {
 	return results.tracks.items.map(processTrack);
 }
 
-export function search(query, types, page) {3
+export function search(query, types, page) {
 	if(page === undefined) {
 		page = 0;
 	}
