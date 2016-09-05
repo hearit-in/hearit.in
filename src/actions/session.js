@@ -26,7 +26,7 @@ export function login(roomId) {
 			.then(() => roomRef.once('value'))
 			.then(snapshot => {
 				if(!snapshot.exists()) {
-					let message = `Rommet "${roomId}" finnes ikke`;
+					let message = `Spillelisten "${roomId}" finnes ikke`;
 					dispatch(setRoomId(undefined));
 					dispatch(showError(message));
 					throw new Error(message);
