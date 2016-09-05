@@ -49,7 +49,7 @@ class TrackAdminMenu extends React.Component {
 			});
 		
 		let votes = trackOrDefault.get("votes");
-		let hasVoted = votes.has(this.props.uid);
+		let hasVoted = votes == undefined ? false : votes.has(this.props.uid);
 		
 		return (
 			<Dialog
