@@ -33,7 +33,22 @@ initial(value, init) {
 	)
 }
 
-path / {
+path /users {
+	path /{uid} {
+		read() { auth.uid == uid }
+		write() { auth.uid == uid }
+		
+		path /connections/spotify is SpotifyConnection {
+		}
+	}
+}
+
+type SpotifyConnection {
+	accessToken: String,
+	refreshToken: String
+}
+
+path /rooms {
 	read() { true }
 }
 
