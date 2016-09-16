@@ -2,7 +2,6 @@ import { random } from 'lodash';
 
 const adjectives = [
 	"ti av ti",
-	"beezy",
 	"lysende",
 	"glad",
 	"ekkel",
@@ -15,36 +14,41 @@ const adjectives = [
 	"ekte",
 	"real",
 	"modernistisk",
-	"dank",
 	"rutete",
-	"seksuell",
-	"shitty",
-	"kåt",
-	"horete"
+	"fortløpende",
+	"midlertidig",
+	"ortodoks",
+	"Norsk",
+	"fotogen",
+	"saftig",
+	"forskningsbasert",
+	"statistisk",
+	"særlig",
+	"saklig",
+	"usynlig",
+	"helt uakseptabel",
+	"deprimerende",
+	"strategisk",
+	
 ];
 
 const substantives = [
-	"stol",
-	"lampe",
-	"høyttaler",
-	"meme",
-	"sang",
 	"lapskaus",
 	"tøffel",
-	"energi",
 	"flææ",
 	"mæff",
-	"beezy",
 	"paraply",
 	"pære",
 	"osteskive",
 	"mann",
 	"dame",
 	"bil",
-	"milf",
 	"fest",
 	"Vegard",
-	"mus"
+	"gris",
+	"kake",
+	"Norge",
+	"Ivar Aasen",
 ];
 
 function randomElement(array) {
