@@ -33,10 +33,11 @@ const adjectives = [
 ];
 
 const substantives = [
-	"lapskaus",
 	"tøffel",
-	"flææ",
-	"mæff",
+	"flæææææææ",
+	"departement",
+	"biff",
+	"pils",
 	"paraply",
 	"pære",
 	"osteskive",
@@ -44,11 +45,11 @@ const substantives = [
 	"dame",
 	"bil",
 	"fest",
-	"Vegard",
 	"gris",
 	"kake",
 	"Norge",
 	"Ivar Aasen",
+	"\"jeg\"-person",
 ];
 
 function randomElement(array) {
