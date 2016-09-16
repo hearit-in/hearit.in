@@ -79,8 +79,16 @@ class QueueView extends React.Component {
 			.on("value", (snapshot) => {
 				let tracksObject = snapshot.val();
 				let tracks = fromJS(tracksObject);
+				
+				if(tracks != null) {
+					tracks = tracks.map((t, id) => t.set("id", id));
+				}
+				else {
+					tracks = Map();
+				}
+					
 				this.setState({
-					queue: tracks !== null ? tracks : new Map()
+					queue: tracks
 				});
 			});
 	}
