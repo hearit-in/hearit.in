@@ -72,6 +72,9 @@ export function search(query, types, page) {
 			'track',
 		]))
 		.join(",");
+	
+	// HACK
+	typesString = "track";
 
 	let escapedQuery = escape(query);
 
